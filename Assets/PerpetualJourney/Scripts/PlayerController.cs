@@ -8,14 +8,17 @@ namespace PerpetualJourney
     public class PlayerController : MonoBehaviour
     {
         [SerializeField]private float rollingSpeed;
-        [SerializeField]private float laneChangingSpeed;
         [SerializeField]private float laneSize;
+        [SerializeField]private float laneChangeDuration;
         [SerializeField]private LeanTweenType tweenType;
 
         private GameInputAction gameInputAction;
         private Rigidbody capsuleRigidbody;
 
         private bool hasGroundContact = false;
+        private bool isChangingLane = false;
+        private float laneChaseRelativePosition;
+        private int currentLane = 0;
 
         private void Awake() {
             gameInputAction = new GameInputAction();
@@ -33,19 +36,29 @@ namespace PerpetualJourney
         }
 
         private void doJump(InputAction.CallbackContext callback){
-            Debug.Log(callback);
+            if (hasGroundContact){
+                capsuleRigidbody.AddForce(0, 300, 0);
+            }
         }
 
         private void ChangeLane(InputAction.CallbackContext callback){
-            float laneValue = callback.ReadValue<float>();
-            float currentPositionX = transform.position.x;
-            float newLanePosition = currentPositionX + laneSize*laneValue;
+            if(!isChangingLane){
+                float laneValue = callback.ReadValue<float>();
+                if (currentLane + laneValue <= 1 && currentLane + laneValue >= -1){
+                    currentLane += (int)laneValue;
+                    float newLanePosition = laneSize * currentLane;
+                    isChangingLane = true;
 
-            LeanTween.moveX(gameObject, newLanePosition, laneChangingSpeed).setEase(tweenType);
+                    capsuleRigidbody.AddForce(0, 180, 0);
+                    LeanTween.moveX(gameObject, newLanePosition, laneChangeDuration).setEase(tweenType)
+                                .setOnComplete(() => isChangingLane = false);
+                }
+            }
         }
 
+        //Handle Sphere's aceleration when in contact with the ground
         private void FixedUpdate() {
-            if (hasGroundContact){
+            if (hasGroundContact || isChangingLane){
                 capsuleRigidbody.AddForce(0, 0, rollingSpeed);
             }
         }
