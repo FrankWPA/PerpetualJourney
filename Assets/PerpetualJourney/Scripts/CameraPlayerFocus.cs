@@ -10,7 +10,7 @@ namespace PerpetualJourney{
 
         private void FixedUpdate() {
             Vector3 playerPosition = playerController.transform.position;
-            transform.position = new Vector3(0, playerPosition.y, playerPosition.z + playerPositionOffset);
+            transform.position = new Vector3(playerPosition.x - playerPositionOffset, playerPosition.y, 0);
         }
     }
 }
