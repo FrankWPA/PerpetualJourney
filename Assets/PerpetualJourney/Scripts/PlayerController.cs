@@ -1,4 +1,4 @@
-using System.Drawing;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,30 +28,33 @@ namespace PerpetualJourney
 
         private void OnEnable()
         {
-            gameInputAction.Runnning.Enable();
-            gameInputAction.Runnning.Jump.performed += DoJump;
-            gameInputAction.Runnning.Movement.performed += ChangeLane;
+            gameInputAction.Running.Enable();
+            gameInputAction.Running.Jump.performed += DoJump;
+            gameInputAction.Running.Movement.performed += ChangeLane;
         }
 
         private void OnDisable()
         {
-            gameInputAction.Runnning.Disable();
+            gameInputAction.Running.Disable();
         }
 
         private void DoJump(InputAction.CallbackContext callback)
         {
-            if (hasGroundContact)
-            {
-                capsuleRigidbody.AddForce(0, 200, 0);
-            }
+            // if (hasGroundContact)
+            // {
+            //     capsuleRigidbody.AddForce(0, 200, 0);
+            // }
+            transform.position = new Vector3(-10, 10, transform.position.z);
         }
 
         private void ChangeLane(InputAction.CallbackContext callback)
         {
-            if(!isChangingLane && hasGroundContact){
+            if(!isChangingLane && hasGroundContact)
+            {
                 int laneValue = (int)callback.ReadValue<float>();
                 int targetLane = currentLane + laneValue;
-                if (targetLane <= 1 && targetLane >= -1){
+                if (targetLane <= 1 && targetLane >= -1)
+                {
                     currentLane = targetLane;
                     capsuleRigidbody.velocity = new Vector3(capsuleRigidbody.velocity.x * 0.85f, 0, 0);
                     capsuleRigidbody.AddForce(new Vector3(0, 160, laneValue * laneSize * 75));

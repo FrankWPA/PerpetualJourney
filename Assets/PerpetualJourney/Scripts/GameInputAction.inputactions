@@ -2,7 +2,7 @@
     "name": "GameInputAction",
     "maps": [
         {
-            "name": "Runnning",
+            "name": "Running",
             "id": "24702c35-e376-4cf3-a3c5-4e6e307a8067",
             "actions": [
                 {
@@ -64,6 +64,120 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MenuControl",
+            "id": "0a94e402-0e9c-408d-8063-f426a0b99e07",
+            "actions": [
+                {
+                    "name": "Acept",
+                    "type": "Button",
+                    "id": "2f61cf97-204d-4f84-9b74-85946bf7a491",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "66e09fdf-c571-4a95-95a9-12dca08f2219",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1ffa104a-480e-4525-8786-ed83a5cef8e5",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Acept",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c80aa1c-0fde-4efb-91a1-29d69a89a033",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Acept",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52207ad5-2c79-4cd8-9d5e-1274b7431c2e",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "585ba111-ef06-4587-82d5-c6916d1ecea5",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DebugControl",
+            "id": "91f5b37d-78b8-45e7-a6cb-c2d62cd774b1",
+            "actions": [
+                {
+                    "name": "ResetScene",
+                    "type": "Button",
+                    "id": "5b4232ee-b5f2-4ca3-826d-950abb94e7ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CloseGame",
+                    "type": "Button",
+                    "id": "c9028880-7306-4795-bd1f-958aef0d19b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "06317c0e-4cec-4c97-8a2c-3022f2357fc0",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ResetScene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "417a35e1-500b-42b9-820f-913b9a954945",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
