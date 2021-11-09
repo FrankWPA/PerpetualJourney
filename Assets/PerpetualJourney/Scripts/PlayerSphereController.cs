@@ -6,31 +6,36 @@ using UnityEngine.InputSystem;
 
 namespace PerpetualJourney
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerSphereController : MonoBehaviour
     {
         [SerializeField]private float rollingSpeed;
         [SerializeField]private float laneSize;
         [SerializeField]private LeanTweenType tweenType;
 
         private GameInputAction gameInputAction;
-        private Rigidbody capsuleRigidbody;
-
+        private Rigidbody sphereRigidbody;
+        
         private bool hasGroundContact = false;
         private bool isChangingLane = false;
         private int currentLane = 0;
         private float laneCorrection = 0;
 
-        private void Awake()
+        public void onAwake(GameInputAction inputAction)
         {
-            gameInputAction = new GameInputAction();
-            capsuleRigidbody = GetComponent<Rigidbody>();
+            gameInputAction = inputAction;
+            inputAction.Running.Enable();
+            inputAction.Running.Jump.performed += DoJump;
+            inputAction.Running.Movement.performed += ChangeLane;
+            sphereRigidbody = GetComponent<Rigidbody>();
         }
-
-        private void OnEnable()
+        
+        //Handle Sphere's aceleration when in contact with the ground or changing lanes
+        public void onFixedUpdate() 
         {
-            gameInputAction.Running.Enable();
-            gameInputAction.Running.Jump.performed += DoJump;
-            gameInputAction.Running.Movement.performed += ChangeLane;
+            if (hasGroundContact || isChangingLane)
+            {
+                sphereRigidbody.AddForce(new Vector3(-rollingSpeed, 0, laneCorrection));
+            }
         }
 
         private void OnDisable()
@@ -40,13 +45,13 @@ namespace PerpetualJourney
 
         private void DoJump(InputAction.CallbackContext callback)
         {
-            // if (hasGroundContact)
-            // {
-            //     capsuleRigidbody.AddForce(0, 200, 0);
-            // }
-            transform.position = new Vector3(-10, 10, transform.position.z);
+            if (hasGroundContact)
+            {
+                sphereRigidbody.AddForce(0, 200, 0);
+            }
         }
 
+        //Adds a force in the direction of the target lane
         private void ChangeLane(InputAction.CallbackContext callback)
         {
             if(!isChangingLane && hasGroundContact)
@@ -56,46 +61,39 @@ namespace PerpetualJourney
                 if (targetLane <= 1 && targetLane >= -1)
                 {
                     currentLane = targetLane;
-                    capsuleRigidbody.velocity = new Vector3(capsuleRigidbody.velocity.x * 0.85f, 0, 0);
-                    capsuleRigidbody.AddForce(new Vector3(0, 160, laneValue * laneSize * 75));
+                    sphereRigidbody.velocity = new Vector3(sphereRigidbody.velocity.x * 0.85f, 0, 0);
+                    sphereRigidbody.AddForce(new Vector3(0, 160, laneValue * laneSize * 75));
                     isChangingLane = true;
                     hasGroundContact = false;
                 }
             }
         }
 
-        //Handle Sphere's aceleration when in contact with the ground
-        private void FixedUpdate() 
-        {
-            if (hasGroundContact || isChangingLane)
+        //Tweens the position of the sphere to the correct one based on the lane value
+        private void interpolatePositionToLane(){
+            float currentZ = transform.position.z;
+            float targetZ = currentLane * laneSize;
+
+            LTDescr laneTween = LeanTween.value(gameObject, currentZ, targetZ, 0.5f);
+            laneTween.setOnUpdate((float val) =>
             {
-                capsuleRigidbody.AddForce(new Vector3(-rollingSpeed, 0, laneCorrection));
-            }
-            else
+                laneCorrection = (val - transform.position.z) * 25;
+            });
+            laneTween.setOnComplete(() => 
             {
-                capsuleRigidbody.AddTorque(Vector3.forward);
-            }
+                laneCorrection = 0;
+                isChangingLane = false;
+            });
         }
 
-        void OnCollisionEnter(Collision collision)
+        private void OnCollisionEnter(Collision collision)
         {
             if (!hasGroundContact)
             {
                 hasGroundContact = true;
                 if(isChangingLane && !gameObject.LeanIsTweening())
                 {
-                    float currentZ = transform.position.z;
-                    float targetZ = currentLane * laneSize;
-                    LTDescr laneTween = LeanTween.value(gameObject, currentZ, targetZ, 0.5f);
-                    laneTween.setOnUpdate((float val) =>
-                    {
-                        laneCorrection = (val - transform.position.z) * 25;
-                    });
-                    laneTween.setOnComplete(() => 
-                    {
-                        laneCorrection = 0;
-                        isChangingLane = false;
-                    });
+                    interpolatePositionToLane();
                 }
             }
         }
