@@ -20,7 +20,7 @@ namespace PerpetualJourney
         private int currentLane = 0;
         private float laneCorrection = 0;
 
-        public void onAwake(GameInputAction inputAction)
+        public void Initialize(GameInputAction inputAction)
         {
             gameInputAction = inputAction;
             inputAction.Running.Enable();
@@ -28,26 +28,21 @@ namespace PerpetualJourney
             inputAction.Running.Movement.performed += ChangeLane;
             sphereRigidbody = GetComponent<Rigidbody>();
         }
-        
-        //Handle Sphere's aceleration when in contact with the ground or changing lanes
-        public void onFixedUpdate() 
-        {
-            if (hasGroundContact || isChangingLane)
-            {
-                sphereRigidbody.AddForce(new Vector3(-rollingSpeed, 0, laneCorrection));
-            }
-        }
-
-        private void OnDisable()
-        {
-            gameInputAction.Running.Disable();
-        }
 
         private void DoJump(InputAction.CallbackContext callback)
         {
             if (hasGroundContact)
             {
                 sphereRigidbody.AddForce(0, 200, 0);
+            }
+        }
+
+        //Handle Sphere's aceleration when in contact with the ground or changing lanes
+        private void FixedUpdate() 
+        {
+            if (hasGroundContact || isChangingLane)
+            {
+                sphereRigidbody.AddForce(new Vector3(-rollingSpeed, 0, laneCorrection));
             }
         }
 
@@ -109,6 +104,11 @@ namespace PerpetualJourney
         private void OnCollisionExit(Collision other)
         {
             hasGroundContact = false;
+        }
+        
+        private void OnDisable()
+        {
+            gameInputAction.Running.Disable();
         }
     }
 }

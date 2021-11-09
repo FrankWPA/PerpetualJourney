@@ -12,11 +12,7 @@ namespace PerpetualJourney
         private void Awake()
         {
             gameInputAction = new GameInputAction();
-            gameManager.OnAwake(gameInputAction);
-        }
-
-        private void FixedUpdate() {
-            gameManager.onFixedUpdate();
+            gameManager.Initialize(gameInputAction);
         }
     }
 }

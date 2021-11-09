@@ -11,18 +11,14 @@ namespace PerpetualJourney
         [SerializeField]private PlayerSphereController playerController;
         private GameInputAction gameInputAction;
 
-        public void OnAwake(GameInputAction inputAction)
+        public void Initialize(GameInputAction inputAction)
         {
             gameInputAction = inputAction;
             inputAction.DebugControl.Enable();
             inputAction.DebugControl.ResetScene.performed += resetScene;
             inputAction.DebugControl.CloseGame.performed += closeGame;
 
-            playerController.onAwake(inputAction);
-        }
-
-        public void onFixedUpdate() {
-            playerController.onFixedUpdate();
+            playerController.Initialize(inputAction);
         }
 
         private void OnDisable()
