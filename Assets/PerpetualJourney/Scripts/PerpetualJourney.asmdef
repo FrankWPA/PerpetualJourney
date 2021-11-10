@@ -1,0 +1,17 @@
+{
+    "name": "PerpetualJourney",
+    "rootNamespace": "PerpetualJourney",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:31efcff12f7285e47aed50532be9709e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
