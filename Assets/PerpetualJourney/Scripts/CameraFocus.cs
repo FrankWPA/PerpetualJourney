@@ -5,7 +5,7 @@ using UnityEngine;
 namespace PerpetualJourney{
     public class CameraFocus : MonoBehaviour
     {
-        [SerializeField]private PlayerSphereController playerController;
+        [SerializeField]private PlayerController playerController;
         [SerializeField]private float positionOffset;
 
         private void FixedUpdate() {

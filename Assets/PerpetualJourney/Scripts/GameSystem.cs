@@ -7,12 +7,15 @@ namespace PerpetualJourney
     public class GameSystem : MonoBehaviour
     {
         [SerializeField]private GameManager gameManager;
-        private GameInputAction gameInputAction;
+        [SerializeField]private float _laneSize;
+
+        public float LaneSize => _laneSize;
+        public static GameSystem current;
 
         private void Awake()
         {
-            gameInputAction = new GameInputAction();
-            gameManager.Initialize(gameInputAction);
+            current = this;
+            gameManager.Initialize();
         }
     }
 }
