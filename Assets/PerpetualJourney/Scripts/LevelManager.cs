@@ -12,7 +12,7 @@ namespace PerpetualJourney
 
         private Vector3 lastPosition;
         private Quaternion lastDirection;
-        private const float GENERATION_DISTANCE = 200;
+        private const float GENERATION_DISTANCE = 100;
 
         private void Awake()
         {
