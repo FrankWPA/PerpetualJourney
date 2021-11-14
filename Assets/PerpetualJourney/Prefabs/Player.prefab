@@ -63,7 +63,7 @@ Transform:
   m_GameObject: {fileID: 7416574900293648457}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_Children: []
   m_Father: {fileID: 7416574899619900248}
   m_RootOrder: 0
@@ -95,7 +95,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ffce2a7e1519d465684f3f97da456fa9, type: 2}
+  - {fileID: 2100000, guid: 9d9bb6bbb2ed44e89aaf71377e273447, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -223,23 +223,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.14999962
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.43999958
+      value: -0.579
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_LocalPosition.z
@@ -329,8 +329,8 @@ PositionConstraint:
   m_GameObject: {fileID: 399321610840627834}
   m_Enabled: 1
   m_Weight: 1
-  m_TranslationAtRest: {x: -10.15, y: 9.56, z: 0}
-  m_TranslationOffset: {x: -0.14999962, y: -0.43999958, z: 0}
+  m_TranslationAtRest: {x: -0.15, y: -5.009, z: 0}
+  m_TranslationOffset: {x: -0.15, y: -0.579, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1

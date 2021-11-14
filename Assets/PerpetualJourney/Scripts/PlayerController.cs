@@ -99,7 +99,7 @@ namespace PerpetualJourney
                 hasGroundContact = true;
                 if(isChangingLane && !gameObject.LeanIsTweening())
                 {
-                    LeanTween.delayedCall(gameObject, 0.3f, () => 
+                    LeanTween.delayedCall(gameObject, 0.25f, () => 
                     {
                         isChangingLane = false;
                     });
