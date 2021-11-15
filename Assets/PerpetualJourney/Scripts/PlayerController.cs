@@ -8,23 +8,27 @@ namespace PerpetualJourney
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField]private float maxSpeed = 15;
+        [SerializeField]private float maxVelocity = 15;
         [SerializeField]private float acceleration = 0.2f;
-        [SerializeField]private InputReader _inputReader = default;
+        [SerializeField]private float jumpVelocity = 4;
+        [SerializeField]private float laneInputDelay = 0.25f;
+        [SerializeField]private float laneChangeAngle = 40;
+        [SerializeField]private InputReader _inputReader;
 
-        private Rigidbody rigidbody;
+        private Rigidbody pRigidbody;
         
         private bool hasGroundContact = false;
         private bool isChangingLane = false;
-        private float laneSize;
         private int currentLane = 0;
+        private float laneSize;
 
         public void Initialize()
         {
             _inputReader.jumpEvent += onJump;
             _inputReader.movementEvent += onMove;
+            _inputReader.swipeEvent += onSwipeMove;
 
-            rigidbody = GetComponent<Rigidbody>();
+            pRigidbody = GetComponent<Rigidbody>();
             laneSize = GameSystem.current.LaneSize;
         }
 
@@ -32,28 +36,38 @@ namespace PerpetualJourney
         {
             _inputReader.jumpEvent -= onJump;
             _inputReader.movementEvent -= onMove;
+            _inputReader.swipeEvent -= onSwipeMove;
         }
 
         private void onJump()
         {
             if (hasGroundContact)
             {
-                rigidbody.AddForce(0, 200, 0);
+                pRigidbody.AddForce(Vector3.up * jumpVelocity, ForceMode.VelocityChange);
             }
         }
 
-        //Handle object's aceleration when in contact with the ground or changing lanes
         private void FixedUpdate() 
         {
             if (hasGroundContact || isChangingLane)
             {
-                Vector3 velocity = rigidbody.velocity;
+                Vector3 velocity = pRigidbody.velocity;
 
-                if (Mathf.Abs(velocity.x) < maxSpeed)
+                if (Mathf.Abs(velocity.x) < maxVelocity)
                 {
-                    rigidbody.AddForce(Vector3.left * acceleration, ForceMode.VelocityChange);
+                    pRigidbody.AddForce(Vector3.left * acceleration, ForceMode.VelocityChange);
                 }
             }
+        }
+
+        private void onSwipeMove(Vector2 swipeDir){
+            if (swipeDir.y > 0)
+            {
+                onJump();
+                return;
+            }
+
+            onMove((int)swipeDir.x);
         }
 
         private void onMove(int laneValue)
@@ -64,7 +78,7 @@ namespace PerpetualJourney
                 if (targetLane <= 1 && targetLane >= -1)
                 {
                     currentLane = targetLane;
-                    jumpToLanePosition(45f);
+                    jumpToLanePosition(laneChangeAngle);
                     isChangingLane = true;
                 }
             }
@@ -84,11 +98,13 @@ namespace PerpetualJourney
             float angleBetweenObjects = Vector3.Angle(Vector3.forward, relativePosition) * Mathf.Sign(relativePosition.x);
             Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
 
-            rigidbody.AddForce(finalVelocity * rigidbody.mass, ForceMode.Impulse);
+            pRigidbody.AddForce(finalVelocity * pRigidbody.mass, ForceMode.Impulse);
         }
 
         private void jumpToLanePosition(float jumpAngle){
-            Vector3 relativePosition = new Vector3(0, 0, currentLane * laneSize - transform.position.z);
+            Vector3 relativePosition = Vector3.zero;
+            relativePosition.z = currentLane * laneSize - transform.position.z;
+            
             jumpToRelativePosition(relativePosition, jumpAngle);
         }
 
@@ -99,7 +115,7 @@ namespace PerpetualJourney
                 hasGroundContact = true;
                 if(isChangingLane && !gameObject.LeanIsTweening())
                 {
-                    LeanTween.delayedCall(gameObject, 0.25f, () => 
+                    LeanTween.delayedCall(gameObject, laneInputDelay, () => 
                     {
                         isChangingLane = false;
                     });

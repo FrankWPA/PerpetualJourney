@@ -8,14 +8,14 @@ namespace PerpetualJourney
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField]private PlayerController playerController;
-        [SerializeField]private InputReader _inputReader = default;
+        [SerializeField]private Player player;
+        [SerializeField]private InputReader _inputReader;
 
         public void Initialize()
         {
             _inputReader.resetEvent += onResetEvent;
             _inputReader.closeEvent += onCloseEvent;
-            playerController.Initialize();
+            player.Initialize();
         }
 
         private void OnDisable()

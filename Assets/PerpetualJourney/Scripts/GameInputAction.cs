@@ -197,6 +197,74 @@ namespace PerpetualJourney
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TouchSwipe"",
+            ""id"": ""87832b4b-351b-4072-94d7-a655c9a7916a"",
+            ""actions"": [
+                {
+                    ""name"": ""Contact"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""7af52777-ec8d-42cc-989a-0a8426d0c29b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Position"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""2b167e07-6a94-43bb-802b-269739de4de3"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""85d5d506-b405-4bdd-af57-82b133de7d6c"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Contact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66f12a77-4d63-4c7e-9b70-f5eae5df697d"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Contact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4e4b420-f00d-451c-aa86-f8c9d1282df5"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""137a30f1-daad-4e0d-b740-c52f57ec8d9d"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -213,6 +281,10 @@ namespace PerpetualJourney
             m_DebugControl = asset.FindActionMap("DebugControl", throwIfNotFound: true);
             m_DebugControl_ResetScene = m_DebugControl.FindAction("ResetScene", throwIfNotFound: true);
             m_DebugControl_CloseGame = m_DebugControl.FindAction("CloseGame", throwIfNotFound: true);
+            // TouchSwipe
+            m_TouchSwipe = asset.FindActionMap("TouchSwipe", throwIfNotFound: true);
+            m_TouchSwipe_Contact = m_TouchSwipe.FindAction("Contact", throwIfNotFound: true);
+            m_TouchSwipe_Position = m_TouchSwipe.FindAction("Position", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -381,6 +453,47 @@ namespace PerpetualJourney
             }
         }
         public DebugControlActions @DebugControl => new DebugControlActions(this);
+
+        // TouchSwipe
+        private readonly InputActionMap m_TouchSwipe;
+        private ITouchSwipeActions m_TouchSwipeActionsCallbackInterface;
+        private readonly InputAction m_TouchSwipe_Contact;
+        private readonly InputAction m_TouchSwipe_Position;
+        public struct TouchSwipeActions
+        {
+            private @GameInputAction m_Wrapper;
+            public TouchSwipeActions(@GameInputAction wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Contact => m_Wrapper.m_TouchSwipe_Contact;
+            public InputAction @Position => m_Wrapper.m_TouchSwipe_Position;
+            public InputActionMap Get() { return m_Wrapper.m_TouchSwipe; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TouchSwipeActions set) { return set.Get(); }
+            public void SetCallbacks(ITouchSwipeActions instance)
+            {
+                if (m_Wrapper.m_TouchSwipeActionsCallbackInterface != null)
+                {
+                    @Contact.started -= m_Wrapper.m_TouchSwipeActionsCallbackInterface.OnContact;
+                    @Contact.performed -= m_Wrapper.m_TouchSwipeActionsCallbackInterface.OnContact;
+                    @Contact.canceled -= m_Wrapper.m_TouchSwipeActionsCallbackInterface.OnContact;
+                    @Position.started -= m_Wrapper.m_TouchSwipeActionsCallbackInterface.OnPosition;
+                    @Position.performed -= m_Wrapper.m_TouchSwipeActionsCallbackInterface.OnPosition;
+                    @Position.canceled -= m_Wrapper.m_TouchSwipeActionsCallbackInterface.OnPosition;
+                }
+                m_Wrapper.m_TouchSwipeActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Contact.started += instance.OnContact;
+                    @Contact.performed += instance.OnContact;
+                    @Contact.canceled += instance.OnContact;
+                    @Position.started += instance.OnPosition;
+                    @Position.performed += instance.OnPosition;
+                    @Position.canceled += instance.OnPosition;
+                }
+            }
+        }
+        public TouchSwipeActions @TouchSwipe => new TouchSwipeActions(this);
         public interface IRunningActions
         {
             void OnMovement(InputAction.CallbackContext context);
@@ -395,6 +508,11 @@ namespace PerpetualJourney
         {
             void OnResetScene(InputAction.CallbackContext context);
             void OnCloseGame(InputAction.CallbackContext context);
+        }
+        public interface ITouchSwipeActions
+        {
+            void OnContact(InputAction.CallbackContext context);
+            void OnPosition(InputAction.CallbackContext context);
         }
     }
 }

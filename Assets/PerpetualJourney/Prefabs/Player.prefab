@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7416574899619900248}
+  - component: {fileID: 460814187}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -28,11 +29,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7416574900293648499}
-  - {fileID: 5011643777945168246}
   - {fileID: 7741181849750823}
+  - {fileID: 5011643777945168246}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &460814187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7416574899619900249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61dafc65ed405854196182d34c3f7e0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementController: {fileID: 7416574900293648456}
+  cameraFocus: {fileID: 1822602366036051342}
 --- !u!1 &7416574900293648457
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,8 +173,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f65870f499a89a4c9d91313647a14de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 15
+  maxVelocity: 15
   acceleration: 0.2
+  jumpVelocity: 4
+  laneInputDelay: 0.25
+  laneChangeAngle: 40
   _inputReader: {fileID: 11400000, guid: 0ffad885cba58e241bdfff4a0e4599c3, type: 2}
 --- !u!1 &8524557642685602403
 GameObject:
@@ -170,7 +188,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7741181849750823}
-  - component: {fileID: 5051432588283338574}
+  - component: {fileID: 1822602366036051342}
   m_Layer: 0
   m_Name: CameraFocus
   m_TagString: Untagged
@@ -190,9 +208,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7416574899619900248}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5051432588283338574
+--- !u!114 &1822602366036051342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,11 +219,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8524557642685602403}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 831672680ba3d9c4f8153d9c5bfc4394, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e9bf5b135cb5694f8ba586e7ed7fd78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 7416574900293648456}
-  positionOffset: 5
+  positionOffset: {x: -5, y: 0, z: 0}
+  lockPos:
+    lockPosX: 0
+    lockPosY: 0
+    lockPosZ: 1
 --- !u!1001 &7416574899728326017
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2549064761074873591, guid: 7ae7dcd9704b54d4aa44ea1fa540ba19, type: 3}
       propertyPath: m_LocalScale.x
