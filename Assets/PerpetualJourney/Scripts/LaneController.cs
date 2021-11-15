@@ -6,15 +6,15 @@ using UnityEngine.InputSystem;
 
 namespace PerpetualJourney
 {
-    public class PlayerController : MonoBehaviour
+    public class LaneController : MonoBehaviour
     {
         [SerializeField]private float maxVelocity = 15;
         [SerializeField]private float acceleration = 0.2f;
         [SerializeField]private float jumpVelocity = 4;
         [SerializeField]private float laneInputDelay = 0.25f;
         [SerializeField]private float laneChangeAngle = 40;
-        [SerializeField]private InputReader _inputReader;
 
+        private InputReader inputReader;
         private Rigidbody pRigidbody;
         
         private bool hasGroundContact = false;
@@ -22,11 +22,12 @@ namespace PerpetualJourney
         private int currentLane = 0;
         private float laneSize;
 
-        public void Initialize()
+        public void Initialize(InputReader _inputReader)
         {
-            _inputReader.jumpEvent += onJump;
-            _inputReader.movementEvent += onMove;
-            _inputReader.swipeEvent += onSwipeMove;
+            inputReader = _inputReader;
+            inputReader.jumpEvent += onJump;
+            inputReader.movementEvent += onMove;
+            inputReader.swipeEvent += onSwipeMove;
 
             pRigidbody = GetComponent<Rigidbody>();
             laneSize = GameSystem.current.LaneSize;
@@ -34,9 +35,9 @@ namespace PerpetualJourney
 
         private void OnDisable()
         {
-            _inputReader.jumpEvent -= onJump;
-            _inputReader.movementEvent -= onMove;
-            _inputReader.swipeEvent -= onSwipeMove;
+            inputReader.jumpEvent -= onJump;
+            inputReader.movementEvent -= onMove;
+            inputReader.swipeEvent -= onSwipeMove;
         }
 
         private void onJump()

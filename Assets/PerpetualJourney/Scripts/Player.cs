@@ -6,14 +6,16 @@ namespace PerpetualJourney
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField]private PlayerController movementController;
+        [SerializeField]private LaneController laneController;
         [SerializeField]private TransformOffset cameraFocus;
+        [SerializeField]private InputReader _inputReader;
+
         public Vector3 CameraFocusPosition => cameraFocus.transform.position;
 
         public void Initialize()
         {
-            movementController.Initialize();
-            cameraFocus.Initialize(movementController.transform);
+            laneController.Initialize(_inputReader);
+            cameraFocus.Initialize(laneController.transform);
         }
     }
 }

@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dafc65ed405854196182d34c3f7e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementController: {fileID: 7416574900293648456}
+  laneController: {fileID: 7416574900293648456}
   cameraFocus: {fileID: 1822602366036051342}
+  _inputReader: {fileID: 11400000, guid: 0ffad885cba58e241bdfff4a0e4599c3, type: 2}
 --- !u!1 &7416574900293648457
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +64,7 @@ GameObject:
   - component: {fileID: 7416574900293648503}
   - component: {fileID: 7416574900293648456}
   m_Layer: 0
-  m_Name: PlayerController
+  m_Name: LaneController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,7 +179,6 @@ MonoBehaviour:
   jumpVelocity: 4
   laneInputDelay: 0.25
   laneChangeAngle: 40
-  _inputReader: {fileID: 11400000, guid: 0ffad885cba58e241bdfff4a0e4599c3, type: 2}
 --- !u!1 &8524557642685602403
 GameObject:
   m_ObjectHideFlags: 0
