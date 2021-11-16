@@ -30,7 +30,9 @@ namespace PerpetualJourney
         {
             int rndIndex = Random.Range(0, _obstacles.Count);
             Obstacle randomObstacle = Instantiate(_obstacles[rndIndex], _obstaclePosition);
-            randomObstacle.Initialize(Random.Range(-1, 2));
+
+            int obstacleLane = Random.Range(-1, 2);
+            randomObstacle.Initialize(obstacleLane);
         }
 
         private void CreateDecoration()

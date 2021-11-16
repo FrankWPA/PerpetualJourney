@@ -8,6 +8,7 @@ namespace PerpetualJourney
     {
         public event Func<Vector3> OnPlayerPositionRequest;
         public event Action OnObstacleCollided;
+        public event Action OnColectableCollided;
 
         public Vector3? RequestPlayerPosition()
         {
@@ -17,6 +18,11 @@ namespace PerpetualJourney
         public void ObstacleCollision()
         {
             OnObstacleCollided?.Invoke();
+        }
+
+        public void ColectableCollision()
+        {
+            OnColectableCollided?.Invoke();
         }
     }
 }

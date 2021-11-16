@@ -87,7 +87,7 @@ namespace PerpetualJourney
 
         private void FixedUpdate() 
         {
-            if ((_hasGroundContact || _isChangingLane))
+            if (_hasGroundContact || _isChangingLane)
             {
                 Vector3 velocity = _rigidbody.velocity;
 
@@ -123,13 +123,9 @@ namespace PerpetualJourney
             _rigidbody.AddForce(finalVelocity * _rigidbody.mass, ForceMode.Impulse);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionEnter(Collision other)
         {
-            if (collision.collider.GetComponentInParent<Obstacle>() != null)
-            {
-                _gameEvents.ObstacleCollision();
-            }
-            else if (!_hasGroundContact)
+            if (!_hasGroundContact)
             {
                 _hasGroundContact = true;
                 if(_isChangingLane && !gameObject.LeanIsTweening())
