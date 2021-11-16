@@ -8,84 +8,105 @@ namespace PerpetualJourney
 {
     public class LaneController : MonoBehaviour
     {
-        [SerializeField]private float maxVelocity = 15;
-        [SerializeField]private float acceleration = 0.2f;
-        [SerializeField]private float jumpVelocity = 4;
-        [SerializeField]private float laneInputDelay = 0.25f;
-        [SerializeField]private float laneChangeAngle = 40;
+        [SerializeField]private float _maxVelocity = 15;
+        [SerializeField]private float _acceleration = 0.2f;
+        [SerializeField]private float _jumpVelocity = 12;
+        [SerializeField]private float _laneInputDelay = 0.25f;
+        [SerializeField]private float _laneChangeAngle = 40;
 
-        private InputReader inputReader;
-        private Rigidbody pRigidbody;
+        private InputReader _inputReader;
+        private GameEvents _gameEvents;
         
-        private bool hasGroundContact = false;
-        private bool isChangingLane = false;
-        private int currentLane = 0;
-        private float laneSize;
+        private Rigidbody _rigidbody;
+        private float _laneSize;
+        
+        private bool _hasGroundContact = false;
+        private bool _isChangingLane = false;
+        private int _currentLane = 0;
 
-        public void Initialize(InputReader _inputReader)
+        public void Initialize(InputReader inputReader, GameEvents gameEvents)
         {
-            inputReader = _inputReader;
-            inputReader.jumpEvent += onJump;
-            inputReader.movementEvent += onMove;
-            inputReader.swipeEvent += onSwipeMove;
+            _inputReader = inputReader;
+            _inputReader.OnJumpEvent += OnJump;
+            _inputReader.OnMoveEvent += OnMove;
+            _inputReader.OnSwipeEvent += OnSwipeMove;
 
-            pRigidbody = GetComponent<Rigidbody>();
-            laneSize = GameSystem.current.LaneSize;
+            _gameEvents = gameEvents;
+            _gameEvents.OnPlayerPositionRequest += GetCurrentPosition;
+
+            _rigidbody = GetComponent<Rigidbody>();
+            _laneSize = GameSystem.Current.LaneSize;
         }
 
         private void OnDisable()
         {
-            inputReader.jumpEvent -= onJump;
-            inputReader.movementEvent -= onMove;
-            inputReader.swipeEvent -= onSwipeMove;
+            _inputReader.OnJumpEvent -= OnJump;
+            _inputReader.OnMoveEvent -= OnMove;
+            _inputReader.OnSwipeEvent -= OnSwipeMove;
+
+            _gameEvents.OnPlayerPositionRequest -= GetCurrentPosition;
         }
 
-        private void onJump()
+        private void OnJump()
         {
-            if (hasGroundContact)
+            if (_hasGroundContact)
             {
-                pRigidbody.AddForce(Vector3.up * jumpVelocity, ForceMode.VelocityChange);
+                _rigidbody.AddForce(Vector3.up * _jumpVelocity, ForceMode.VelocityChange);
             }
+        }
+
+        private void OnMove(int laneValue)
+        {
+            if(!_isChangingLane && _hasGroundContact)
+            {
+                int targetLane = _currentLane + laneValue;
+                if (targetLane <= 1 && targetLane >= -1)
+                {
+                    _currentLane = targetLane;
+                    JumpToLanePosition(_laneChangeAngle);
+                    _isChangingLane = true;
+                }
+            }
+        }
+
+        private void OnSwipeMove(Vector2 swipeDir)
+        {
+            if (swipeDir.y > 0)
+            {
+                OnJump();
+                return;
+            }
+
+            OnMove((int)swipeDir.x);
+        }
+
+        private Vector3 GetCurrentPosition()
+        {
+            return transform.position;
         }
 
         private void FixedUpdate() 
         {
-            if (hasGroundContact || isChangingLane)
+            if ((_hasGroundContact || _isChangingLane))
             {
-                Vector3 velocity = pRigidbody.velocity;
+                Vector3 velocity = _rigidbody.velocity;
 
-                if (Mathf.Abs(velocity.x) < maxVelocity)
+                if (Mathf.Abs(velocity.x) < _maxVelocity)
                 {
-                    pRigidbody.AddForce(Vector3.left * acceleration, ForceMode.VelocityChange);
+                    _rigidbody.AddForce(Vector3.left * _acceleration, ForceMode.VelocityChange);
                 }
             }
         }
 
-        private void onSwipeMove(Vector2 swipeDir){
-            if (swipeDir.y > 0)
-            {
-                onJump();
-                return;
-            }
-
-            onMove((int)swipeDir.x);
-        }
-
-        private void onMove(int laneValue)
+        private void JumpToLanePosition(float jumpAngle)
         {
-            if(!isChangingLane && hasGroundContact)
-            {
-                int targetLane = currentLane + laneValue;
-                if (targetLane <= 1 && targetLane >= -1)
-                {
-                    currentLane = targetLane;
-                    jumpToLanePosition(laneChangeAngle);
-                    isChangingLane = true;
-                }
-            }
+            Vector3 relativePosition = Vector3.zero;
+            relativePosition.z = _currentLane * _laneSize - transform.position.z;
+            
+            JumpToRelativePosition(relativePosition, jumpAngle);
         }
 
-        private void jumpToRelativePosition(Vector3 relativePosition, float jumpAngle)
+        private void JumpToRelativePosition(Vector3 relativePosition, float jumpAngle)
         {
             float gravity = Physics.gravity.magnitude;
             float angle = jumpAngle * Mathf.Deg2Rad;
@@ -99,26 +120,23 @@ namespace PerpetualJourney
             float angleBetweenObjects = Vector3.Angle(Vector3.forward, relativePosition) * Mathf.Sign(relativePosition.x);
             Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
 
-            pRigidbody.AddForce(finalVelocity * pRigidbody.mass, ForceMode.Impulse);
-        }
-
-        private void jumpToLanePosition(float jumpAngle){
-            Vector3 relativePosition = Vector3.zero;
-            relativePosition.z = currentLane * laneSize - transform.position.z;
-            
-            jumpToRelativePosition(relativePosition, jumpAngle);
+            _rigidbody.AddForce(finalVelocity * _rigidbody.mass, ForceMode.Impulse);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (!hasGroundContact)
+            if (collision.collider.GetComponentInParent<Obstacle>() != null)
             {
-                hasGroundContact = true;
-                if(isChangingLane && !gameObject.LeanIsTweening())
+                _gameEvents.ObstacleCollision();
+            }
+            else if (!_hasGroundContact)
+            {
+                _hasGroundContact = true;
+                if(_isChangingLane && !gameObject.LeanIsTweening())
                 {
-                    LeanTween.delayedCall(gameObject, laneInputDelay, () => 
+                    LeanTween.delayedCall(gameObject, _laneInputDelay, () => 
                     {
-                        isChangingLane = false;
+                        _isChangingLane = false;
                     });
                 }
             }
@@ -126,15 +144,15 @@ namespace PerpetualJourney
 
         private void OnCollisionStay(Collision other)
         {
-            if (!hasGroundContact)
+            if (!_hasGroundContact)
             {
-                hasGroundContact = true;
+                _hasGroundContact = true;
             }
         }
 
         private void OnCollisionExit(Collision other)
         {
-            hasGroundContact = false;
+            _hasGroundContact = false;
         }
     }
 }

@@ -167,7 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 34163018}
-  _laneSize: 4.8
+  levelManager: {fileID: 1984845131}
+  _laneSize: 3.3
 --- !u!1 &34163016
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +276,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36738513}
-  m_LocalRotation: {x: 0.43433222, y: -0.55799234, z: 0.43433228, w: 0.55799234}
+  m_LocalRotation: {x: 0.4343324, y: -0.55799234, z: 0.43433213, w: 0.5579925}
   m_LocalPosition: {x: 3.83, y: 11.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -860,79 +861,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881906011}
-  m_LocalRotation: {x: 0.43433222, y: -0.55799234, z: 0.43433228, w: 0.55799234}
+  m_LocalRotation: {x: 0.4343324, y: -0.55799234, z: 0.43433213, w: 0.5579925}
   m_LocalPosition: {x: 3.83, y: 11.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1952969607}
   m_Father: {fileID: 1007249340}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1947405718
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1947405721}
-  - component: {fileID: 1947405720}
-  - component: {fileID: 1947405719}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1947405719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947405718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &1947405720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947405718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &1947405721
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947405718}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1952969606
 GameObject:
@@ -1074,13 +1009,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelGenPosition: {fileID: 1387087794}
   levelList:
-  - {fileID: 197459732291212485, guid: 03e8bcadaa1f958448a68f1496e8ff91, type: 3}
-  - {fileID: 1897825381668938660, guid: 81b831519dce46f48a06c9af2f4fa4ab, type: 3}
-  - {fileID: 4230527679751061921, guid: 3236c7f2eaa6c754eac9bab7f0baa7b4, type: 3}
-  - {fileID: 3074650374973931699, guid: c8b933b5b8bcd564dbece8a2ccfa39af, type: 3}
-  - {fileID: 7746549292232023947, guid: 3f6fe086d3cd11f459588f3c054c075c, type: 3}
-  - {fileID: 4972297920360253121, guid: 072e1e77fb6e71e4d8939c30d26c5db6, type: 3}
-  player: {fileID: 117308964}
+  - {fileID: 1128411255489217379, guid: a4b8139724d2c794d9973fa92d0d97ef, type: 3}
+  gameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
 --- !u!1001 &2053722517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1196,6 +1126,10 @@ PrefabInstance:
     - target: {fileID: 7416574899619900249, guid: b390af722f45e774c96e172bba5be355, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416574900293648456, guid: b390af722f45e774c96e172bba5be355, type: 3}
+      propertyPath: jumpVelocity
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b390af722f45e774c96e172bba5be355, type: 3}

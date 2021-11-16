@@ -8,28 +8,28 @@ namespace PerpetualJourney
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField]private Player player;
+        [SerializeField]private Player _player;
         [SerializeField]private InputReader _inputReader;
 
         public void Initialize()
         {
-            _inputReader.resetEvent += onResetEvent;
-            _inputReader.closeEvent += onCloseEvent;
-            player.Initialize();
+            _inputReader.OnResetEvent += OnResetEvent;
+            _inputReader.OnCloseEvent += OnCloseEvent;
+            _player.Initialize();
         }
 
         private void OnDisable()
         {
-            _inputReader.resetEvent -= onResetEvent;
-            _inputReader.closeEvent -= onCloseEvent;
+            _inputReader.OnResetEvent -= OnResetEvent;
+            _inputReader.OnCloseEvent -= OnCloseEvent;
         }
 
-        private void onResetEvent()
+        private void OnResetEvent()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        private void onCloseEvent()
+        private void OnCloseEvent()
         {
             Application.Quit();
         }

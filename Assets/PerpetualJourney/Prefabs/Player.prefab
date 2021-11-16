@@ -48,7 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laneController: {fileID: 7416574900293648456}
   cameraFocus: {fileID: 1822602366036051342}
-  _inputReader: {fileID: 11400000, guid: 0ffad885cba58e241bdfff4a0e4599c3, type: 2}
+  inputReader: {fileID: 11400000, guid: 0ffad885cba58e241bdfff4a0e4599c3, type: 2}
+  gameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
 --- !u!1 &7416574900293648457
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,11 +175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f65870f499a89a4c9d91313647a14de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 15
+  maxVelocity: 14
   acceleration: 0.2
   jumpVelocity: 4
-  laneInputDelay: 0.25
-  laneChangeAngle: 40
+  laneInputDelay: 0.2
+  laneChangeAngle: 50
 --- !u!1 &8524557642685602403
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,16 +6,22 @@ namespace PerpetualJourney
 {
     public class GameSystem : MonoBehaviour
     {
-        [SerializeField]private GameManager gameManager;
+        [SerializeField]private GameManager _gameManager;
+        [SerializeField]private LevelManager _levelManager;
         [SerializeField]private float _laneSize;
 
+        public static GameSystem Current {get; private set;}
         public float LaneSize => _laneSize;
-        public static GameSystem current;
-
+        
         private void Awake()
         {
-            current = this;
-            gameManager.Initialize();
+            if (Current == null)
+            {
+                Current = this;
+            }
+            
+            _gameManager.Initialize();
+            _levelManager.Initialize();
         }
     }
 }

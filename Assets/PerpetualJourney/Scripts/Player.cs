@@ -6,16 +6,30 @@ namespace PerpetualJourney
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField]private LaneController laneController;
-        [SerializeField]private TransformOffset cameraFocus;
+        [SerializeField]private LaneController _laneController;
+        [SerializeField]private TransformOffset _cameraFocus;
         [SerializeField]private InputReader _inputReader;
+        [SerializeField]private GameEvents _gameEvents;
 
-        public Vector3 CameraFocusPosition => cameraFocus.transform.position;
+        public bool IsAlive {get; private set;} = true;
 
         public void Initialize()
         {
-            laneController.Initialize(_inputReader);
-            cameraFocus.Initialize(laneController.transform);
+            _laneController.Initialize(_inputReader, _gameEvents);
+            _cameraFocus.Initialize(_laneController.transform);
+
+            _gameEvents.OnObstacleCollided += OnObstacleCollided;
+        }
+
+        private void OnDisable()
+        {
+            _gameEvents.OnObstacleCollided -= OnObstacleCollided;
+        }
+
+        private void OnObstacleCollided()
+        {
+            IsAlive = false;
+            _laneController.gameObject.SetActive(false);
         }
     }
 }

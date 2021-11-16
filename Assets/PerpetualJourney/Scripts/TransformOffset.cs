@@ -4,8 +4,8 @@ using UnityEngine;
 namespace PerpetualJourney{
     public class TransformOffset : MonoBehaviour
     {
-        [SerializeField]private Vector3 positionOffset;
-        [SerializeField]private LockPosition lockPos;
+        [SerializeField]private Vector3 _positionOffset;
+        [SerializeField]private LockPosition _lockPos;
 
         [Serializable]
         private struct LockPosition
@@ -24,22 +24,22 @@ namespace PerpetualJourney{
             }
         }
 
-        private Transform target;
-        private Vector3 lockScale;
+        private Transform _target;
+        private Vector3 _lockScale;
 
         public void Initialize(Transform targetToOffset)
         {
-            target = targetToOffset;
+            _target = targetToOffset;
             UpdateLockScale();
         }
 
         private void UpdateLockScale()
         {
-            lockScale = lockPos.ToScale();
+            _lockScale = _lockPos.ToScale();
         }
 
         private void FixedUpdate() {
-            transform.position = Vector3.Scale(target.position, lockScale) + positionOffset;
+            transform.position = Vector3.Scale(_target.position, _lockScale) + _positionOffset;
         }
     }
 }

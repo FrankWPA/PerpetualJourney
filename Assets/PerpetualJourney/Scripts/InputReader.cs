@@ -11,54 +11,69 @@ namespace PerpetualJourney
         GameInputAction.IDebugControlActions,
         GameInputAction.ITouchSwipeActions
     {
-        [SerializeField] private float swipeRange = 300;
-        [SerializeField] private float tapRange = 100;
-        [SerializeField] private double swipeTime = 1;
+        [SerializeField]private float _swipeRange = 300;
+        [SerializeField]private float _tapRange = 100;
+        [SerializeField]private double _swipeTime = 1;
 
-        public event Action<int> movementEvent;
-        public event Action<Vector2> swipeEvent;
-        public event Action jumpEvent;
-        public event Action closeEvent;
-        public event Action resetEvent;
+        public event Action<int> OnMoveEvent;
+        public event Action<Vector2> OnSwipeEvent;
+        public event Action OnJumpEvent;
+        public event Action OnCloseEvent;
+        public event Action OnResetEvent;
 
-        private GameInputAction inputAction;
-        private Vector2 startTouchPosition;
+        private GameInputAction _inputAction;
+        private Vector2 _startTouchPosition;
 
-        private bool swipePressed = false;
-        private double startTime;
+        private bool _swipePressed = false;
+        private double _startTime;
 
         private void OnEnable()
         {
-            if (inputAction == null)
+            if (_inputAction == null)
             {
-                inputAction = new GameInputAction();
-                inputAction.Running.SetCallbacks(this);
-                inputAction.DebugControl.SetCallbacks(this);
-                inputAction.TouchSwipe.SetCallbacks(this);
+                _inputAction = new GameInputAction();
+                _inputAction.Running.SetCallbacks(this);
+                _inputAction.DebugControl.SetCallbacks(this);
+                _inputAction.TouchSwipe.SetCallbacks(this);
             }
-            inputAction.Enable();
+            _inputAction.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _inputAction.Disable();
         }
 
         public void OnResetScene(InputAction.CallbackContext context)
         {
-            resetEvent?.Invoke();
+            if(context.performed)
+            {
+                OnResetEvent?.Invoke();
+            }
         }
 
         public void OnCloseGame(InputAction.CallbackContext context)
         {
-            closeEvent?.Invoke();
+            if(context.performed)
+            {
+                OnCloseEvent?.Invoke();
+            }
         }
 
         public void OnMovement(InputAction.CallbackContext context)
         {
-            if(context.performed){
-                movementEvent?.Invoke((int)context.ReadValue<float>());
+            if(context.performed)
+            {
+                OnMoveEvent?.Invoke((int)context.ReadValue<float>());
             }
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            jumpEvent?.Invoke();
+            if(context.performed)
+            {
+                OnJumpEvent?.Invoke();
+            }
         }
 
         public void OnContact(InputAction.CallbackContext context)
@@ -75,62 +90,57 @@ namespace PerpetualJourney
 
         public void OnPosition(InputAction.CallbackContext context)
         {
-            if(!swipePressed)
+            if(!_swipePressed)
             {
                 return;
             }
 
-            Vector2 currentTouchPosition = inputAction.TouchSwipe.Position.ReadValue<Vector2>();
+            Vector2 currentTouchPosition = _inputAction.TouchSwipe.Position.ReadValue<Vector2>();
             double currentTime = context.time;
 
-            if(currentTime >= (startTime + swipeTime))
+            if(currentTime >= (_startTime + _swipeTime))
             {
                 SetStartTouch(currentTouchPosition, currentTime);
             }
 
-            Vector2 distance = currentTouchPosition - startTouchPosition;
+            Vector2 distance = currentTouchPosition - _startTouchPosition;
 
-            if(Mathf.Abs(distance.x) >= swipeRange || Mathf.Abs(distance.y) >= swipeRange)
+            if(Mathf.Abs(distance.x) >= _swipeRange || Mathf.Abs(distance.y) >= _swipeRange)
             {
                 Vector2 swipeDir = DetectSwipe(distance);
 
                 if(Mathf.Abs(swipeDir.x) == 1)
                 {
-                    startTouchPosition.x = currentTouchPosition.x;
+                    _startTouchPosition.x = currentTouchPosition.x;
                 }
                 else
                 {
-                    startTouchPosition.y = currentTouchPosition.y;
+                    _startTouchPosition.y = currentTouchPosition.y;
                 }
 
-                startTime = context.startTime;
+                _startTime = context.startTime;
             }
-        }
-
-        private void OnDisable()
-        {
-            inputAction.Disable();
         }
 
         private void StartTouch(InputAction.CallbackContext context)
         {
-            Vector2 position = inputAction.TouchSwipe.Position.ReadValue<Vector2>();
+            Vector2 position = _inputAction.TouchSwipe.Position.ReadValue<Vector2>();
             SetStartTouch(position, context.startTime);
         }
 
         private void SetStartTouch(Vector2 position, double currentTime)
         {
-            startTouchPosition = position;
-            startTime = currentTime;
-            swipePressed = true;
+            _startTouchPosition = position;
+            _startTime = currentTime;
+            _swipePressed = true;
         }
 
         private void EndTouch(InputAction.CallbackContext context)
         {
-            swipePressed = false;
+            _swipePressed = false;
 
-            Vector2 endTouchPosition = inputAction.TouchSwipe.Position.ReadValue<Vector2>();
-            DetectSwipe(endTouchPosition - startTouchPosition);
+            Vector2 endTouchPosition = _inputAction.TouchSwipe.Position.ReadValue<Vector2>();
+            DetectSwipe(endTouchPosition - _startTouchPosition);
         }
 
         private Vector2 DetectSwipe(Vector2 swipeValue)
@@ -139,7 +149,7 @@ namespace PerpetualJourney
             float verticalDist = Mathf.Abs(swipeValue.y);
             Vector2 swipeResult = Vector2.zero;
 
-            if (horizontalDist <= tapRange && verticalDist <= tapRange)
+            if (horizontalDist <= _tapRange && verticalDist <= _tapRange)
             {
                 return swipeResult;
             }
@@ -153,7 +163,7 @@ namespace PerpetualJourney
                 swipeResult.y = Mathf.Sign(swipeValue.y);
             }
 
-            swipeEvent?.Invoke(swipeResult);
+            OnSwipeEvent?.Invoke(swipeResult);
             return swipeResult;
         }
     }
