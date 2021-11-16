@@ -76,15 +76,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06e21ad1ce3b82419718daaf1d2e9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleLaneSize: 3.3
-  obstaclePosition: {fileID: 3224659993727290861}
-  endPosition: {fileID: 9141575037506812402}
-  obstacles:
+  _obstaclePosition: {fileID: 3224659993727290861}
+  _endPosition: {fileID: 9141575037506812402}
+  _obstacles:
   - {fileID: 8825946375275464886, guid: d98b6136031639d48984a6ce1a03319c, type: 3}
   - {fileID: 7163785643021465362, guid: dadb4b7b46ec4e74ab3eae7ec0e48eb7, type: 3}
-  decorations:
-  - {fileID: 7262985456117150917, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
+  _decorations:
   - {fileID: 8591227130830096709, guid: e34017ebaa0644345bcab813d7ec819a, type: 3}
+  - {fileID: 7262985456117150917, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
+  _obstacleChance: 0.7
 --- !u!1 &8600959157143754509
 GameObject:
   m_ObjectHideFlags: 0

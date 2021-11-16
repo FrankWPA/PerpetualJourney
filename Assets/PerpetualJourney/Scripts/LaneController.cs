@@ -10,7 +10,7 @@ namespace PerpetualJourney
     {
         [SerializeField]private float _maxVelocity = 15;
         [SerializeField]private float _acceleration = 0.2f;
-        [SerializeField]private float _jumpVelocity = 12;
+        [SerializeField]private float _jumpVelocity = 7;
         [SerializeField]private float _laneInputDelay = 0.25f;
         [SerializeField]private float _laneChangeAngle = 40;
 
