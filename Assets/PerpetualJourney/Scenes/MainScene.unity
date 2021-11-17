@@ -1011,6 +1011,7 @@ MonoBehaviour:
   _levelList:
   - {fileID: 1128411255489217379, guid: a4b8139724d2c794d9973fa92d0d97ef, type: 3}
   _gameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
+  _pool: {fileID: 11400000, guid: badf230dc6e8aa84aa747404b0a5c4e9, type: 2}
 --- !u!1001 &2053722517
 PrefabInstance:
   m_ObjectHideFlags: 0

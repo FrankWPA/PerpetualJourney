@@ -5,36 +5,51 @@ using UnityEngine;
 namespace PerpetualJourney
 {
     [CreateAssetMenu(fileName = "ObjectPool", menuName = "PerpetualJourney/Object Pool")]
-    public class ObjectPool : ScriptableObject
+    public class ObjectPool: ScriptableObject
     {
-        private Dictionary<string, Queue<GameObject>> objectPool = new Dictionary<string, Queue<GameObject>>();
+        private Dictionary<string, Queue<PoolableObject>> _objectPool = new Dictionary<string, Queue<PoolableObject>>();
 
-        public GameObject GetGameObject(GameObject gameObject)
+        public T GetObject<T>(T poolableObject) where T : PoolableObject
         {
-            if(objectPool.TryGetValue(gameObject.name, out Queue<GameObject> objectList))
+            if(TryGetObjectQueue(poolableObject, out Queue<PoolableObject> objectQueue))
             {
-                if(objectList.Count == 0)
+                if(objectQueue.Count != 0)
                 {
-                    return InstantiateNewObject(gameObject);
-                }
-                else
-                {
-                    GameObject dequeuedObject = objectList.Dequeue();
-                    dequeuedObject.SetActive(true);
+                    T dequeuedObject = (T)objectQueue.Dequeue();
+                    dequeuedObject.gameObject.SetActive(true);
                     return dequeuedObject;
                 }
             }
-            else
-            {
-                return InstantiateNewObject(gameObject);
-            }
+            
+            return InstantiateNewObject(poolableObject);
         }
 
-        public GameObject InstantiateNewObject(GameObject gameObject)
+        public void ReturnObject<T>(T poolableObject) where T : PoolableObject
         {
-            GameObject newGameObject = Instantiate(gameObject);
-            newGameObject.name = gameObject.name;
-            return newGameObject;
+            if (TryGetObjectQueue(poolableObject, out Queue<PoolableObject> objectQueue))
+            {
+                objectQueue.Enqueue(poolableObject);
+            }
+            else
+            {
+                Queue<PoolableObject> newObjectQueue = new Queue<PoolableObject>();
+                newObjectQueue.Enqueue(poolableObject);
+                _objectPool.Add(poolableObject.name, newObjectQueue);
+            }
+
+            poolableObject.gameObject.SetActive(false);
+        }
+
+        private T InstantiateNewObject<T>(T poolableObject) where T : PoolableObject
+        {
+            T newObject = Instantiate(poolableObject);
+            newObject.name = poolableObject.name;
+            return newObject;
+        }
+
+        private bool TryGetObjectQueue(PoolableObject poolableObject, out Queue<PoolableObject> outQueue)
+        {
+            return (_objectPool.TryGetValue(poolableObject.name, out outQueue));
         }
     }
 }

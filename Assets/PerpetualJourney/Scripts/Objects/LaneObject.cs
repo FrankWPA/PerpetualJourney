@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    public abstract class LaneObject : MonoBehaviour
+    public abstract class LaneObject : PoolableObject
     {
         [SerializeField]private GameEvents _gameEvents;
+        
         private float _laneSize;
         private int _lane;
 

@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06e21ad1ce3b82419718daaf1d2e9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pool: {fileID: 11400000, guid: badf230dc6e8aa84aa747404b0a5c4e9, type: 2}
   _obstaclePosition: {fileID: 3224659993727290861}
   _endPosition: {fileID: 9141575037506812402}
   _obstacles:
@@ -84,7 +85,7 @@ MonoBehaviour:
   _decorations:
   - {fileID: 8591227130830096709, guid: e34017ebaa0644345bcab813d7ec819a, type: 3}
   - {fileID: 7262985456117150917, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
-  _colectable: {fileID: 1808560575, guid: 2929d7dc65d295e4ebb3cefcb0a112b0, type: 3}
+  _collectable: {fileID: 1808560575, guid: 2929d7dc65d295e4ebb3cefcb0a112b0, type: 3}
   _obstacleChance: 0.7
 --- !u!1 &8600959157143754509
 GameObject:

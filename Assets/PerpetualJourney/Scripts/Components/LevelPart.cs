@@ -3,24 +3,33 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    public class LevelPart : MonoBehaviour
+    public class LevelPart : PoolableObject
     {
         [SerializeField] private Transform _obstaclePosition;
         [SerializeField] private Transform _endPosition;
         [SerializeField] private List<Obstacle> _obstacles;
         [SerializeField] private List<Transform> _decorations;
-        [SerializeField] private Colectable _colectable;
-        [SerializeField] private float _obstacleChance = 0.7f;
+        [SerializeField] private Collectable _collectable;
 
-        private List<int> _lanes = new List<int>{-1, 0 , 1};
+        private const float ObstacleChance = 0.7f;
+        private const float DoubleObstacleChance = 0.2f/ObstacleChance;
+
+        private List<int> _availableLanes;
 
         public Vector3 LevelEndPosition => _endPosition.position;
 
         public void Initialize()
         {
-            float value = Random.Range(0, 1f);
-            if (value <=  _obstacleChance)
+            _availableLanes = new List<int>{-1, 0 , 1};
+            float rndValue = Random.Range(0, 1f);
+
+            if (ObstacleChance >= rndValue)
             {
+                if(DoubleObstacleChance >= rndValue)
+                {
+                    CreateObstacle();
+                }
+
                 CreateObstacle();
             }
             else
@@ -34,13 +43,14 @@ namespace PerpetualJourney
         private void CreateObstacle()
         {
             int rndIndex = Random.Range(0, _obstacles.Count);
-            Obstacle randomObstacle = Instantiate(_obstacles[rndIndex], _obstaclePosition);
+            Obstacle obstacle = _pool.GetObject(_obstacles[rndIndex]);
+            obstacle.transform.SetParent(_obstaclePosition, false);
 
-            rndIndex = Random.Range(0, _lanes.Count);
-            int obstacleLane = _lanes[rndIndex];
-            _lanes.RemoveAt(rndIndex);
+            int randomLane = Random.Range(0, _availableLanes.Count);
+            int obstacleLane = _availableLanes[randomLane];
+            _availableLanes.RemoveAt(randomLane);
 
-            randomObstacle.Initialize(obstacleLane);
+            obstacle.Initialize(obstacleLane);
         }
 
         private void CreateDecoration()
@@ -51,9 +61,11 @@ namespace PerpetualJourney
 
         private void CreateCollectable()
         {
-            int rndIndex = Random.Range(0, _lanes.Count);
-            Colectable colectable = Instantiate(_colectable, _obstaclePosition);
-            colectable.Initialize(_lanes[rndIndex]);
+            Collectable collectable = _pool.GetObject(_collectable);
+            collectable.transform.SetParent(_obstaclePosition, false);
+
+            int randomLane = Random.Range(0, _availableLanes.Count);
+            collectable.Initialize(_availableLanes[randomLane]);
         }
     }
 }

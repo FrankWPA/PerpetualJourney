@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    public class Colectable : LaneObject
+    public class Collectable : LaneObject
     {
         [SerializeField]private LeanTweenType _lean_type;
 
@@ -33,8 +33,8 @@ namespace PerpetualJourney
 
         protected override void CollidedWithPlayer()
         {
-            GameEvent.ColectableCollision();
-            gameObject.SetActive(false);
+            GameEvent.CollectableCollision();
+            Disable();
         }
     }
 }

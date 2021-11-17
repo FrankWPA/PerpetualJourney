@@ -87,8 +87,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2036519875138802608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d22695fc5d94741bd4db66d72f5787, type: 3}
+  m_Script: {fileID: 11500000, guid: 35d6a8426744d2b4e85ab12f1132238c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pool: {fileID: 11400000, guid: badf230dc6e8aa84aa747404b0a5c4e9, type: 2}
   _gameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
-  _lean_type: 4
+  _lean_type: 0

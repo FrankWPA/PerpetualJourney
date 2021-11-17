@@ -21,7 +21,7 @@ namespace PerpetualJourney
             OnObstacleCollided?.Invoke();
         }
 
-        public void ColectableCollision()
+        public void CollectableCollision()
         {
             OnCollectableCollided?.Invoke();
         }

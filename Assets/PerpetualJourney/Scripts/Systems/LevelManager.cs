@@ -9,6 +9,7 @@ namespace PerpetualJourney
         [SerializeField] private Transform _levelGenPosition;
         [SerializeField] private List<LevelPart> _levelList;
         [SerializeField] private GameEvents _gameEvents;
+        [SerializeField] private ObjectPool _pool;
 
         private LTDescr _playerPositionChecker;
         private Vector3 _playerPosition = new Vector3();
@@ -51,14 +52,15 @@ namespace PerpetualJourney
         private void InstantiateLevelPart()
         {
             LevelPart randomLevel = _levelList[Random.Range(0, _levelList.Count)];
-            LevelPart instantiatedLevel = instatiateLevelPart(randomLevel, _lastPosition);
+            LevelPart instantiatedLevel = instantiateLevelPart(randomLevel, _lastPosition);
 
             _lastPosition = instantiatedLevel.LevelEndPosition;
         }
 
-        private LevelPart instatiateLevelPart(LevelPart levelPart, Vector3 instancePosition)
+        private LevelPart instantiateLevelPart(LevelPart levelPart, Vector3 instancePosition)
         {
-            LevelPart part = Instantiate(levelPart, instancePosition, Quaternion.identity);
+            LevelPart part = _pool.GetObject(levelPart);
+            part.transform.position = instancePosition;
             part.Initialize();
             
             return part;
