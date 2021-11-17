@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    [CreateAssetMenu(fileName = "GameEvents", menuName = "Game Events")]
+    [CreateAssetMenu(fileName = "GameEvents", menuName = "PerpetualJourney/Game Events")]
     public class GameEvents : ScriptableObject
     {
         public event Func<Vector3> OnPlayerPositionRequest;

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace PerpetualJourney
 {
-    [CreateAssetMenu(fileName = "InputReader", menuName = "Input Reader")]
+    [CreateAssetMenu(fileName = "InputReader", menuName = "PerpetualJourney/Input Reader")]
     public class InputReader : ScriptableObject,
         GameInputAction.IRunningActions,
         GameInputAction.IDebugControlActions,
