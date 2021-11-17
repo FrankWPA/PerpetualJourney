@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 namespace PerpetualJourney
@@ -13,6 +14,8 @@ namespace PerpetualJourney
 
         public Vector3 LevelEndPosition => _endPosition.position;
 
+        private const int CollectableQuantity = 5;
+        private const float LevelSize = 30;
         private const float ObstacleChance = 0.7f;
         private const float DoubleObstacleChance = 0.2f/ObstacleChance;
         private List<int> _availableLanes;
@@ -39,7 +42,7 @@ namespace PerpetualJourney
                 CreateDecoration();
             }
             
-            CreateCollectable();
+            CreateCollectables(CollectableQuantity, LevelSize);
         }
 
         private void CreateObstacle()
@@ -64,17 +67,37 @@ namespace PerpetualJourney
             OnLevelDisable += decoration.Disable;
         }
 
-        private void CreateCollectable()
+        private void CreateCollectables(int quantity, float levelSize)
+        {
+            int randomLane = Random.Range(0, _availableLanes.Count);
+            float dist = levelSize/(quantity + 1);
+            for(int i = 1; i <= quantity; i++)
+            {
+                Collectable collectable = CreateCollectable(randomLane);
+                collectable.transform.LeanSetLocalPosX(-dist * i);
+            }
+        }
+
+        private Collectable CreateCollectable(int lane)
         {
             Collectable collectable = _pool.GetObject(_collectable);
-            collectable.transform.SetParent(_obstaclePosition, false);
+            collectable.transform.SetParent(transform, false);
 
-            int randomLane = Random.Range(0, _availableLanes.Count);
-            collectable.Initialize(_availableLanes[randomLane], this);
+            collectable.Initialize(_availableLanes[lane], this);
+            return collectable;
         }
 
         private void OnTriggerExit(Collider other)
         {
+            if(other.GetComponentInParent<Player>() != null)
+            {
+                StartCoroutine(DellayedLevelDisableAsync());
+            }
+        }
+
+        private IEnumerator DellayedLevelDisableAsync()
+        {
+            yield return new WaitForSeconds(2);
             OnLevelDisable?.Invoke();
             OnLevelDisable = null;
             Disable();

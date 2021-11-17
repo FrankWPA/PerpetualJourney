@@ -53,6 +53,7 @@ namespace PerpetualJourney
         {
             if (_hasInputActive && !_isChangingLane && _hasGroundContact)
             {
+                _hasGroundContact = false;
                 _rigidbody.AddForce(Vector3.up * _jumpVelocity, ForceMode.VelocityChange);
             }
         }
@@ -66,6 +67,7 @@ namespace PerpetualJourney
                 {
                     _currentLane = targetLane;
                     JumpToLanePosition(_laneChangeAngle);
+                    _hasGroundContact = false;
                     _isChangingLane = true;
                 }
             }
@@ -146,19 +148,6 @@ namespace PerpetualJourney
             {
                 _hasInputActive = true;
             }
-        }
-
-        private void OnCollisionStay(Collision other)
-        {
-            if (!_hasGroundContact)
-            {
-                _hasGroundContact = true;
-            }
-        }
-
-        private void OnCollisionExit(Collision other)
-        {
-            _hasGroundContact = false;
         }
     }
 }
