@@ -9,41 +9,23 @@ namespace PerpetualJourney
         [SerializeField] private Transform _levelGenPosition;
         [SerializeField] private List<LevelPart> _levelList;
         [SerializeField] private GameEvents _gameEvents;
-        [SerializeField] private ObjectPool _pool;
+        [SerializeField] private ObjectPool _objectPool;
 
-        private LTDescr _playerPositionChecker;
         private Vector3 _playerPosition = new Vector3();
-        private Vector3 _lastPosition;
+        private Vector3 _lastLevelPosition;
         
         private const float GenerationDistance = 100f;
         private const float CheckFrequency = 1f;
 
         public void Initialize()
         {
-            _lastPosition = _levelGenPosition.position;
-            
-            _playerPositionChecker = LeanTween.delayedCall(CheckFrequency, () => 
-            {
-                UpdatePlayerPosition(_gameEvents.RequestPlayerPosition());
-            }).setRepeat(-1);
-        }
-
-        private void OnDisable()
-        {
-            LeanTween.cancel(_playerPositionChecker.id);
-        }
-
-        private void UpdatePlayerPosition(Vector3? pos)
-        {
-            if (pos.HasValue)
-            {
-                _playerPosition = pos.Value;
-            }
+            _lastLevelPosition = _levelGenPosition.position;
+            StartCoroutine(PlayerPositionCheckerAsync());
         }
 
         private void Update()
         {
-            if (Vector3.Distance(_playerPosition, _lastPosition) < GenerationDistance)
+            if (Vector3.Distance(_playerPosition, _lastLevelPosition) < GenerationDistance)
             {
                 InstantiateLevelPart();
             }   
@@ -52,18 +34,26 @@ namespace PerpetualJourney
         private void InstantiateLevelPart()
         {
             LevelPart randomLevel = _levelList[Random.Range(0, _levelList.Count)];
-            LevelPart instantiatedLevel = instantiateLevelPart(randomLevel, _lastPosition);
+            LevelPart instantiatedLevel = instantiateLevelPart(randomLevel, _lastLevelPosition);
 
-            _lastPosition = instantiatedLevel.LevelEndPosition;
+            _lastLevelPosition = instantiatedLevel.LevelEndPosition;
         }
 
         private LevelPart instantiateLevelPart(LevelPart levelPart, Vector3 instancePosition)
         {
-            LevelPart part = _pool.GetObject(levelPart);
+            LevelPart part = _objectPool.GetObject(levelPart);
             part.transform.position = instancePosition;
             part.Initialize();
             
             return part;
+        }
+        
+        private IEnumerator PlayerPositionCheckerAsync()
+        {
+            while(true){
+                yield return new WaitForSeconds(CheckFrequency);
+                _gameEvents.RequestPlayerPosition(ref _playerPosition);
+            }
         }
     }
 }

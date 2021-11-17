@@ -6,7 +6,7 @@ namespace PerpetualJourney
 {
     public class Collectable : LaneObject
     {
-        [SerializeField]private LeanTweenType _lean_type;
+        [SerializeField]private LeanTweenType _lean_type = LeanTweenType.easeInOutQuad;
 
         private const float RotateAnimAngles = 360;
         private const float RotateAnimTime = 2;

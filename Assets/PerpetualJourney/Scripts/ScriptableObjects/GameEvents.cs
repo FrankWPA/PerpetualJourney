@@ -11,9 +11,13 @@ namespace PerpetualJourney
         public event Action OnCollectableCollided;
         public event Action<float> OnScoreChanged;
 
-        public Vector3? RequestPlayerPosition()
+        public void RequestPlayerPosition(ref Vector3 result)
         {
-           return OnPlayerPositionRequest?.Invoke();
+           Vector3? requestedPosition =  OnPlayerPositionRequest?.Invoke();
+           if(requestedPosition != null)
+           {
+               result = requestedPosition.Value;
+           }
         }
 
         public void ObstacleCollision()
