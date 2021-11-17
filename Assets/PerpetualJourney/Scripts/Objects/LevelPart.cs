@@ -8,19 +8,21 @@ namespace PerpetualJourney
         [SerializeField] private Transform _obstaclePosition;
         [SerializeField] private Transform _endPosition;
         [SerializeField] private List<Obstacle> _obstacles;
-        [SerializeField] private List<Transform> _decorations;
+        [SerializeField] private List<Decoration> _decorations;
         [SerializeField] private Collectable _collectable;
+
+        public Vector3 LevelEndPosition => _endPosition.position;
 
         private const float ObstacleChance = 0.7f;
         private const float DoubleObstacleChance = 0.2f/ObstacleChance;
-
         private List<int> _availableLanes;
 
-        public Vector3 LevelEndPosition => _endPosition.position;
+        public event System.Action OnLevelDisable;
 
         public void Initialize()
         {
             _availableLanes = new List<int>{-1, 0 , 1};
+            
             float rndValue = Random.Range(0, 1f);
 
             if (ObstacleChance >= rndValue)
@@ -45,6 +47,7 @@ namespace PerpetualJourney
             int rndIndex = Random.Range(0, _obstacles.Count);
             Obstacle obstacle = _pool.GetObject(_obstacles[rndIndex]);
             obstacle.transform.SetParent(_obstaclePosition, false);
+            OnLevelDisable += obstacle.Disable;
 
             int randomLane = Random.Range(0, _availableLanes.Count);
             int obstacleLane = _availableLanes[randomLane];
@@ -56,7 +59,9 @@ namespace PerpetualJourney
         private void CreateDecoration()
         {
             int rndIndex = Random.Range(0, _decorations.Count);
-            Instantiate(_decorations[rndIndex], transform);
+            Decoration decoration = _pool.GetObject(_decorations[rndIndex]);
+            decoration.transform.SetParent(transform, false);
+            OnLevelDisable += decoration.Disable;
         }
 
         private void CreateCollectable()
@@ -65,7 +70,14 @@ namespace PerpetualJourney
             collectable.transform.SetParent(_obstaclePosition, false);
 
             int randomLane = Random.Range(0, _availableLanes.Count);
-            collectable.Initialize(_availableLanes[randomLane]);
+            collectable.Initialize(_availableLanes[randomLane], this);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            OnLevelDisable?.Invoke();
+            OnLevelDisable = null;
+            Disable();
         }
     }
 }

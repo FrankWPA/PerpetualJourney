@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,15 @@ namespace PerpetualJourney
         private const float RotateAnimTime = 2;
         private const float LocalYAnimDelta = 0.5f;
         private const float LocalYAnimTime = 1;
+
+        private LevelPart _levelPart;
+
+        public void Initialize(int lane, LevelPart levelPart)
+        {
+            _levelPart = levelPart;;
+            _levelPart.OnLevelDisable += Disable;
+            Initialize(lane);
+        }
 
         public override void Initialize(int lane)
         {
@@ -28,12 +38,14 @@ namespace PerpetualJourney
 
         private void OnDisable() 
         {
+            transform.LeanSetLocalPosY(0);
             LeanTween.cancel(gameObject);
         }
 
         protected override void CollidedWithPlayer()
         {
             GameEvent.CollectableCollision();
+            _levelPart.OnLevelDisable -= Disable;
             Disable();
         }
     }

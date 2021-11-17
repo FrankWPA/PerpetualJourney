@@ -6,7 +6,7 @@ namespace PerpetualJourney
     {
         [SerializeField]protected ObjectPool _pool;
 
-        protected void Disable()
+        public void Disable()
         {
             _pool.ReturnObject(this);
         }

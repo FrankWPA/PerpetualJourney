@@ -20,6 +20,7 @@ namespace PerpetualJourney
         private Rigidbody _rigidbody;
         private float _laneSize;
         
+        private bool _hasInputActive = false;
         private bool _hasGroundContact = false;
         private bool _isChangingLane = false;
         private int _currentLane = 0;
@@ -45,11 +46,12 @@ namespace PerpetualJourney
             _inputReader.OnSwipeEvent -= OnSwipeMove;
 
             _gameEvents.OnPlayerPositionRequest -= GetCurrentPosition;
+            LeanTween.cancel(gameObject);
         }
 
         private void OnJump()
         {
-            if (_hasGroundContact)
+            if (_hasInputActive && !_isChangingLane && _hasGroundContact)
             {
                 _rigidbody.AddForce(Vector3.up * _jumpVelocity, ForceMode.VelocityChange);
             }
@@ -57,7 +59,7 @@ namespace PerpetualJourney
 
         private void OnMove(int laneValue)
         {
-            if(!_isChangingLane && _hasGroundContact)
+            if(_hasInputActive && !_isChangingLane && _hasGroundContact)
             {
                 int targetLane = _currentLane + laneValue;
                 if (targetLane <= 1 && targetLane >= -1)
@@ -135,6 +137,14 @@ namespace PerpetualJourney
                         _isChangingLane = false;
                     });
                 }
+            }
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if(!_hasInputActive && other.GetComponent<LevelPart>() != null)
+            {
+                _hasInputActive = true;
             }
         }
 

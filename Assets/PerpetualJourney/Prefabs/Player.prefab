@@ -178,7 +178,7 @@ MonoBehaviour:
   _maxVelocity: 14
   _acceleration: 0.2
   _jumpVelocity: 7
-  _laneInputDelay: 0.25
+  _laneInputDelay: 0.2
   _laneChangeAngle: 40
 --- !u!1 &8524557642685602403
 GameObject:

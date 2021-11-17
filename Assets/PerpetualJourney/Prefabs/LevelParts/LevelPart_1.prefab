@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6859861490475860045}
   - component: {fileID: 1128411255489217379}
+  - component: {fileID: 5199532031217484497}
   m_Layer: 0
   m_Name: LevelPart_1
   m_TagString: Untagged
@@ -83,10 +84,22 @@ MonoBehaviour:
   - {fileID: 8825946375275464886, guid: d98b6136031639d48984a6ce1a03319c, type: 3}
   - {fileID: 7163785643021465362, guid: dadb4b7b46ec4e74ab3eae7ec0e48eb7, type: 3}
   _decorations:
-  - {fileID: 8591227130830096709, guid: e34017ebaa0644345bcab813d7ec819a, type: 3}
-  - {fileID: 7262985456117150917, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
+  - {fileID: 1494600247974337470, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
+  - {fileID: 2590444450024099069, guid: e34017ebaa0644345bcab813d7ec819a, type: 3}
   _collectable: {fileID: 1808560575, guid: 2929d7dc65d295e4ebb3cefcb0a112b0, type: 3}
-  _obstacleChance: 0.7
+--- !u!65 &5199532031217484497
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4697400252068163318}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 31, y: 6, z: 12}
+  m_Center: {x: -15, y: 3, z: 0}
 --- !u!1 &8600959157143754509
 GameObject:
   m_ObjectHideFlags: 0

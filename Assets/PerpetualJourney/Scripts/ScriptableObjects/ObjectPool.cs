@@ -15,12 +15,14 @@ namespace PerpetualJourney
             {
                 if(objectQueue.Count != 0)
                 {
-                    T dequeuedObject = (T)objectQueue.Dequeue();
-                    dequeuedObject.gameObject.SetActive(true);
-                    return dequeuedObject;
+                    PoolableObject dequeuedObject = objectQueue.Dequeue();
+                    if(dequeuedObject != null) 
+                    {
+                        dequeuedObject.gameObject.SetActive(true);
+                        return (T)dequeuedObject;
+                    }
                 }
             }
-            
             return InstantiateNewObject(poolableObject);
         }
 

@@ -175,7 +175,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1582272204126388, guid: f15021aa3669c470bb7b81c65600255f, type: 3}
       propertyPath: m_Name
-      value: pumkin-helloween
+      value: SpookyPumpkin
       objectReference: {fileID: 0}
     - target: {fileID: 1582272204126388, guid: f15021aa3669c470bb7b81c65600255f, type: 3}
       propertyPath: m_Layer
@@ -247,8 +247,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f15021aa3669c470bb7b81c65600255f, type: 3}
+--- !u!1 &8588051882531018797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1582272204126388, guid: f15021aa3669c470bb7b81c65600255f, type: 3}
+  m_PrefabInstance: {fileID: 8587094274263802009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8591227130830096709 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4880939811039708, guid: f15021aa3669c470bb7b81c65600255f, type: 3}
   m_PrefabInstance: {fileID: 8587094274263802009}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2590444450024099069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8588051882531018797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d58c7bcf935d4498513637fa7b7053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pool: {fileID: 11400000, guid: badf230dc6e8aa84aa747404b0a5c4e9, type: 2}

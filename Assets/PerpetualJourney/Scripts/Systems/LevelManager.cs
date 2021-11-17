@@ -15,20 +15,17 @@ namespace PerpetualJourney
         private Vector3 _lastLevelPosition;
         
         private const float GenerationDistance = 100f;
-        private const float CheckFrequency = 1f;
+        private const float CheckFrequency = 5f;
 
         public void Initialize()
         {
             _lastLevelPosition = _levelGenPosition.position;
             StartCoroutine(PlayerPositionCheckerAsync());
-        }
-
-        private void Update()
-        {
-            if (Vector3.Distance(_playerPosition, _lastLevelPosition) < GenerationDistance)
+            
+            for(int i = 0; i < 6; i++)
             {
                 InstantiateLevelPart();
-            }   
+            }
         }
 
         private void InstantiateLevelPart()
@@ -53,6 +50,17 @@ namespace PerpetualJourney
             while(true){
                 yield return new WaitForSeconds(CheckFrequency);
                 _gameEvents.RequestPlayerPosition(ref _playerPosition);
+
+                StartCoroutine(GenerateLevelAsync());
+            }
+        }
+
+        private IEnumerator GenerateLevelAsync()
+        {
+            while (Vector3.Distance(_playerPosition, _lastLevelPosition) < GenerationDistance)
+            {
+                InstantiateLevelPart();
+                yield return null;
             }
         }
     }

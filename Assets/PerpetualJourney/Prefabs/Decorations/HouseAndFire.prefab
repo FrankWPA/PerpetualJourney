@@ -164,7 +164,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1169681003932024, guid: 06b472f147551488aa5393e9477e4e0b, type: 3}
       propertyPath: m_Name
-      value: farm-house
+      value: HouseAndFire
       objectReference: {fileID: 0}
     - target: {fileID: 1169681003932024, guid: 06b472f147551488aa5393e9477e4e0b, type: 3}
       propertyPath: m_IsActive
@@ -216,8 +216,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06b472f147551488aa5393e9477e4e0b, type: 3}
+--- !u!1 &7268485914040765845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1169681003932024, guid: 06b472f147551488aa5393e9477e4e0b, type: 3}
+  m_PrefabInstance: {fileID: 7267401033564415213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7262985456117150917 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4979098901876776, guid: 06b472f147551488aa5393e9477e4e0b, type: 3}
   m_PrefabInstance: {fileID: 7267401033564415213}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1494600247974337470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7268485914040765845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d58c7bcf935d4498513637fa7b7053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pool: {fileID: 11400000, guid: badf230dc6e8aa84aa747404b0a5c4e9, type: 2}
