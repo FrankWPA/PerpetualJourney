@@ -84,6 +84,7 @@ MonoBehaviour:
   _decorations:
   - {fileID: 8591227130830096709, guid: e34017ebaa0644345bcab813d7ec819a, type: 3}
   - {fileID: 7262985456117150917, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
+  _colectable: {fileID: 1808560575, guid: 2929d7dc65d295e4ebb3cefcb0a112b0, type: 3}
   _obstacleChance: 0.7
 --- !u!1 &8600959157143754509
 GameObject:

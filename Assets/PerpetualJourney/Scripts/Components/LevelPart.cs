@@ -9,7 +9,10 @@ namespace PerpetualJourney
         [SerializeField] private Transform _endPosition;
         [SerializeField] private List<Obstacle> _obstacles;
         [SerializeField] private List<Transform> _decorations;
+        [SerializeField] private Colectable _colectable;
         [SerializeField] private float _obstacleChance = 0.7f;
+
+        private List<int> _lanes = new List<int>{-1, 0 , 1};
 
         public Vector3 LevelEndPosition => _endPosition.position;
 
@@ -24,6 +27,8 @@ namespace PerpetualJourney
             {
                 CreateDecoration();
             }
+            
+            CreateCollectable();
         }
 
         private void CreateObstacle()
@@ -31,7 +36,10 @@ namespace PerpetualJourney
             int rndIndex = Random.Range(0, _obstacles.Count);
             Obstacle randomObstacle = Instantiate(_obstacles[rndIndex], _obstaclePosition);
 
-            int obstacleLane = Random.Range(-1, 2);
+            rndIndex = Random.Range(0, _lanes.Count);
+            int obstacleLane = _lanes[rndIndex];
+            _lanes.RemoveAt(rndIndex);
+
             randomObstacle.Initialize(obstacleLane);
         }
 
@@ -39,6 +47,13 @@ namespace PerpetualJourney
         {
             int rndIndex = Random.Range(0, _decorations.Count);
             Instantiate(_decorations[rndIndex], transform);
+        }
+
+        private void CreateCollectable()
+        {
+            int rndIndex = Random.Range(0, _lanes.Count);
+            Colectable colectable = Instantiate(_colectable, _obstaclePosition);
+            colectable.Initialize(_lanes[rndIndex]);
         }
     }
 }

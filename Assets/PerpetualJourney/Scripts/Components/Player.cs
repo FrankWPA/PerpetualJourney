@@ -12,6 +12,7 @@ namespace PerpetualJourney
         [SerializeField]private GameEvents _gameEvents;
 
         public bool IsAlive {get; private set;} = true;
+        public float Score {get; private set;}
 
         public void Initialize()
         {
@@ -19,6 +20,7 @@ namespace PerpetualJourney
             _cameraFocus.Initialize(_laneController.transform);
 
             _gameEvents.OnObstacleCollided += OnObstacleCollided;
+            _gameEvents.OnCollectableCollided += OnCollecting;
         }
 
         private void OnDisable()
@@ -30,6 +32,12 @@ namespace PerpetualJourney
         {
             IsAlive = false;
             _laneController.gameObject.SetActive(false);
+        }
+
+        private void OnCollecting()
+        {
+            Score += 1;
+            _gameEvents.IncreasePlayerScore(Score);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace PerpetualJourney
         protected override void CollidedWithPlayer()
         {
             GameEvent.ColectableCollision();
+            gameObject.SetActive(false);
         }
     }
 }

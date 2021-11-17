@@ -27,10 +27,10 @@ namespace PerpetualJourney
             lanePos.z = _lane * _laneSize;
             transform.position = lanePos;
         }
-
-        private void OnCollisionEnter(Collision other)
+        
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.rigidbody.GetComponentInParent<Player>() != null)
+            if (other.GetComponentInParent<Player>() != null)
             {
                 CollidedWithPlayer();
             }
