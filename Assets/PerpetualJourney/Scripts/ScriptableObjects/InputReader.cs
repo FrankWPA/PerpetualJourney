@@ -2,24 +2,25 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace PerpetualJourney
 {
     [CreateAssetMenu(fileName = "InputReader", menuName = "PerpetualJourney/Input Reader")]
     public class InputReader : ScriptableObject,
         GameInputAction.IRunningActions,
-        GameInputAction.IDebugControlActions,
-        GameInputAction.ITouchSwipeActions
+        GameInputAction.IMenuControlActions
     {
-        [SerializeField]private float _swipeRange = 300;
-        [SerializeField]private float _tapRange = 100;
-        [SerializeField]private double _swipeTime = 1;
+        [SerializeField]private float _swipeRange = 200;
+        [SerializeField]private float _tapRange = 90;
+        [SerializeField]private double _swipeTime = 0.9;
 
         public event Action<int> OnMoveEvent;
         public event Action<Vector2> OnSwipeEvent;
         public event Action OnJumpEvent;
         public event Action OnCloseEvent;
         public event Action OnResetEvent;
+        public event Action OnTapEvent;
 
         private GameInputAction _inputAction;
         private Vector2 _startTouchPosition;
@@ -33,26 +34,30 @@ namespace PerpetualJourney
             {
                 _inputAction = new GameInputAction();
                 _inputAction.Running.SetCallbacks(this);
-                _inputAction.DebugControl.SetCallbacks(this);
-                _inputAction.TouchSwipe.SetCallbacks(this);
+                _inputAction.MenuControl.SetCallbacks(this);
             }
             _inputAction.Enable();
+
+            EnhancedTouchSupport.Enable();
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += OnFingerStartTouch;
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp += OnFingerEndTouch;
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove += OnFingerMove;
         }
 
-        private void OnDisable()
+        public void ForceReset()
         {
-            _inputAction.Disable();
+            OnResetEvent?.Invoke();
         }
 
-        public void OnResetScene(InputAction.CallbackContext context)
+        public void OnTap(InputAction.CallbackContext context)
         {
             if(context.performed)
             {
-                OnResetEvent?.Invoke();
+                OnTapEvent?.Invoke();
             }
         }
 
-        public void OnCloseGame(InputAction.CallbackContext context)
+        public void OnReturn(InputAction.CallbackContext context)
         {
             if(context.performed)
             {
@@ -76,27 +81,35 @@ namespace PerpetualJourney
             }
         }
 
-        public void OnContact(InputAction.CallbackContext context)
+        private void OnFingerStartTouch(Finger finger)
         {
-            if(context.ReadValue<float>() == 1)
-            {
-                StartTouch(context);
-            }
-            else
-            {
-                EndTouch(context);
-            }
+            SetStartTouch(finger.screenPosition, Time.time);
         }
 
-        public void OnPosition(InputAction.CallbackContext context)
+        private void OnFingerEndTouch(Finger finger)
+        {
+            _swipePressed = false;
+
+            Vector2 endTouchPosition = finger.screenPosition;
+            DetectSwipe(endTouchPosition - _startTouchPosition);
+        }
+
+        private void SetStartTouch(Vector2 position, double currentTime)
+        {
+            _startTouchPosition = position;
+            _startTime = currentTime;
+            _swipePressed = true;
+        }
+
+        public void OnFingerMove(Finger finger)
         {
             if(!_swipePressed)
             {
                 return;
             }
 
-            Vector2 currentTouchPosition = _inputAction.TouchSwipe.Position.ReadValue<Vector2>();
-            double currentTime = context.time;
+            Vector2 currentTouchPosition = finger.screenPosition;
+            double currentTime = Time.time;
 
             if(currentTime >= (_startTime + _swipeTime))
             {
@@ -118,29 +131,8 @@ namespace PerpetualJourney
                     _startTouchPosition.y = currentTouchPosition.y;
                 }
 
-                _startTime = context.startTime;
+                _startTime = currentTime;
             }
-        }
-
-        private void StartTouch(InputAction.CallbackContext context)
-        {
-            Vector2 position = _inputAction.TouchSwipe.Position.ReadValue<Vector2>();
-            SetStartTouch(position, context.startTime);
-        }
-
-        private void SetStartTouch(Vector2 position, double currentTime)
-        {
-            _startTouchPosition = position;
-            _startTime = currentTime;
-            _swipePressed = true;
-        }
-
-        private void EndTouch(InputAction.CallbackContext context)
-        {
-            _swipePressed = false;
-
-            Vector2 endTouchPosition = _inputAction.TouchSwipe.Position.ReadValue<Vector2>();
-            DetectSwipe(endTouchPosition - _startTouchPosition);
         }
 
         private Vector2 DetectSwipe(Vector2 swipeValue)
@@ -165,6 +157,15 @@ namespace PerpetualJourney
 
             OnSwipeEvent?.Invoke(swipeResult);
             return swipeResult;
+        }
+
+        private void OnDisable()
+        {
+            _inputAction.Disable();
+            
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= OnFingerStartTouch;
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= OnFingerEndTouch;
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove -= OnFingerMove;
         }
     }
 }

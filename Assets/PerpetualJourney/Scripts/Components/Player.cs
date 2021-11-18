@@ -12,7 +12,7 @@ namespace PerpetualJourney
         [SerializeField]private GameEvents _gameEvents;
 
         public bool IsAlive {get; private set;} = true;
-        public float Score {get; private set;}
+        public int Score {get; private set;}
 
         public void Initialize()
         {
@@ -32,6 +32,7 @@ namespace PerpetualJourney
         {
             IsAlive = false;
             _laneController.gameObject.SetActive(false);
+            _inputReader.ForceReset();
         }
 
         private void OnCollecting()

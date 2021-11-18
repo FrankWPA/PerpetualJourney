@@ -9,7 +9,7 @@ namespace PerpetualJourney
         public event Func<Vector3> OnPlayerPositionRequest;
         public event Action OnObstacleCollided;
         public event Action OnCollectableCollided;
-        public event Action<float> OnScoreChanged;
+        public event Action<int> OnScoreChanged;
 
         public void RequestPlayerPosition(ref Vector3 result)
         {
@@ -30,7 +30,7 @@ namespace PerpetualJourney
             OnCollectableCollided?.Invoke();
         }
 
-        public void IncreasePlayerScore(float score)
+        public void IncreasePlayerScore(int score)
         {
             OnScoreChanged?.Invoke(score);
         }

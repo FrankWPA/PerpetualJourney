@@ -66,9 +66,9 @@ namespace PerpetualJourney
                 if (targetLane <= 1 && targetLane >= -1)
                 {
                     _currentLane = targetLane;
-                    JumpToLanePosition(_laneChangeAngle);
                     _hasGroundContact = false;
                     _isChangingLane = true;
+                    JumpToLanePosition(_laneChangeAngle);
                 }
             }
         }

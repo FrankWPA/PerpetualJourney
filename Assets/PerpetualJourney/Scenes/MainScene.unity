@@ -216,6 +216,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 460814187}
   _inputReader: {fileID: 11400000, guid: 0ffad885cba58e241bdfff4a0e4599c3, type: 2}
+  _gameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
+  _scoreText: {fileID: 7444805562493132923}
 --- !u!1 &36738513
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +278,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36738513}
-  m_LocalRotation: {x: 0.4343324, y: -0.55799234, z: 0.43433213, w: 0.5579925}
+  m_LocalRotation: {x: 0.43433228, y: -0.55799234, z: 0.4343323, w: 0.55799234}
   m_LocalPosition: {x: 3.83, y: 11.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -627,7 +629,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881906011}
-  m_LocalRotation: {x: 0.4343324, y: -0.55799234, z: 0.43433213, w: 0.5579925}
+  m_LocalRotation: {x: 0.43433228, y: -0.55799234, z: 0.4343323, w: 0.55799234}
   m_LocalPosition: {x: 3.83, y: 11.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -907,7 +909,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -934,23 +936,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &3624409850724274957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624409850724274958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &3624409850724274958
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,7 +947,6 @@ GameObject:
   - component: {fileID: 3624409850724274946}
   - component: {fileID: 3624409850724274947}
   - component: {fileID: 3624409850724274956}
-  - component: {fileID: 3624409850724274957}
   m_Layer: 5
   m_Name: GameUi
   m_TagString: Untagged

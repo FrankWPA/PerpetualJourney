@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace PerpetualJourney
 {
@@ -10,11 +11,14 @@ namespace PerpetualJourney
     {
         [SerializeField]private Player _player;
         [SerializeField]private InputReader _inputReader;
+        [SerializeField]private GameEvents _gameEvents;
+        [SerializeField]private TextMeshProUGUI _scoreText;
 
         public void Initialize()
         {
             _inputReader.OnResetEvent += OnResetEvent;
             _inputReader.OnCloseEvent += OnCloseEvent;
+            _gameEvents.OnScoreChanged += UpdateTextScore;
             _player.Initialize();
         }
 
@@ -22,6 +26,12 @@ namespace PerpetualJourney
         {
             _inputReader.OnResetEvent -= OnResetEvent;
             _inputReader.OnCloseEvent -= OnCloseEvent;
+            _gameEvents.OnScoreChanged -= UpdateTextScore;
+        }
+
+        private void UpdateTextScore(int score)
+        {
+            _scoreText.SetText("Score: {0}", score);
         }
 
         private void OnResetEvent()
@@ -31,13 +41,7 @@ namespace PerpetualJourney
 
         private void OnCloseEvent()
         {
-
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }
