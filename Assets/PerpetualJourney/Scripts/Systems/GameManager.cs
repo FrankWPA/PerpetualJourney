@@ -10,25 +10,26 @@ namespace PerpetualJourney
     public class GameManager : MonoBehaviour
     {
         [SerializeField]private Player _player;
-        [SerializeField]private InputReader _inputReader;
         [SerializeField]private GameEvents _gameEvents;
         [SerializeField]private TextMeshProUGUI _scoreText;
 
         public void Initialize()
         {
-            _inputReader.Initialize();
-            _inputReader.OnResetEvent += OnResetEvent;
-            _inputReader.OnCloseEvent += OnCloseEvent;
+            PersistentLoaderSystem.instance.GameIsLoaded += ActivatePlayer;
             _gameEvents.OnScoreChanged += UpdateTextScore;
             _player.Initialize();
+
         }
 
         private void OnDisable()
         {
-            _inputReader.OnResetEvent -= OnResetEvent;
-            _inputReader.OnCloseEvent -= OnCloseEvent;
+            PersistentLoaderSystem.instance.GameIsLoaded -= ActivatePlayer;
             _gameEvents.OnScoreChanged -= UpdateTextScore;
-            _inputReader.DisableReader();
+        }
+
+        private void ActivatePlayer()
+        {
+            _player.gameObject.SetActive(true);
         }
 
         private void UpdateTextScore(int score)

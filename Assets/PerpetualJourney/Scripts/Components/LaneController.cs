@@ -36,7 +36,7 @@ namespace PerpetualJourney
             _gameEvents.OnPlayerPositionRequest += GetCurrentPosition;
 
             _rigidbody = GetComponent<Rigidbody>();
-            _laneSize = GameSystem.Current.LaneSize;
+            _laneSize = GameSystem.instance.LaneSize;
         }
 
         private void OnDisable()

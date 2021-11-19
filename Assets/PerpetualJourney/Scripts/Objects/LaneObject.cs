@@ -16,7 +16,7 @@ namespace PerpetualJourney
         public virtual void Initialize(int lane)
         {
             _lane = lane;
-            _laneSize = GameSystem.Current.LaneSize;
+            _laneSize = GameSystem.instance.LaneSize;
             SetLanePosition();
         }
 

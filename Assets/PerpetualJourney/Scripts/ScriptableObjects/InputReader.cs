@@ -28,7 +28,6 @@ namespace PerpetualJourney
 
         public void Initialize()
         {
-            Debug.Log("Enabled");
             if (_inputAction == null)
             {
                 _inputAction = new GameInputAction();
@@ -44,11 +43,10 @@ namespace PerpetualJourney
 
         public void DisableReader()
         {
-            Debug.Log("Disabled");
-            
             UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= OnFingerStartTouch;
             UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= OnFingerEndTouch;
             UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove -= OnFingerMove;
+            EnhancedTouchSupport.Disable();
         }
 
         // DebugOnly
@@ -105,10 +103,8 @@ namespace PerpetualJourney
         {
             if(!_swipePressed)
             {
-                Debug.Log("Not pressed");
                 return;
             }
-            Debug.Log("pressed");
 
             Vector2 currentTouchPosition = finger.screenPosition;
             double currentTime = Time.time;
