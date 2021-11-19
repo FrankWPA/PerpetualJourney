@@ -13,8 +13,8 @@ namespace PerpetualJourney
         public static GameSystem Current {get; private set;}
         public float LaneSize => _laneSize;
         
-        private void Awake()
-        {
+        private void Start()
+        {         
             if (Current == null)
             {
                 Current = this;

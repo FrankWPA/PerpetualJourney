@@ -35,6 +35,14 @@ namespace PerpetualJourney
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Return"",
+                    ""type"": ""Button"",
+                    ""id"": ""3794a532-da76-4fec-ad69-60736f4ebcf8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -81,56 +89,10 @@ namespace PerpetualJourney
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""MenuControl"",
-            ""id"": ""0a94e402-0e9c-408d-8063-f426a0b99e07"",
-            ""actions"": [
-                {
-                    ""name"": ""Tap"",
-                    ""type"": ""Button"",
-                    ""id"": ""2f61cf97-204d-4f84-9b74-85946bf7a491"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Return"",
-                    ""type"": ""Button"",
-                    ""id"": ""66e09fdf-c571-4a95-95a9-12dca08f2219"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""1ffa104a-480e-4525-8786-ed83a5cef8e5"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Tap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5c80aa1c-0fde-4efb-91a1-29d69a89a033"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Tap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""52207ad5-2c79-4cd8-9d5e-1274b7431c2e"",
+                    ""id"": ""96e9283f-f7e8-4648-855e-d249191ac9b1"",
                     ""path"": ""<Keyboard>/backspace"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -141,7 +103,7 @@ namespace PerpetualJourney
                 },
                 {
                     ""name"": """",
-                    ""id"": ""585ba111-ef06-4587-82d5-c6916d1ecea5"",
+                    ""id"": ""e651f0b2-c6c7-4b4a-93a5-078cf6be1f08"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -159,10 +121,7 @@ namespace PerpetualJourney
             m_Running = asset.FindActionMap("Running", throwIfNotFound: true);
             m_Running_Movement = m_Running.FindAction("Movement", throwIfNotFound: true);
             m_Running_Jump = m_Running.FindAction("Jump", throwIfNotFound: true);
-            // MenuControl
-            m_MenuControl = asset.FindActionMap("MenuControl", throwIfNotFound: true);
-            m_MenuControl_Tap = m_MenuControl.FindAction("Tap", throwIfNotFound: true);
-            m_MenuControl_Return = m_MenuControl.FindAction("Return", throwIfNotFound: true);
+            m_Running_Return = m_Running.FindAction("Return", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -214,12 +173,14 @@ namespace PerpetualJourney
         private IRunningActions m_RunningActionsCallbackInterface;
         private readonly InputAction m_Running_Movement;
         private readonly InputAction m_Running_Jump;
+        private readonly InputAction m_Running_Return;
         public struct RunningActions
         {
             private @GameInputAction m_Wrapper;
             public RunningActions(@GameInputAction wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Running_Movement;
             public InputAction @Jump => m_Wrapper.m_Running_Jump;
+            public InputAction @Return => m_Wrapper.m_Running_Return;
             public InputActionMap Get() { return m_Wrapper.m_Running; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -235,6 +196,9 @@ namespace PerpetualJourney
                     @Jump.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
+                    @Return.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnReturn;
+                    @Return.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnReturn;
+                    @Return.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnReturn;
                 }
                 m_Wrapper.m_RunningActionsCallbackInterface = instance;
                 if (instance != null)
@@ -245,59 +209,17 @@ namespace PerpetualJourney
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
-                }
-            }
-        }
-        public RunningActions @Running => new RunningActions(this);
-
-        // MenuControl
-        private readonly InputActionMap m_MenuControl;
-        private IMenuControlActions m_MenuControlActionsCallbackInterface;
-        private readonly InputAction m_MenuControl_Tap;
-        private readonly InputAction m_MenuControl_Return;
-        public struct MenuControlActions
-        {
-            private @GameInputAction m_Wrapper;
-            public MenuControlActions(@GameInputAction wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Tap => m_Wrapper.m_MenuControl_Tap;
-            public InputAction @Return => m_Wrapper.m_MenuControl_Return;
-            public InputActionMap Get() { return m_Wrapper.m_MenuControl; }
-            public void Enable() { Get().Enable(); }
-            public void Disable() { Get().Disable(); }
-            public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(MenuControlActions set) { return set.Get(); }
-            public void SetCallbacks(IMenuControlActions instance)
-            {
-                if (m_Wrapper.m_MenuControlActionsCallbackInterface != null)
-                {
-                    @Tap.started -= m_Wrapper.m_MenuControlActionsCallbackInterface.OnTap;
-                    @Tap.performed -= m_Wrapper.m_MenuControlActionsCallbackInterface.OnTap;
-                    @Tap.canceled -= m_Wrapper.m_MenuControlActionsCallbackInterface.OnTap;
-                    @Return.started -= m_Wrapper.m_MenuControlActionsCallbackInterface.OnReturn;
-                    @Return.performed -= m_Wrapper.m_MenuControlActionsCallbackInterface.OnReturn;
-                    @Return.canceled -= m_Wrapper.m_MenuControlActionsCallbackInterface.OnReturn;
-                }
-                m_Wrapper.m_MenuControlActionsCallbackInterface = instance;
-                if (instance != null)
-                {
-                    @Tap.started += instance.OnTap;
-                    @Tap.performed += instance.OnTap;
-                    @Tap.canceled += instance.OnTap;
                     @Return.started += instance.OnReturn;
                     @Return.performed += instance.OnReturn;
                     @Return.canceled += instance.OnReturn;
                 }
             }
         }
-        public MenuControlActions @MenuControl => new MenuControlActions(this);
+        public RunningActions @Running => new RunningActions(this);
         public interface IRunningActions
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
-        }
-        public interface IMenuControlActions
-        {
-            void OnTap(InputAction.CallbackContext context);
             void OnReturn(InputAction.CallbackContext context);
         }
     }

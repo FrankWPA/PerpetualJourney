@@ -41,9 +41,12 @@ namespace PerpetualJourney
 
         private void OnDisable()
         {
-            _inputReader.OnJumpEvent -= OnJump;
-            _inputReader.OnMoveEvent -= OnMove;
-            _inputReader.OnSwipeEvent -= OnSwipeMove;
+            if (_inputReader != null)
+            {
+                _inputReader.OnJumpEvent -= OnJump;
+                _inputReader.OnMoveEvent -= OnMove;
+                _inputReader.OnSwipeEvent -= OnSwipeMove;
+            }
 
             _gameEvents.OnPlayerPositionRequest -= GetCurrentPosition;
             LeanTween.cancel(gameObject);

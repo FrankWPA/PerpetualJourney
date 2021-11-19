@@ -20,6 +20,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "3794a532-da76-4fec-ad69-60736f4ebcf8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -66,56 +74,10 @@
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "MenuControl",
-            "id": "0a94e402-0e9c-408d-8063-f426a0b99e07",
-            "actions": [
-                {
-                    "name": "Tap",
-                    "type": "Button",
-                    "id": "2f61cf97-204d-4f84-9b74-85946bf7a491",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Return",
-                    "type": "Button",
-                    "id": "66e09fdf-c571-4a95-95a9-12dca08f2219",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "1ffa104a-480e-4525-8786-ed83a5cef8e5",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tap",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "5c80aa1c-0fde-4efb-91a1-29d69a89a033",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tap",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "52207ad5-2c79-4cd8-9d5e-1274b7431c2e",
+                    "id": "96e9283f-f7e8-4648-855e-d249191ac9b1",
                     "path": "<Keyboard>/backspace",
                     "interactions": "",
                     "processors": "",
@@ -126,7 +88,7 @@
                 },
                 {
                     "name": "",
-                    "id": "585ba111-ef06-4587-82d5-c6916d1ecea5",
+                    "id": "e651f0b2-c6c7-4b4a-93a5-078cf6be1f08",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",

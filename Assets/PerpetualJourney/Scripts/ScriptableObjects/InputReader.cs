@@ -8,8 +8,7 @@ namespace PerpetualJourney
 {
     [CreateAssetMenu(fileName = "InputReader", menuName = "PerpetualJourney/Input Reader")]
     public class InputReader : ScriptableObject,
-        GameInputAction.IRunningActions,
-        GameInputAction.IMenuControlActions
+        GameInputAction.IRunningActions
     {
         [SerializeField]private float _swipeRange = 200;
         [SerializeField]private float _tapRange = 90;
@@ -20,7 +19,6 @@ namespace PerpetualJourney
         public event Action OnJumpEvent;
         public event Action OnCloseEvent;
         public event Action OnResetEvent;
-        public event Action OnTapEvent;
 
         private GameInputAction _inputAction;
         private Vector2 _startTouchPosition;
@@ -28,13 +26,13 @@ namespace PerpetualJourney
         private bool _swipePressed = false;
         private double _startTime;
 
-        private void OnEnable()
+        public void Initialize()
         {
+            Debug.Log("Enabled");
             if (_inputAction == null)
             {
                 _inputAction = new GameInputAction();
                 _inputAction.Running.SetCallbacks(this);
-                _inputAction.MenuControl.SetCallbacks(this);
             }
             _inputAction.Enable();
 
@@ -44,17 +42,19 @@ namespace PerpetualJourney
             UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove += OnFingerMove;
         }
 
+        public void DisableReader()
+        {
+            Debug.Log("Disabled");
+            
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= OnFingerStartTouch;
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= OnFingerEndTouch;
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove -= OnFingerMove;
+        }
+
+        // DebugOnly
         public void ForceReset()
         {
             OnResetEvent?.Invoke();
-        }
-
-        public void OnTap(InputAction.CallbackContext context)
-        {
-            if(context.performed)
-            {
-                OnTapEvent?.Invoke();
-            }
         }
 
         public void OnReturn(InputAction.CallbackContext context)
@@ -105,8 +105,10 @@ namespace PerpetualJourney
         {
             if(!_swipePressed)
             {
+                Debug.Log("Not pressed");
                 return;
             }
+            Debug.Log("pressed");
 
             Vector2 currentTouchPosition = finger.screenPosition;
             double currentTime = Time.time;
@@ -157,15 +159,6 @@ namespace PerpetualJourney
 
             OnSwipeEvent?.Invoke(swipeResult);
             return swipeResult;
-        }
-
-        private void OnDisable()
-        {
-            _inputAction.Disable();
-            
-            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= OnFingerStartTouch;
-            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= OnFingerEndTouch;
-            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove -= OnFingerMove;
         }
     }
 }

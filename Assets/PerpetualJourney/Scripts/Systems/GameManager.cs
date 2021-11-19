@@ -16,6 +16,7 @@ namespace PerpetualJourney
 
         public void Initialize()
         {
+            _inputReader.Initialize();
             _inputReader.OnResetEvent += OnResetEvent;
             _inputReader.OnCloseEvent += OnCloseEvent;
             _gameEvents.OnScoreChanged += UpdateTextScore;
@@ -27,6 +28,7 @@ namespace PerpetualJourney
             _inputReader.OnResetEvent -= OnResetEvent;
             _inputReader.OnCloseEvent -= OnCloseEvent;
             _gameEvents.OnScoreChanged -= UpdateTextScore;
+            _inputReader.DisableReader();
         }
 
         private void UpdateTextScore(int score)
