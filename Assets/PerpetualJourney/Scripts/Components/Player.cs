@@ -22,6 +22,14 @@ namespace PerpetualJourney
             _gameEvents.OnCollectableCollided += OnCollecting;
         }
 
+        public void SceneReset()
+        {
+            Score = 0;
+            _gameEvents.IncreasePlayerScore(Score);
+            _laneController.transform.position = transform.position;
+            _laneController.SceneReset();
+        }
+
         private void OnDisable()
         {
             _inputReader.DisableReader();
@@ -31,7 +39,6 @@ namespace PerpetualJourney
         private void OnObstacleCollided()
         {
             _laneController.gameObject.SetActive(false);
-            _inputReader.ForceReset(); //!To help Debug only
         }
 
         private void OnCollecting()

@@ -12,18 +12,28 @@ namespace PerpetualJourney
         [SerializeField]private Player _player;
         [SerializeField]private GameEvents _gameEvents;
         [SerializeField]private TextMeshProUGUI _scoreText;
+        [SerializeField]private GameObject _gameOverUi;
+        
 
         public void Initialize()
         {
             PersistentLoaderSystem.instance.GameIsLoaded += ActivatePlayer;
+            _gameEvents.OnObstacleCollided += OnGameOver;
             _gameEvents.OnScoreChanged += UpdateTextScore;
             _player.Initialize();
+        }
 
+        public void SceneReset()
+        {
+            _player.SceneReset();
+            _scoreText.gameObject.SetActive(true);
+            _gameOverUi.gameObject.SetActive(false);
         }
 
         private void OnDisable()
         {
             PersistentLoaderSystem.instance.GameIsLoaded -= ActivatePlayer;
+            _gameEvents.OnObstacleCollided -= OnGameOver;
             _gameEvents.OnScoreChanged -= UpdateTextScore;
         }
 
@@ -37,14 +47,10 @@ namespace PerpetualJourney
             _scoreText.SetText("Score: {0}", score);
         }
 
-        private void OnResetEvent()
+        private void OnGameOver()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
-        private void OnCloseEvent()
-        {
-            SceneManager.LoadScene("MainMenu");
+            _scoreText.gameObject.SetActive(false);
+            _gameOverUi.gameObject.SetActive(true);
         }
     }
 }

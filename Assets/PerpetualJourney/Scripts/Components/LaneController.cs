@@ -28,15 +28,34 @@ namespace PerpetualJourney
         public void Initialize(InputReader inputReader, GameEvents gameEvents)
         {
             _inputReader = inputReader;
-            _inputReader.OnJumpEvent += OnJump;
-            _inputReader.OnMoveEvent += OnMove;
-            _inputReader.OnSwipeEvent += OnSwipeMove;
-
             _gameEvents = gameEvents;
-            _gameEvents.OnPlayerPositionRequest += GetCurrentPosition;
 
             _rigidbody = GetComponent<Rigidbody>();
             _laneSize = GameSystem.instance.LaneSize;
+
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            _inputReader.OnJumpEvent += OnJump;
+            _inputReader.OnMoveEvent += OnMove;
+            _inputReader.OnSwipeEvent += OnSwipeMove;
+            _gameEvents.OnPlayerPositionRequest += GetCurrentPosition;
+        }
+
+        public void SceneReset()
+        {
+            
+            gameObject.SetActive(true);
+            _rigidbody.velocity = Vector3.zero;
+            
+            _hasInputActive = false;
+            _hasGroundContact = false;
+            _isChangingLane = false;
+            _currentLane = 0;
+
+            Initialize();
         }
 
         private void OnDisable()

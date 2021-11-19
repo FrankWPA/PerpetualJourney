@@ -18,19 +18,36 @@ namespace PerpetualJourney
         private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
         private float _sceneProgress;
 
+        public void LoadMenu()
+        {
+            _scenesLoading.Add(SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive));
+
+            UnloadCurrentScene(0);
+            StartCoroutine(SceneLoadingProgress(1));
+        }
+        
         public void LoadGame()
         {
             _scenesLoading.Add(SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive));
             StartCoroutine(SceneLoadingProgress(2));
-            StartCoroutine(GetTotalProgress());
+            StartCoroutine(UpdateTotalProgressAndUnload(1));
+        }
+
+        private bool UnloadCurrentScene(int indexToIgnore)
+        {
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            if(currentSceneIndex != indexToIgnore)
+            {
+                SceneManager.UnloadSceneAsync(currentSceneIndex);
+                return true;
+            }
+            return false;
         }
 
         private void Awake()
         {
             instance = this;
-
-            _scenesLoading.Add(SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive));
-            StartCoroutine(SceneLoadingProgress(1));
+            LoadMenu();
         }
 
         private IEnumerator SceneLoadingProgress(int indexToActivate)
@@ -46,28 +63,27 @@ namespace PerpetualJourney
                     }
 
                     _sceneProgress = (_sceneProgress/_scenesLoading.Count);
-                    Debug.Log(_sceneProgress);
                     yield return null;
                 }
             }
 
             _scenesLoading.Clear();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(indexToActivate));
         }
 
-        private IEnumerator GetTotalProgress()
+        private IEnumerator UpdateTotalProgressAndUnload(int indexToUnload)
         {
             float totalProgress = 0;
             while(GameSystem.instance == null || !LevelGenerationIsDone)
             {
                 totalProgress = (_sceneProgress + LevelGenerationProgress)/2f;
                 OnProgressUpdated?.Invoke(totalProgress);
+                yield return null;
             }
-            
-            yield return new WaitForSeconds(0.5f);
+
             GameIsLoaded?.Invoke();
-            SceneManager.UnloadSceneAsync(1);
+            SceneManager.UnloadSceneAsync(indexToUnload);
         }
     }
 }

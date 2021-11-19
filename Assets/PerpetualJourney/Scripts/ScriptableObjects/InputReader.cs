@@ -17,7 +17,6 @@ namespace PerpetualJourney
         public event Action<int> OnMoveEvent;
         public event Action<Vector2> OnSwipeEvent;
         public event Action OnJumpEvent;
-        public event Action OnCloseEvent;
         public event Action OnResetEvent;
 
         private GameInputAction _inputAction;
@@ -49,17 +48,11 @@ namespace PerpetualJourney
             EnhancedTouchSupport.Disable();
         }
 
-        // DebugOnly
-        public void ForceReset()
-        {
-            OnResetEvent?.Invoke();
-        }
-
         public void OnReturn(InputAction.CallbackContext context)
         {
             if(context.performed)
             {
-                OnCloseEvent?.Invoke();
+                OnResetEvent?.Invoke();
             }
         }
 

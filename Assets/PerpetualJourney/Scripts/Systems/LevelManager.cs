@@ -28,6 +28,12 @@ namespace PerpetualJourney
             StartCoroutine(PlayerPositionCheckerAsync());
         }
 
+        public void SceneReset()
+        {
+            _lastLevelPosition = _levelGenPosition.position;
+            StartCoroutine(GenerateLevelAsync(300));
+        }
+
         private void InstantiateLevelPart()
         {
             LevelPart randomLevel = _levelList[Random.Range(0, _levelList.Count)];

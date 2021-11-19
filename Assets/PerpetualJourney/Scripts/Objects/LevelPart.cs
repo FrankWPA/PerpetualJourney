@@ -45,6 +45,13 @@ namespace PerpetualJourney
             CreateCollectables(CollectableQuantity, LevelSize);
         }
 
+        public void SceneReset()
+        {
+            OnLevelDisable?.Invoke();
+            OnLevelDisable = null;
+            Disable();
+        }
+
         private void CreateObstacle()
         {
             int rndIndex = Random.Range(0, _obstacles.Count);
@@ -98,9 +105,7 @@ namespace PerpetualJourney
         private IEnumerator DellayedLevelDisableAsync()
         {
             yield return new WaitForSeconds(2);
-            OnLevelDisable?.Invoke();
-            OnLevelDisable = null;
-            Disable();
+            SceneReset();
         }
     }
 }
