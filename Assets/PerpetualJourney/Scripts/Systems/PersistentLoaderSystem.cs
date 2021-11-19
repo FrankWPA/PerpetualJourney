@@ -45,13 +45,14 @@ namespace PerpetualJourney
                         _sceneProgress += operation.progress;
                     }
 
-                    _sceneProgress = (_sceneProgress/_scenesLoading.Count) * 100f;
+                    _sceneProgress = (_sceneProgress/_scenesLoading.Count);
+                    Debug.Log(_sceneProgress);
                     yield return null;
                 }
             }
 
             _scenesLoading.Clear();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(indexToActivate));
         }
 
@@ -62,9 +63,9 @@ namespace PerpetualJourney
             {
                 totalProgress = (_sceneProgress + LevelGenerationProgress)/2f;
                 OnProgressUpdated?.Invoke(totalProgress);
-                yield return null;
             }
             
+            yield return new WaitForSeconds(0.5f);
             GameIsLoaded?.Invoke();
             SceneManager.UnloadSceneAsync(1);
         }

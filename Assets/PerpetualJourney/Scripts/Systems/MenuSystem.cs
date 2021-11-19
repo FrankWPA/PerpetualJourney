@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace PerpetualJourney
 {
@@ -12,8 +13,11 @@ namespace PerpetualJourney
         [SerializeField]private GameObject _menuUi;
         [SerializeField]private GameObject _loadingScreen;
 
+        private TextMeshProUGUI _loadingText;
+
         private void Awake()
         {
+            _loadingText = _loadingProgress.GetComponentInChildren<TextMeshProUGUI>();
             _playButton.onClick.AddListener(PlayGame);
             _exitButton.onClick.AddListener(ExitGame);
             PersistentLoaderSystem.instance.OnProgressUpdated += OnLoading;
@@ -39,6 +43,7 @@ namespace PerpetualJourney
         private void OnLoading(float progress)
         {
             _loadingProgress.value = progress;
+            _loadingText.SetText("Loading...{0}%", (int)(progress * 100f));
         }
     }
 }
