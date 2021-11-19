@@ -78,13 +78,17 @@ namespace PerpetualJourney
                 _highscoreIndicator.SetActive(true);
                 firstLine = "<color=green>" + firstLine + "</color>";
             }
+            else if (_scoreObject.value.Equals(0))
+            {
+                lastLine = "----";
+            }
             
             _gameOverScore.SetText(firstLine + "\n" + lastLine);
         }
 
         private ScoreObject GetHighScore()
         {
-            string scorePath = Application.dataPath + "/highscore.txt";
+            string scorePath = GetSystemSavePath();
 
             if(File.Exists(scorePath))
             {
@@ -99,7 +103,23 @@ namespace PerpetualJourney
         private void SaveHighScore()
         {
             string json = JsonUtility.ToJson(_scoreObject);
-            File.WriteAllText(Application.dataPath + "/highscore.txt", json);
+            File.WriteAllText(GetSystemSavePath(), json);
+        }
+
+        private string GetSystemSavePath()
+        {
+            string folderPath;
+
+            if(Application.platform == RuntimePlatform.Android)
+            {
+                folderPath = Application.persistentDataPath;
+            }
+            else
+            {
+                folderPath = Application.dataPath;
+            }
+
+            return folderPath + "/highscore.txt";
         }
     }
     
