@@ -67,8 +67,10 @@ namespace PerpetualJourney
                 }
             }
 
+            _sceneProgress = 1;
             _scenesLoading.Clear();
             yield return new WaitForSeconds(0.5f);
+
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(indexToActivate));
         }
 

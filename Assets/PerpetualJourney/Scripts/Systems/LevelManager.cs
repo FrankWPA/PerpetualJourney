@@ -68,14 +68,17 @@ namespace PerpetualJourney
 
                 if(!_generationIsDone)
                 {
-                    UpdateSceneLoadProgress(Vector3.Distance(_playerPosition, _lastLevelPosition)/genDistance);
+                    float distance = Vector3.Distance(_playerPosition, _lastLevelPosition);
+                    float clampedDistance = Mathf.Clamp(distance, 0, genDistance);
+                    float percent = distance/genDistance;
+                    UpdateSceneLoadProgress(percent);
                 }
             }
 
             if (!_generationIsDone)
             {
-                yield return new WaitForSeconds(0.5f);
                 UpdateSceneLoadProgress(1);
+                yield return new WaitForSeconds(0.5f);
                 _generationIsDone = true;
                 PersistentLoaderSystem.instance.LevelGenerationIsDone = true;
             }

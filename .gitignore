@@ -63,3 +63,4 @@ crashlytics-build.properties
 .vscode/
 __*
 Assets/highscore.txt
+Assets/highscore.txt.meta
