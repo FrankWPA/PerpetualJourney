@@ -50,7 +50,6 @@ namespace PerpetualJourney
         {
             gameObject.SetActive(true);
             _rigidbody.velocity = Vector3.zero;
-            
             _hasInputActive = false;
             _hasGroundContact = false;
             _isChangingLane = false;
