@@ -30,6 +30,7 @@ namespace PerpetualJourney
 
         private void PlayGame()
         {
+            PlayClickSound();
             _menuUi.SetActive(false);
             _loadingScreen.SetActive(true);
             PersistentLoaderSystem.instance.LoadGame();
@@ -37,6 +38,7 @@ namespace PerpetualJourney
 
         private void ExitGame()
         {
+            PlayClickSound();
             Application.Quit();
         }
 
@@ -44,6 +46,11 @@ namespace PerpetualJourney
         {
             _loadingProgress.value = progress;
             _loadingText.SetText("Loading...{0}%", (int)(progress * 100f));
+        }
+        
+        private void PlayClickSound()
+        {
+            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Click);
         }
     }
 }

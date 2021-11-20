@@ -78,7 +78,7 @@ namespace PerpetualJourney
                 _highscoreIndicator.SetActive(true);
                 firstLine = "<color=green>" + firstLine + "</color>";
             }
-            else if (_scoreObject.value.Equals(0))
+            else if (highscore.value.Equals(0))
             {
                 lastLine = "----";
             }

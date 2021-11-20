@@ -42,11 +42,12 @@ namespace PerpetualJourney
             _inputReader.OnMoveEvent += OnMove;
             _inputReader.OnSwipeEvent += OnSwipeMove;
             _gameEvents.OnPlayerPositionRequest += GetCurrentPosition;
+
+            InvokeRepeating("PlaySoundStep", 0.1f, 0.3f);
         }
 
         public void SceneReset()
         {
-            
             gameObject.SetActive(true);
             _rigidbody.velocity = Vector3.zero;
             
@@ -69,6 +70,7 @@ namespace PerpetualJourney
 
             _gameEvents.OnPlayerPositionRequest -= GetCurrentPosition;
             LeanTween.cancel(gameObject);
+            CancelInvoke();
         }
 
         private void OnJump()
@@ -77,6 +79,8 @@ namespace PerpetualJourney
             {
                 _hasGroundContact = false;
                 _rigidbody.AddForce(Vector3.up * _jumpVelocity, ForceMode.VelocityChange);
+                
+                SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
             }
         }
 
@@ -91,6 +95,8 @@ namespace PerpetualJourney
                     _hasGroundContact = false;
                     _isChangingLane = true;
                     JumpToLanePosition(_laneChangeAngle);
+                    
+                    SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
                 }
             }
         }
@@ -154,6 +160,8 @@ namespace PerpetualJourney
             if (!_hasGroundContact)
             {
                 _hasGroundContact = true;
+                SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.land);
+
                 if(_isChangingLane && !gameObject.LeanIsTweening())
                 {
                     LeanTween.delayedCall(gameObject, _laneInputDelay, () => 
@@ -164,11 +172,19 @@ namespace PerpetualJourney
             }
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if(!_hasInputActive && other.GetComponent<LevelPart>() != null)
             {
                 _hasInputActive = true;
+            }
+        }
+
+        public void PlaySoundStep()
+        {
+            if(_hasGroundContact)
+            {
+                SoundPlayer.instance.PlayRandomStep();
             }
         }
     }

@@ -11,27 +11,25 @@ namespace PerpetualJourney
         [SerializeField] private GameEvents _gameEvents;
         [SerializeField] private ObjectPool _objectPool;
 
-        private Vector3 _playerPosition = new Vector3();
+        private Vector3 _playerPosition = Vector3.zero;
         private Vector3 _lastLevelPosition;
         
-        private const float GenerationDistance = 120f;
+        private const float GenerationDistance = 150f;
         private const float CheckFrequency = 5f;
 
-        private float progress;
-        private bool isDone;
+        private float _generationprogress;
+        private bool _generationIsDone;
 
         public void Initialize()
         {
             _lastLevelPosition = _levelGenPosition.position;
-
-            StartCoroutine(GenerateLevelAsync(300));
             StartCoroutine(PlayerPositionCheckerAsync());
         }
 
         public void SceneReset()
         {
-            _lastLevelPosition = _levelGenPosition.position;
-            StartCoroutine(GenerateLevelAsync(300));
+            StopAllCoroutines();
+            Initialize();
         }
 
         private void InstantiateLevelPart()
@@ -55,10 +53,9 @@ namespace PerpetualJourney
         private IEnumerator PlayerPositionCheckerAsync()
         {
             while(true){
-                yield return new WaitForSeconds(CheckFrequency);
                 _gameEvents.RequestPlayerPosition(ref _playerPosition);
-
                 StartCoroutine(GenerateLevelAsync(GenerationDistance));
+                yield return new WaitForSeconds(CheckFrequency);
             }
         }
 
@@ -69,25 +66,25 @@ namespace PerpetualJourney
                 InstantiateLevelPart();
                 yield return null;
 
-                if(!isDone)
+                if(!_generationIsDone)
                 {
                     UpdateSceneLoadProgress(Vector3.Distance(_playerPosition, _lastLevelPosition)/genDistance);
                 }
             }
 
-            if (!isDone)
+            if (!_generationIsDone)
             {
                 yield return new WaitForSeconds(0.5f);
                 UpdateSceneLoadProgress(1);
-                isDone = true;
+                _generationIsDone = true;
                 PersistentLoaderSystem.instance.LevelGenerationIsDone = true;
             }
         }
 
         private void UpdateSceneLoadProgress(float value)
         {
-            progress = value;
-            PersistentLoaderSystem.instance.LevelGenerationProgress = progress;
+            _generationprogress = value;
+            PersistentLoaderSystem.instance.LevelGenerationProgress = _generationprogress;
         }
     }
 }

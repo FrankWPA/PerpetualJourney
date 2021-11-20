@@ -39,12 +39,17 @@ namespace PerpetualJourney
         private void OnObstacleCollided()
         {
             _laneController.gameObject.SetActive(false);
+            
+            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Horn);
+            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Shatter);
         }
 
         private void OnCollecting()
         {
             Score += 1;
+            
             _gameEvents.IncreasePlayerScore(Score);
+            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Swallow);
         }
     }
 }

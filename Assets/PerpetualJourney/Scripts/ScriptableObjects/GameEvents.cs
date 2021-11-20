@@ -18,6 +18,10 @@ namespace PerpetualJourney
            {
                result = requestedPosition.Value;
            }
+           else
+           {
+               result = Vector3.zero;
+           }
         }
 
         public void ObstacleCollision()

@@ -40,19 +40,26 @@ namespace PerpetualJourney
         
         private void ResetScene()
         {
-            LevelPart[] levels =  _levelManager.GetComponentsInChildren<LevelPart>();
-            for(int i = 0; i < levels.Length; i++)
+            PlayClickSound();
+            LevelPart[] levels = _levelManager.GetComponentsInChildren<LevelPart>();
+            for (int i = 0; i < levels.Length; i++)
             {
                 levels[i].SceneReset();
             }
-            
+
             _gameManager.SceneReset();
             _levelManager.SceneReset();
         }
 
         private void ReturnToMenu()
         {
+            PlayClickSound();
             PersistentLoaderSystem.instance.LoadMenu();
+        }
+
+        private void PlayClickSound()
+        {
+            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Click);
         }
     }
 }
