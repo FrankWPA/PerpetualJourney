@@ -34,6 +34,7 @@ namespace PerpetualJourney
         {
             _inputReader.DisableReader();
             _gameEvents.OnObstacleCollided -= OnObstacleCollided;
+            _gameEvents.OnCollectableCollided -= OnCollecting;
         }
 
         private void OnObstacleCollided()

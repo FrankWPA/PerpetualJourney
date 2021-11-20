@@ -42,8 +42,7 @@ namespace PerpetualJourney
             _inputReader.OnMoveEvent += OnMove;
             _inputReader.OnSwipeEvent += OnSwipeMove;
             _gameEvents.OnPlayerPositionRequest += GetCurrentPosition;
-
-            InvokeRepeating("PlaySoundStep", 0.1f, 0.3f);
+            // InvokeRepeating("PlaySoundStep", 0.1f, 0.3f);
         }
 
         public void SceneReset()
@@ -69,7 +68,7 @@ namespace PerpetualJourney
 
             _gameEvents.OnPlayerPositionRequest -= GetCurrentPosition;
             LeanTween.cancel(gameObject);
-            CancelInvoke();
+            // CancelInvoke();
         }
 
         private void OnJump()
@@ -79,7 +78,7 @@ namespace PerpetualJourney
                 _hasGroundContact = false;
                 _rigidbody.AddForce(Vector3.up * _jumpVelocity, ForceMode.VelocityChange);
                 
-                SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
+                PlayJumpSound();
             }
         }
 
@@ -95,7 +94,7 @@ namespace PerpetualJourney
                     _isChangingLane = true;
                     JumpToLanePosition(_laneChangeAngle);
                     
-                    SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
+                    PlayJumpSound();
                 }
             }
         }
@@ -159,7 +158,7 @@ namespace PerpetualJourney
             if (!_hasGroundContact)
             {
                 _hasGroundContact = true;
-                SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.land);
+                PlayLandSound();
 
                 if(_isChangingLane && !gameObject.LeanIsTweening())
                 {
@@ -178,13 +177,25 @@ namespace PerpetualJourney
                 _hasInputActive = true;
             }
         }
+        
+        private void PlayJumpSound()
+        {
+            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
+        }
 
-        public void PlaySoundStep()
+        // Is implemented but doesn't sounds good
+        private void PlaySoundStep()
         {
             if(_hasGroundContact)
             {
-                SoundPlayer.instance.PlayRandomStep();
+                // SoundPlayer.instance.PlayRandomStep();
             }
+        }
+
+        // Is implemented but doesn't sounds good
+        private void PlayLandSound()
+        {
+            // SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.land);
         }
     }
 }

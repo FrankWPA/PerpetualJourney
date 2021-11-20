@@ -7,11 +7,15 @@ namespace PerpetualJourney
     [RequireComponent(typeof(AudioSource))]
     public class SoundPlayer : MonoBehaviour
     {
+        [SerializeField]private AudioSource _musicPlayer;
         [SerializeField]private List<AudioClip> _audioClips;
         [SerializeField]private List<AudioClip> _playersteps;
-        private AudioSource _audioSource;
+        [SerializeField]private List<AudioClip> _musics;
 
         public static SoundPlayer instance;
+
+        private AudioSource _audioSource;
+
         public enum AudioEnum
         {
             Click,
@@ -20,12 +24,6 @@ namespace PerpetualJourney
             Swallow,
             land,
             Jump
-        }
-
-        private void Awake()
-        {
-            instance = this;
-            _audioSource = GetComponent<AudioSource>();
         }
 
         public void PlayAudioOnPosition(Vector3 position, AudioEnum enumValue)
@@ -42,6 +40,31 @@ namespace PerpetualJourney
         {
             int rndIndex = Random.Range(0, _playersteps.Count);
             _audioSource.PlayOneShot(_playersteps[rndIndex]);
+        }
+
+        public void SetMusicMenu()
+        {
+            StopMusic();
+            _musicPlayer.clip = _musics[0];
+            _musicPlayer.Play();
+        }
+        
+        public void SetMusicGame()
+        {
+            StopMusic();
+            _musicPlayer.clip = _musics[1];
+            _musicPlayer.Play();
+        }
+
+        public void StopMusic()
+        {
+            _musicPlayer.Stop();
+        }
+
+        private void Awake()
+        {
+            instance = this;
+            _audioSource = GetComponent<AudioSource>();
         }
     }
 }

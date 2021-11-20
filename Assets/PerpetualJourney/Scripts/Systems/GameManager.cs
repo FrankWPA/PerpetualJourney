@@ -22,7 +22,9 @@ namespace PerpetualJourney
         public void Initialize()
         {
             PersistentLoaderSystem.instance.GameIsLoaded += ActivatePlayer;
+            PersistentLoaderSystem.instance.GameIsLoaded += PlayGameMusic;
             _gameEvents.OnObstacleCollided += OnGameOver;
+            _gameEvents.OnObstacleCollided += StopGameMusic;
             _gameEvents.OnScoreChanged += UpdateTextScore;
             _player.Initialize();
         }
@@ -33,18 +35,31 @@ namespace PerpetualJourney
             _scoreText.gameObject.SetActive(true);
             _gameOverUi.gameObject.SetActive(false);
             _highscoreIndicator.SetActive(false);
+            PlayGameMusic();
         }
 
         private void OnDisable()
         {
             PersistentLoaderSystem.instance.GameIsLoaded -= ActivatePlayer;
+            PersistentLoaderSystem.instance.GameIsLoaded -= PlayGameMusic;
             _gameEvents.OnObstacleCollided -= OnGameOver;
+            _gameEvents.OnObstacleCollided -= StopGameMusic;
             _gameEvents.OnScoreChanged -= UpdateTextScore;
         }
 
         private void ActivatePlayer()
         {
             _player.gameObject.SetActive(true);
+        }
+
+        private void PlayGameMusic()
+        {
+            SoundPlayer.instance.SetMusicGame();
+        }
+
+        private void StopGameMusic()
+        {
+            SoundPlayer.instance.StopMusic();
         }
 
         private void UpdateTextScore(int score)

@@ -21,6 +21,8 @@ namespace PerpetualJourney
             _playButton.onClick.AddListener(PlayGame);
             _exitButton.onClick.AddListener(ExitGame);
             PersistentLoaderSystem.instance.OnProgressUpdated += OnLoading;
+
+            SoundPlayer.instance.SetMusicMenu();
         }
 
         private void OnDisable()
