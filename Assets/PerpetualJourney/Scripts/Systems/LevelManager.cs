@@ -9,14 +9,12 @@ namespace PerpetualJourney
         [SerializeField] private Transform _levelGenPosition;
         [SerializeField] private List<LevelPart> _levelList;
         [SerializeField] private GameEvents _gameEvents;
-        [SerializeField] private ObjectPool _objectPool;
+        [SerializeField] private float _generationDistance = 150f;
+        [SerializeField] private float _checkFrequency = 5f;
 
         private Vector3 _playerPosition = Vector3.zero;
         private Vector3 _lastLevelPosition;
         
-        private const float GenerationDistance = 150f;
-        private const float CheckFrequency = 5f;
-
         private float _generationprogress;
         private bool _generationIsDone;
 
@@ -42,7 +40,7 @@ namespace PerpetualJourney
 
         private LevelPart instantiateLevelPart(LevelPart levelPart, Vector3 instancePosition)
         {
-            LevelPart part = _objectPool.GetObject(levelPart);
+            LevelPart part = levelPart.RequestFromObjectPool();
             part.transform.SetParent(transform);
             part.transform.position = instancePosition;
             part.Initialize();
@@ -52,10 +50,11 @@ namespace PerpetualJourney
         
         private IEnumerator PlayerPositionCheckerAsync()
         {
-            while(true){
+            while(true)
+            {
                 _gameEvents.RequestPlayerPosition(ref _playerPosition);
-                StartCoroutine(GenerateLevelAsync(GenerationDistance));
-                yield return new WaitForSeconds(CheckFrequency);
+                StartCoroutine(GenerateLevelAsync(_generationDistance));
+                yield return new WaitForSeconds(_checkFrequency);
             }
         }
 

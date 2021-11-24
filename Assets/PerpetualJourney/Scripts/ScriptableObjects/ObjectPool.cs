@@ -9,9 +9,9 @@ namespace PerpetualJourney
     {
         private Dictionary<string, Queue<GameObject>> _objectPool = new Dictionary<string, Queue<GameObject>>();
 
-        public T GetObject<T>(T monoObject) where T : MonoBehaviour
+        public GameObject GetObject(GameObject gameObject)
         {
-            if(TryGetObjectQueue(monoObject, out Queue<GameObject> objectQueue))
+            if(TryGetObjectQueue(gameObject, out Queue<GameObject> objectQueue))
             {
                 if(objectQueue.Count != 0)
                 {
@@ -19,18 +19,16 @@ namespace PerpetualJourney
                     if(dequeuedObject != null) 
                     {
                         dequeuedObject.gameObject.SetActive(true);
-                        return dequeuedObject.GetComponent<T>();
+                        return dequeuedObject;
                     }
                 }
             }
-            return InstantiateNewObject(monoObject);
+            return InstantiateNewObject(gameObject);
         }
 
-        public void ReturnObject<T>(T poolableObject) where T : MonoBehaviour
+        public void ReturnObject(GameObject gameObject)
         {
-            GameObject gameObject = poolableObject.gameObject;
-
-            if (TryGetObjectQueue(poolableObject, out Queue<GameObject> objectQueue))
+            if (TryGetObjectQueue(gameObject, out Queue<GameObject> objectQueue))
             {
                 objectQueue.Enqueue(gameObject);
             }
@@ -38,50 +36,23 @@ namespace PerpetualJourney
             {
                 Queue<GameObject> newObjectQueue = new Queue<GameObject>();
                 newObjectQueue.Enqueue(gameObject);
-                _objectPool.Add(poolableObject.name, newObjectQueue);
+                _objectPool.Add(gameObject.name, newObjectQueue);
             }
 
             gameObject.SetActive(false);
         }
 
-        private T InstantiateNewObject<T>(T poolableObject) where T : MonoBehaviour
+        private GameObject InstantiateNewObject(GameObject poolableObject)
         {
-            T newObject = Instantiate(poolableObject);
+            GameObject newObject = Instantiate(poolableObject);
             newObject.name = poolableObject.name;
 
             return newObject;
         }
 
-        private bool TryGetObjectQueue<T>(T poolableObject, out Queue<GameObject> outQueue) where T : MonoBehaviour
+        private bool TryGetObjectQueue(GameObject poolableObject, out Queue<GameObject> outQueue)
         {
             return (_objectPool.TryGetValue(poolableObject.name, out outQueue));
-        }
-    }
-
-    public static class PoolHelper
-    {
-        public static void RetrieveToPool<T>(this T monoPoolObject) where T : MonoBehaviour, ICanBePooled
-        {
-            PoolableObject poolableComponent =  monoPoolObject.GetPoolableObject();
-
-            if (poolableComponent != null)
-            {
-                ObjectPool pool = poolableComponent.Pool;
-                pool.ReturnObject(monoPoolObject);
-            }
-        }
-
-        public static T RequestFromPool<T>(this T monoPoolObject) where T : MonoBehaviour, ICanBePooled
-        {
-            PoolableObject poolableComponent = monoPoolObject.GetPoolableObject();
-            
-            if (poolableComponent != null)
-            {
-                ObjectPool pool = poolableComponent.Pool;
-                return pool.GetObject(monoPoolObject);
-            }
-
-            return null;
         }
     }
 }

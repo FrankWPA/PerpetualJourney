@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    [RequireComponent(typeof(PoolableObject))]
     public class LevelPart : MonoBehaviour, ICanBePooled
     {
         [SerializeField] private Transform _obstaclePosition;
@@ -12,17 +11,16 @@ namespace PerpetualJourney
         [SerializeField] private List<Obstacle> _obstacles;
         [SerializeField] private List<Decoration> _decorations;
         [SerializeField] private Collectable _collectable;
+        [SerializeField] private int CollectableQuantity = 5;
+        [SerializeField] private float LevelSize = 30;
+        [SerializeField] private float ObstacleChance = 0.7f;
+        [SerializeField] private float DoubleObstacleChance = 0.2f/0.7f;
 
         public Vector3 LevelEndPosition => _endPosition.position;
 
-        private const int CollectableQuantity = 5;
-        private const float LevelSize = 30;
-        private const float ObstacleChance = 0.7f;
-        private const float DoubleObstacleChance = 0.2f/ObstacleChance;
+        public event System.Action OnLevelDisable;
 
         private List<int> _availableLanes;
-
-        public event System.Action OnLevelDisable;
 
         public void Initialize()
         {
@@ -51,20 +49,12 @@ namespace PerpetualJourney
         {
             OnLevelDisable?.Invoke();
             OnLevelDisable = null;
-            this.RetrieveToPool();
-        }
-
-        public PoolableObject GetPoolableObject()
-        {
-            return GetComponent<PoolableObject>();
+            this.RetrieveToObjectPool();
         }
 
         private void CreateObstacle()
         {
-            int rndIndex = Random.Range(0, _obstacles.Count);
-            Obstacle obstacle = _obstacles[rndIndex].RequestFromPool();
-            obstacle.transform.SetParent(_obstaclePosition, false);
-            OnLevelDisable += obstacle.RetrieveToPool;
+            Obstacle obstacle = InstantiateFromList(_obstacles, _obstaclePosition);
 
             int randomLane = Random.Range(0, _availableLanes.Count);
             int obstacleLane = _availableLanes[randomLane];
@@ -75,16 +65,14 @@ namespace PerpetualJourney
 
         private void CreateDecoration()
         {
-            int rndIndex = Random.Range(0, _decorations.Count);
-            Decoration decoration = _decorations[rndIndex].RequestFromPool();
-            decoration.transform.SetParent(transform, false);
-            OnLevelDisable += decoration.RetrieveToPool;
+            InstantiateFromList(_decorations, transform);
         }
 
         private void CreateCollectables(int quantity, float levelSize)
         {
             int randomLane = Random.Range(0, _availableLanes.Count);
             float dist = levelSize/(quantity + 1);
+
             for(int i = 1; i <= quantity; i++)
             {
                 Collectable collectable = CreateCollectable(randomLane);
@@ -94,16 +82,37 @@ namespace PerpetualJourney
 
         private Collectable CreateCollectable(int lane)
         {
-            Collectable collectable = _collectable.RequestFromPool();
-            collectable.transform.SetParent(transform, false);
+            Collectable collectable = InstantiateAndSetParent(_collectable, transform);
+            collectable.Initialize(_availableLanes[lane], OnLevelDisable);
 
-            collectable.Initialize(_availableLanes[lane], this);
             return collectable;
+        }
+
+        private T InstantiateFromList<T>(List<T> objectList, Transform parentToSet) where T : MonoBehaviour, ICanBePooled
+        {
+            int rndIndex = Random.Range(0, objectList.Count);
+            
+            return InstantiateAndSetParent(objectList[rndIndex], parentToSet);
+        }
+
+        private T InstantiateAndSetParent<T>(T obj, Transform parentToSet) where T : MonoBehaviour, ICanBePooled
+        {
+            T newObject = obj.RequestFromObjectPool();
+            newObject.transform.SetParent(parentToSet, false);
+
+            OnLevelDisable += newObject.RetrieveToObjectPool;
+
+            return newObject;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if(other.GetComponentInParent<Player>() != null)
+            CheckPlayerExit(other);
+        }
+
+        private void CheckPlayerExit(Collider other)
+        {
+            if (other.GetComponentInParent<Player>() != null)
             {
                 StartCoroutine(DellayedLevelDisableAsync());
             }
