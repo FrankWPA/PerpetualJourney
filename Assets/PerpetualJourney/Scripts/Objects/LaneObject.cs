@@ -4,26 +4,18 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    [RequireComponent(typeof(PoolableObject))]
     public abstract class LaneObject : MonoBehaviour, ICanBePooled
     {
-        [SerializeField]private GameEvents _gameEvents;
+        [SerializeField]protected GameEvents GameEvent {get;}
 
         private float _laneSize;
         private int _lane;
-
-        protected GameEvents GameEvent => _gameEvents;
 
         public virtual void Initialize(int lane)
         {
             _lane = lane;
             _laneSize = GameSystem.Instance.LaneSize;
             SetLanePosition();
-        }
-
-        public PoolableObject GetPoolableObject()
-        {
-            return GetComponent<PoolableObject>();
         }
 
         protected abstract void CollidedWithPlayer();

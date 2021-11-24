@@ -6,6 +6,5 @@ namespace PerpetualJourney
 {
     public interface ICanBePooled
     {
-        PoolableObject GetPoolableObject();
     }
 }

@@ -10,10 +10,12 @@ namespace PerpetualJourney
         [SerializeField]private GameManager _gameManager;
         [SerializeField]private LevelManager _levelManager;
         [SerializeField]private List<GameObject> _activateOnLoadObjects;
+        [SerializeField]private ObjectPool _objectPool;
         [SerializeField]private float _laneSize;
         [SerializeField]private Button _replayButton;
         [SerializeField]private Button _exitButton;
 
+        public ObjectPool ObjectPooling => _objectPool;
         public static GameSystem Instance;
         public float LaneSize => _laneSize;
         
