@@ -80,14 +80,14 @@ namespace PerpetualJourney
                 UpdateSceneLoadProgress(1);
                 yield return new WaitForSeconds(0.5f);
                 _generationIsDone = true;
-                PersistentLoaderSystem.instance.LevelGenerationIsDone = true;
+                PersistentLoaderSystem.Instance.LevelGenerationIsDone = true;
             }
         }
 
         private void UpdateSceneLoadProgress(float value)
         {
             _generationprogress = value;
-            PersistentLoaderSystem.instance.LevelGenerationProgress = _generationprogress;
+            PersistentLoaderSystem.Instance.LevelGenerationProgress = _generationprogress;
         }
     }
 }

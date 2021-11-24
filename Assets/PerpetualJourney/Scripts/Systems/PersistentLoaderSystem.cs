@@ -8,7 +8,7 @@ namespace PerpetualJourney
 {
     public class PersistentLoaderSystem : MonoBehaviour
     {
-        public static PersistentLoaderSystem instance;
+        public static PersistentLoaderSystem Instance;
         public event Action<float> OnProgressUpdated;
         public event Action GameIsLoaded;
 
@@ -46,7 +46,7 @@ namespace PerpetualJourney
 
         private void Awake()
         {
-            instance = this;
+            Instance = this;
             LoadMenu();
         }
 
@@ -77,7 +77,7 @@ namespace PerpetualJourney
         private IEnumerator UpdateTotalProgressAndUnload(int indexToUnload)
         {
             float totalProgress = 0;
-            while(GameSystem.instance == null || !LevelGenerationIsDone)
+            while(GameSystem.Instance == null || !LevelGenerationIsDone)
             {
                 totalProgress = (_sceneProgress + LevelGenerationProgress)/2f;
                 OnProgressUpdated?.Invoke(totalProgress);

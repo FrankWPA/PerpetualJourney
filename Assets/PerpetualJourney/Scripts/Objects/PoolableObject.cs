@@ -2,13 +2,10 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    public abstract class PoolableObject : MonoBehaviour
+    public class PoolableObject : MonoBehaviour
     {
-        [SerializeField]protected ObjectPool _pool;
+        [SerializeField]private ObjectPool _pool;
 
-        public void Disable()
-        {
-            _pool.ReturnObject(this);
-        }
+        public ObjectPool Pool => _pool;
     }
 }

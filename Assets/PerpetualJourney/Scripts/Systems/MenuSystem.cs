@@ -20,14 +20,14 @@ namespace PerpetualJourney
             _loadingText = _loadingProgress.GetComponentInChildren<TextMeshProUGUI>();
             _playButton.onClick.AddListener(PlayGame);
             _exitButton.onClick.AddListener(ExitGame);
-            PersistentLoaderSystem.instance.OnProgressUpdated += OnLoading;
+            PersistentLoaderSystem.Instance.OnProgressUpdated += OnLoading;
 
-            SoundPlayer.instance.SetMusicMenu();
+            SoundPlayer.Instance.SetMusicMenu();
         }
 
         private void OnDisable()
         {
-            PersistentLoaderSystem.instance.OnProgressUpdated -= OnLoading;
+            PersistentLoaderSystem.Instance.OnProgressUpdated -= OnLoading;
         }
 
         private void PlayGame()
@@ -35,7 +35,7 @@ namespace PerpetualJourney
             PlayClickSound();
             _menuUi.SetActive(false);
             _loadingScreen.SetActive(true);
-            PersistentLoaderSystem.instance.LoadGame();
+            PersistentLoaderSystem.Instance.LoadGame();
         }
 
         private void ExitGame()
@@ -52,7 +52,7 @@ namespace PerpetualJourney
         
         private void PlayClickSound()
         {
-            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Click);
+            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Click);
         }
     }
 }

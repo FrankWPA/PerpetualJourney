@@ -21,8 +21,8 @@ namespace PerpetualJourney
 
         public void Initialize()
         {
-            PersistentLoaderSystem.instance.GameIsLoaded += ActivatePlayer;
-            PersistentLoaderSystem.instance.GameIsLoaded += PlayGameMusic;
+            PersistentLoaderSystem.Instance.GameIsLoaded += ActivatePlayer;
+            PersistentLoaderSystem.Instance.GameIsLoaded += PlayGameMusic;
             _gameEvents.OnObstacleCollided += OnGameOver;
             _gameEvents.OnObstacleCollided += StopGameMusic;
             _gameEvents.OnScoreChanged += UpdateTextScore;
@@ -40,8 +40,8 @@ namespace PerpetualJourney
 
         private void OnDisable()
         {
-            PersistentLoaderSystem.instance.GameIsLoaded -= ActivatePlayer;
-            PersistentLoaderSystem.instance.GameIsLoaded -= PlayGameMusic;
+            PersistentLoaderSystem.Instance.GameIsLoaded -= ActivatePlayer;
+            PersistentLoaderSystem.Instance.GameIsLoaded -= PlayGameMusic;
             _gameEvents.OnObstacleCollided -= OnGameOver;
             _gameEvents.OnObstacleCollided -= StopGameMusic;
             _gameEvents.OnScoreChanged -= UpdateTextScore;
@@ -54,12 +54,12 @@ namespace PerpetualJourney
 
         private void PlayGameMusic()
         {
-            SoundPlayer.instance.SetMusicGame();
+            SoundPlayer.Instance.SetMusicGame();
         }
 
         private void StopGameMusic()
         {
-            SoundPlayer.instance.StopMusic();
+            SoundPlayer.Instance.StopMusic();
         }
 
         private void UpdateTextScore(int score)

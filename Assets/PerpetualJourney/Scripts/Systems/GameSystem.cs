@@ -9,18 +9,18 @@ namespace PerpetualJourney
     {
         [SerializeField]private GameManager _gameManager;
         [SerializeField]private LevelManager _levelManager;
+        [SerializeField]private List<GameObject> _activateOnLoadObjects;
         [SerializeField]private float _laneSize;
-        [SerializeField]private GameObject _gameUI;
         [SerializeField]private Button _replayButton;
         [SerializeField]private Button _exitButton;
 
-        public static GameSystem instance;
+        public static GameSystem Instance;
         public float LaneSize => _laneSize;
         
         private void Awake()
         {
-            PersistentLoaderSystem.instance.GameIsLoaded += ActivateUi;
-            instance = this;
+            PersistentLoaderSystem.Instance.GameIsLoaded += ActivateGameObjects;
+            Instance = this;
             
             _gameManager.Initialize();
             _levelManager.Initialize();
@@ -30,12 +30,15 @@ namespace PerpetualJourney
 
         private void OnDisable()
         {
-            PersistentLoaderSystem.instance.GameIsLoaded -= ActivateUi;
+            PersistentLoaderSystem.Instance.GameIsLoaded -= ActivateGameObjects;
         }
 
-        private void ActivateUi()
+        private void ActivateGameObjects()
         {
-            _gameUI.SetActive(true);
+            for(int i = 0; i < _activateOnLoadObjects.Count; i++)
+            {
+                _activateOnLoadObjects[i].SetActive(true);
+            }
         }
         
         private void ResetScene()
@@ -54,12 +57,12 @@ namespace PerpetualJourney
         private void ReturnToMenu()
         {
             PlayClickSound();
-            PersistentLoaderSystem.instance.LoadMenu();
+            PersistentLoaderSystem.Instance.LoadMenu();
         }
 
         private void PlayClickSound()
         {
-            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Click);
+            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Click);
         }
     }
 }

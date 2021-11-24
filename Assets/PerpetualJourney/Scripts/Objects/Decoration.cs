@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace PerpetualJourney
 {
-    public class Decoration : PoolableObject
+    [RequireComponent(typeof(PoolableObject))]
+    public class Decoration : MonoBehaviour, ICanBePooled
     {
+        public PoolableObject GetPoolableObject()
+        {
+            return GetComponent<PoolableObject>();
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace PerpetualJourney
         [SerializeField]private List<AudioClip> _playersteps;
         [SerializeField]private List<AudioClip> _musics;
 
-        public static SoundPlayer instance;
+        public static SoundPlayer Instance;
 
         private AudioSource _audioSource;
 
@@ -63,7 +63,7 @@ namespace PerpetualJourney
 
         private void Awake()
         {
-            instance = this;
+            Instance = this;
             _audioSource = GetComponent<AudioSource>();
         }
     }

@@ -19,7 +19,7 @@ namespace PerpetualJourney
         public void Initialize(int lane, LevelPart levelPart)
         {
             _levelPart = levelPart;;
-            _levelPart.OnLevelDisable += Disable;
+            _levelPart.OnLevelDisable += this.RetrieveToPool;
             Initialize(lane);
         }
 
@@ -45,8 +45,8 @@ namespace PerpetualJourney
         protected override void CollidedWithPlayer()
         {
             GameEvent.CollectableCollision();
-            _levelPart.OnLevelDisable -= Disable;
-            Disable();
+            _levelPart.OnLevelDisable -= this.RetrieveToPool;
+            this.RetrieveToPool();
         }
     }
 }

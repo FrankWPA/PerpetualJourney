@@ -41,8 +41,8 @@ namespace PerpetualJourney
         {
             _laneController.gameObject.SetActive(false);
             
-            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Horn);
-            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Shatter);
+            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Horn);
+            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Shatter);
         }
 
         private void OnCollecting()
@@ -50,7 +50,7 @@ namespace PerpetualJourney
             Score += 1;
             
             _gameEvents.IncreasePlayerScore(Score);
-            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Swallow);
+            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Swallow);
         }
     }
 }

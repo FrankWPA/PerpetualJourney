@@ -31,7 +31,7 @@ namespace PerpetualJourney
             _gameEvents = gameEvents;
 
             _rigidbody = GetComponent<Rigidbody>();
-            _laneSize = GameSystem.instance.LaneSize;
+            _laneSize = GameSystem.Instance.LaneSize;
 
             Initialize();
         }
@@ -180,7 +180,7 @@ namespace PerpetualJourney
         
         private void PlayJumpSound()
         {
-            SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
+            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
         }
 
         // Is implemented but doesn't sounds good
