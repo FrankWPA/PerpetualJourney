@@ -11,10 +11,10 @@ namespace PerpetualJourney
         [SerializeField] private List<Obstacle> _obstacles;
         [SerializeField] private List<Decoration> _decorations;
         [SerializeField] private Collectable _collectable;
-        [SerializeField] private int CollectableQuantity = 5;
-        [SerializeField] private float LevelSize = 30;
-        [SerializeField] private float ObstacleChance = 0.7f;
-        [SerializeField] private float DoubleObstacleChance = 0.2f/0.7f;
+        [SerializeField] private int _collectableQuantity = 1;
+        [SerializeField] private float _levelSize = 30;
+        [SerializeField] private float _obstacleChance = 0.7f;
+        [SerializeField] private float _doubleObstacleChance = 0.2f/0.7f;
 
         public Vector3 LevelEndPosition => _endPosition.position;
 
@@ -28,9 +28,9 @@ namespace PerpetualJourney
             
             float rndValue = Random.Range(0, 1f);
 
-            if (ObstacleChance >= rndValue)
+            if (_obstacleChance >= rndValue)
             {
-                if(DoubleObstacleChance >= rndValue)
+                if(_doubleObstacleChance >= rndValue)
                 {
                     CreateObstacle();
                 }
@@ -42,7 +42,7 @@ namespace PerpetualJourney
                 CreateDecoration();
             }
             
-            CreateCollectables(CollectableQuantity, LevelSize);
+            CreateCollectables(_collectableQuantity, _levelSize);
         }
 
         public void SceneReset()
@@ -54,7 +54,7 @@ namespace PerpetualJourney
 
         private void CreateObstacle()
         {
-            Obstacle obstacle = InstantiateFromList(_obstacles, _obstaclePosition);
+            Obstacle obstacle = RequestFromPool(_obstacles, _obstaclePosition);
 
             int randomLane = Random.Range(0, _availableLanes.Count);
             int obstacleLane = _availableLanes[randomLane];
@@ -65,39 +65,40 @@ namespace PerpetualJourney
 
         private void CreateDecoration()
         {
-            InstantiateFromList(_decorations, transform);
+            RequestFromPool(_decorations, transform);
         }
 
         private void CreateCollectables(int quantity, float levelSize)
         {
             int randomLane = Random.Range(0, _availableLanes.Count);
+            int lane = _availableLanes[randomLane];
             float dist = levelSize/(quantity + 1);
 
             for(int i = 1; i <= quantity; i++)
             {
-                Collectable collectable = CreateCollectable(randomLane);
+                Collectable collectable = CreateCollectable(lane);
                 collectable.transform.LeanSetLocalPosX(-dist * i);
             }
         }
 
         private Collectable CreateCollectable(int lane)
         {
-            Collectable collectable = InstantiateAndSetParent(_collectable, transform);
-            collectable.Initialize(_availableLanes[lane], OnLevelDisable);
+            Collectable collectable = RequestFromPool(_collectable, transform);
+            collectable.Initialize(lane, this);
 
             return collectable;
         }
 
-        private T InstantiateFromList<T>(List<T> objectList, Transform parentToSet) where T : MonoBehaviour, ICanBePooled
+        private T RequestFromPool<T>(List<T> objectList, Transform parentToSet) where T : MonoBehaviour, ICanBePooled
         {
             int rndIndex = Random.Range(0, objectList.Count);
             
-            return InstantiateAndSetParent(objectList[rndIndex], parentToSet);
+            return RequestFromPool(objectList[rndIndex], parentToSet);
         }
 
-        private T InstantiateAndSetParent<T>(T obj, Transform parentToSet) where T : MonoBehaviour, ICanBePooled
+        private T RequestFromPool<T>(T poolableObject, Transform parentToSet) where T : MonoBehaviour, ICanBePooled
         {
-            T newObject = obj.RequestFromObjectPool();
+            T newObject = poolableObject.RequestFromObjectPool();
             newObject.transform.SetParent(parentToSet, false);
 
             OnLevelDisable += newObject.RetrieveToObjectPool;

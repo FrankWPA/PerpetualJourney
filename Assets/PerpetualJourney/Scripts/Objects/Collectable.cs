@@ -11,13 +11,11 @@ namespace PerpetualJourney
         [SerializeField]private float LocalYTween = 0.5f;
         [SerializeField]private float LocalYTweenTime = 1;
 
-        private event Action _levelPartDisable;
+        private LevelPart _levelPart;
 
-        public void Initialize(int lane, Action levelPartDisable)
+        public void Initialize(int lane, LevelPart levelPart)
         {
-            _levelPartDisable = levelPartDisable;
-            _levelPartDisable += this.RetrieveToObjectPool;
-
+            _levelPart = levelPart;
             Initialize(lane);
         }
 
@@ -45,11 +43,16 @@ namespace PerpetualJourney
             LeanTween.cancel(gameObject);
         }
 
+        private void Disable()
+        {
+            _levelPart.OnLevelDisable -= this.RetrieveToObjectPool;
+            this.RetrieveToObjectPool();
+        }
+
         protected override void CollidedWithPlayer()
         {
             _gameEvents.CollectableCollision();
-            _levelPartDisable -= this.RetrieveToObjectPool;
-            this.RetrieveToObjectPool();
+            Disable();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace PerpetualJourney
                     GameObject dequeuedObject = objectQueue.Dequeue();
                     if(dequeuedObject != null) 
                     {
-                        dequeuedObject.gameObject.SetActive(true);
+                        dequeuedObject.SetActive(true);
                         return dequeuedObject;
                     }
                 }
@@ -42,17 +42,17 @@ namespace PerpetualJourney
             gameObject.SetActive(false);
         }
 
-        private GameObject InstantiateNewObject(GameObject poolableObject)
+        private GameObject InstantiateNewObject(GameObject gameObject)
         {
-            GameObject newObject = Instantiate(poolableObject);
-            newObject.name = poolableObject.name;
+            GameObject newObject = Instantiate(gameObject);
+            newObject.name = gameObject.name;
 
             return newObject;
         }
 
-        private bool TryGetObjectQueue(GameObject poolableObject, out Queue<GameObject> outQueue)
+        private bool TryGetObjectQueue(GameObject gameObject, out Queue<GameObject> outQueue)
         {
-            return (_objectPool.TryGetValue(poolableObject.name, out outQueue));
+            return _objectPool.TryGetValue(gameObject.name, out outQueue);
         }
     }
 }
