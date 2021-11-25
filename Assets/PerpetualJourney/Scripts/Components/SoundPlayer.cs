@@ -23,6 +23,12 @@ namespace PerpetualJourney
             land,
             Jump
         }
+        
+        public void InitializeAudioPlayer()
+        {
+            Instance = this;
+            _audioSource = GetComponent<AudioSource>();
+        }
 
         public void PlayAudio(AudioEnum enumValue)
         {
@@ -56,8 +62,7 @@ namespace PerpetualJourney
 
         private void Awake()
         {
-            Instance = this;
-            _audioSource = GetComponent<AudioSource>();
+            InitializeAudioPlayer();
         }
     }
 }

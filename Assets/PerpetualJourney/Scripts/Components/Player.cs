@@ -33,6 +33,11 @@ namespace PerpetualJourney
 
         private void OnDisable()
         {
+            RemoveEventSubscriptions();
+        }
+
+        private void RemoveEventSubscriptions()
+        {
             _inputReader.DisableReader();
             _gameEvents.OnObstacleCollided -= OnObstacleCollided;
             _gameEvents.OnCollectableCollided -= OnCollecting;

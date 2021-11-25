@@ -40,6 +40,11 @@ namespace PerpetualJourney
 
         private void OnDisable()
         {
+            RemoveEventSubscriptions();
+        }
+
+        private void RemoveEventSubscriptions()
+        {
             PersistentLoaderSystem.Instance.GameIsLoaded -= ActivatePlayer;
             PersistentLoaderSystem.Instance.GameIsLoaded -= PlayGameMusic;
             _gameEvents.OnObstacleCollided -= OnGameOver;
@@ -64,7 +69,7 @@ namespace PerpetualJourney
 
         private void UpdateTextScore(int score)
         {
-            _scoreObject.value = score;
+            _scoreObject.Value = score;
             _scoreText.SetText("Score: {0}", score);
         }
 
@@ -79,21 +84,21 @@ namespace PerpetualJourney
         private void DisplayScores()
         {
             ScoreObject highscore = GetHighScore();
-            string firstLine = _scoreObject.value.ToString();
+            string firstLine = _scoreObject.Value.ToString();
             string lastLine = DefaultNewScore;
             
-            if (highscore.value != 0)
+            if (highscore.Value != 0)
             {
-                lastLine = highscore.value.ToString();
+                lastLine = highscore.Value.ToString();
             }
 
-            if(_scoreObject.value > highscore.value)
+            if(_scoreObject.Value > highscore.Value)
             {
                 SaveHighScore();
                 _highscoreIndicator.SetActive(true);
                 firstLine = "<color=green>" + firstLine + "</color>";
             }
-            else if (highscore.value.Equals(0))
+            else if (highscore.Value.Equals(0))
             {
                 lastLine = "----";
             }
@@ -140,7 +145,7 @@ namespace PerpetualJourney
     
     class ScoreObject
     {
-        public int value = 0;
+        public int Value = 0;
     }
 }
 

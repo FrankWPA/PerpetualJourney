@@ -39,9 +39,15 @@ namespace PerpetualJourney{
         }
 
         private void FixedUpdate() {
-            if(_target != null){
-                transform.position = Vector3.Scale(_target.position, _lockScale) + _positionOffset;
+            if(_target != null)
+            {
+                MoveToOffsetPosition();
             }
+        }
+
+        private void MoveToOffsetPosition()
+        {
+            transform.position = Vector3.Scale(_target.position, _lockScale) + _positionOffset;
         }
     }
 }

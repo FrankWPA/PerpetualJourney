@@ -55,6 +55,12 @@ namespace PerpetualJourney
 
         private void OnDisable()
         {
+            RemoveEventSubscriptions();
+            StopAsyncMethods();
+        }
+
+        private void RemoveEventSubscriptions()
+        {
             if (_inputReader != null)
             {
                 _inputReader.OnJumpEvent -= OnJump;
@@ -63,8 +69,40 @@ namespace PerpetualJourney
             }
 
             _gameEvents.OnPlayerPositionRequest -= GetCurrentPosition;
-            LeanTween.cancel(gameObject);
-            // CancelInvoke();
+        }
+
+        private void StopAsyncMethods()
+        {
+            if(gameObject.LeanIsTweening())
+            {
+                LeanTween.cancel(gameObject);
+            }
+
+            if(IsInvoking())
+            {
+                CancelInvoke();
+            }
+        }
+
+        private Vector3 GetCurrentPosition()
+        {
+            return transform.position;
+        }
+        
+        private void FixedUpdate()
+        {
+            HandleAcceleration();
+        }
+
+        private void OnSwipeMove(Vector2 swipeDir)
+        {
+            if (swipeDir.y > 0)
+            {
+                OnJump();
+                return;
+            }
+
+            OnMove((int)swipeDir.x);
         }
 
         private void OnJump()
@@ -95,23 +133,7 @@ namespace PerpetualJourney
             }
         }
 
-        private void OnSwipeMove(Vector2 swipeDir)
-        {
-            if (swipeDir.y > 0)
-            {
-                OnJump();
-                return;
-            }
-
-            OnMove((int)swipeDir.x);
-        }
-
-        private Vector3 GetCurrentPosition()
-        {
-            return transform.position;
-        }
-
-        private void FixedUpdate() 
+        private void HandleAcceleration()
         {
             if (_hasGroundContact || _isChangingLane)
             {
@@ -153,45 +175,58 @@ namespace PerpetualJourney
         {
             if (!_hasGroundContact)
             {
-                _hasGroundContact = true;
-                PlayLandSound();
-
-                if(_isChangingLane && !gameObject.LeanIsTweening())
-                {
-                    LeanTween.delayedCall(gameObject, _moveValues.LaneInputDelay, () => 
-                    {
-                        _isChangingLane = false;
-                    });
-                }
+                HandleLanding();
             }
+        }
+
+        private void HandleLanding()
+        {
+            _hasGroundContact = true;
+            PlayLandSound();
+
+            if (_isChangingLane && !gameObject.LeanIsTweening())
+            {
+                HandleLaneInputDelay();
+            }
+        }
+
+        private void HandleLaneInputDelay()
+        {
+            LeanTween.delayedCall(gameObject, _moveValues.LaneInputDelay, () =>
+            {
+                _isChangingLane = false;
+            });
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if(!_hasInputActive && other.GetComponent<LevelPart>() != null)
             {
-                _hasInputActive = true;
+                ActivateInput();
             }
         }
-        
+
+        private void ActivateInput()
+        {
+            _hasInputActive = true;
+        }
+
+        private void PlaySoundStep()
+        {
+            if(_hasGroundContact)
+            {
+                SoundPlayer.Instance.PlayRandomStep();
+            }
+        }
+
         private void PlayJumpSound()
         {
             SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
         }
 
-        // Is implemented but doesn't sounds good
-        private void PlaySoundStep()
-        {
-            if(_hasGroundContact)
-            {
-                // SoundPlayer.instance.PlayRandomStep();
-            }
-        }
-
-        // Is implemented but doesn't sounds good
         private void PlayLandSound()
         {
-            // SoundPlayer.instance.PlayAudio(SoundPlayer.AudioEnum.land);
+            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.land);
         }
     }
 }

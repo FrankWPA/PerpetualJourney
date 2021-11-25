@@ -17,6 +17,16 @@ namespace PerpetualJourney
 
         private void Awake()
         {
+            InitializeSystem();
+        }
+
+        private void OnDisable()
+        {
+            RemoveEventSubscriptions();
+        }
+
+        private void InitializeSystem()
+        {
             _loadingText = _loadingProgress.GetComponentInChildren<TextMeshProUGUI>();
             _playButton.onClick.AddListener(PlayGame);
             _exitButton.onClick.AddListener(ExitGame);
@@ -25,7 +35,7 @@ namespace PerpetualJourney
             SoundPlayer.Instance.SetMusicMenu();
         }
 
-        private void OnDisable()
+        private void RemoveEventSubscriptions()
         {
             PersistentLoaderSystem.Instance.OnProgressUpdated -= OnLoading;
         }

@@ -17,6 +17,12 @@ namespace PerpetualJourney
 
         private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
         private float _sceneProgress;
+        
+        public void InitializeSystem()
+        {
+            Instance = this;
+            LoadMenu();
+        }
 
         public void LoadMenu()
         {
@@ -46,8 +52,7 @@ namespace PerpetualJourney
 
         private void Awake()
         {
-            Instance = this;
-            LoadMenu();
+            InitializeSystem();
         }
 
         private IEnumerator SceneLoadingProgress(int indexToActivate)

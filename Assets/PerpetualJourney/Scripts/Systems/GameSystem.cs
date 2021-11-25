@@ -20,17 +20,27 @@ namespace PerpetualJourney
         
         private void Awake()
         {
+            InitializeSystem();
+        }
+
+        private void OnDisable()
+        {
+            RemoveEventSubscriptions();
+        }
+
+        private void InitializeSystem()
+        {
             ObjectPooling = ScriptableObject.CreateInstance<ObjectPool>();
             PersistentLoaderSystem.Instance.GameIsLoaded += ActivateGameObjects;
             Instance = this;
-            
+
             _gameManager.Initialize();
             _levelManager.Initialize();
             _replayButton.onClick.AddListener(ResetScene);
             _exitButton.onClick.AddListener(ReturnToMenu);
         }
 
-        private void OnDisable()
+        private void RemoveEventSubscriptions()
         {
             PersistentLoaderSystem.Instance.GameIsLoaded -= ActivateGameObjects;
         }
