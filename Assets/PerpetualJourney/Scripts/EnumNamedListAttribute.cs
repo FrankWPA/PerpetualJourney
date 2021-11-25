@@ -2,10 +2,10 @@
  
 namespace PerpetualJourney
 {
-    public class EnumNamedArrayAttribute : PropertyAttribute
+    public class EnumNamedListAttribute : PropertyAttribute
     {
         public string[] Names;
-        public EnumNamedArrayAttribute(System.Type namesEnumType)
+        public EnumNamedListAttribute(System.Type namesEnumType)
         {
             this.Names = System.Enum.GetNames(namesEnumType);
         }

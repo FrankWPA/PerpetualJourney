@@ -5,12 +5,12 @@ using UnityEditor;
 
 namespace PerpetualJourney.Editor
 {
-    [CustomPropertyDrawer(typeof(EnumNamedArrayAttribute))]
-    public class NamedEnumArrayDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(EnumNamedListAttribute))]
+    public class NamedEnumListDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            EnumNamedArrayAttribute enumNames = attribute as EnumNamedArrayAttribute;
+            EnumNamedListAttribute enumNames = attribute as EnumNamedListAttribute;
             int index = System.Convert.ToInt32(property.propertyPath.Substring(property.propertyPath.IndexOf("[")).Replace("[", "").Replace("]", ""));
             if (index < enumNames.Names.Length)
             {
