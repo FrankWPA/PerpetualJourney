@@ -8,9 +8,7 @@ namespace PerpetualJourney
     public class SoundPlayer : MonoBehaviour
     {
         [SerializeField]private AudioSource _musicPlayer;
-        [SerializeField]private List<AudioClip> _audioClips;
-        [SerializeField]private List<AudioClip> _playersteps;
-        [SerializeField]private List<AudioClip> _musics;
+        [SerializeField]private SoundList _soundList;
 
         public static SoundPlayer Instance;
 
@@ -26,33 +24,28 @@ namespace PerpetualJourney
             Jump
         }
 
-        public void PlayAudioOnPosition(Vector3 position, AudioEnum enumValue)
-        {
-            AudioSource.PlayClipAtPoint(_audioClips[(int)enumValue], position);
-        }
-
         public void PlayAudio(AudioEnum enumValue)
         {
-            _audioSource.PlayOneShot(_audioClips[(int)enumValue]);
+            _audioSource.PlayOneShot(_soundList.AudioClips[(int)enumValue]);
         }
 
         public void PlayRandomStep()
         {
-            int rndIndex = Random.Range(0, _playersteps.Count);
-            _audioSource.PlayOneShot(_playersteps[rndIndex]);
+            int rndIndex = Random.Range(0, _soundList.Playersteps.Count);
+            _audioSource.PlayOneShot(_soundList.Playersteps[rndIndex]);
         }
 
         public void SetMusicMenu()
         {
             StopMusic();
-            _musicPlayer.clip = _musics[0];
+            _musicPlayer.clip = _soundList.Musics[0];
             _musicPlayer.Play();
         }
         
         public void SetMusicGame()
         {
             StopMusic();
-            _musicPlayer.clip = _musics[1];
+            _musicPlayer.clip = _soundList.Musics[1];
             _musicPlayer.Play();
         }
 

@@ -16,4 +16,4 @@ MonoBehaviour:
   Acceleration: 0.2
   JumpVelocity: 7
   LaneInputDelay: 0.2
-  LaneChangeAngle: 40
+  LaneChangeAngle: 50

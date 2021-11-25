@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace PerpetualJourney
 {
@@ -13,6 +11,6 @@ namespace PerpetualJourney
         public float Acceleration = 0.2f;
         public float JumpVelocity = 7;
         public float LaneInputDelay = 0.2f;
-        public float LaneChangeAngle = 40;
+        public float LaneChangeAngle = 50;
     }
 }

@@ -1,0 +1,18 @@
+{
+    "name": "PerpetualJourney.Editor",
+    "rootNamespace": "PerpetualJourney.Editor",
+    "references": [
+        "GUID:d04fac8d350f2844792f87ddee20755a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
