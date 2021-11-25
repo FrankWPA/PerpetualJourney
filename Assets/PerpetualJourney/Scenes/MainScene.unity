@@ -171,9 +171,9 @@ MonoBehaviour:
   _activateOnLoadObjects:
   - {fileID: 1007249339}
   - {fileID: 912041885}
-  _laneSize: 3.3
   _replayButton: {fileID: 1219359554}
   _exitButton: {fileID: 78675395}
+  _laneSize: 3.3
 --- !u!1 &34163016
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 36738514}
   - component: {fileID: 36738516}
   m_Layer: 5
-  m_Name: CM vcam1
+  m_Name: VirtualCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
