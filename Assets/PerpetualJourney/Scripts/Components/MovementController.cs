@@ -6,13 +6,9 @@ using UnityEngine.InputSystem;
 
 namespace PerpetualJourney
 {
-    public class LaneController : MonoBehaviour
+    public class MovementController : MonoBehaviour
     {
-        [SerializeField]private float _maxVelocity = 15;
-        [SerializeField]private float _acceleration = 0.2f;
-        [SerializeField]private float _jumpVelocity = 7;
-        [SerializeField]private float _laneInputDelay = 0.25f;
-        [SerializeField]private float _laneChangeAngle = 40;
+        [SerializeField]private MovementPreset _moveValues;
 
         private InputReader _inputReader;
         private GameEvents _gameEvents;
@@ -76,7 +72,7 @@ namespace PerpetualJourney
             if (_hasInputActive && !_isChangingLane && _hasGroundContact)
             {
                 _hasGroundContact = false;
-                _rigidbody.AddForce(Vector3.up * _jumpVelocity, ForceMode.VelocityChange);
+                _rigidbody.AddForce(Vector3.up * _moveValues.JumpVelocity, ForceMode.VelocityChange);
                 
                 PlayJumpSound();
             }
@@ -92,7 +88,7 @@ namespace PerpetualJourney
                     _currentLane = targetLane;
                     _hasGroundContact = false;
                     _isChangingLane = true;
-                    JumpToLanePosition(_laneChangeAngle);
+                    JumpToLanePosition(_moveValues.LaneChangeAngle);
                     
                     PlayJumpSound();
                 }
@@ -121,9 +117,9 @@ namespace PerpetualJourney
             {
                 Vector3 velocity = _rigidbody.velocity;
 
-                if (Mathf.Abs(velocity.x) < _maxVelocity)
+                if (Mathf.Abs(velocity.x) < _moveValues.MaxVelocity)
                 {
-                    _rigidbody.AddForce(Vector3.left * _acceleration, ForceMode.VelocityChange);
+                    _rigidbody.AddForce(Vector3.left * _moveValues.Acceleration, ForceMode.VelocityChange);
                 }
             }
         }
@@ -162,7 +158,7 @@ namespace PerpetualJourney
 
                 if(_isChangingLane && !gameObject.LeanIsTweening())
                 {
-                    LeanTween.delayedCall(gameObject, _laneInputDelay, () => 
+                    LeanTween.delayedCall(gameObject, _moveValues.LaneInputDelay, () => 
                     {
                         _isChangingLane = false;
                     });

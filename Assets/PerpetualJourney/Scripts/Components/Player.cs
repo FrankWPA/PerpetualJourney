@@ -6,17 +6,18 @@ namespace PerpetualJourney
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField]private LaneController _laneController;
+        [SerializeField]private MovementController _movementController;
         [SerializeField]private TransformOffset _cameraFocus;
         [SerializeField]private InputReader _inputReader;
         [SerializeField]private GameEvents _gameEvents;
-        public int Score {get; private set;}
+        
+        private int _score;
 
         public void Initialize()
         {
             _inputReader.Initialize();
-            _laneController.Initialize(_inputReader, _gameEvents);
-            _cameraFocus.Initialize(_laneController.transform);
+            _movementController.Initialize(_inputReader, _gameEvents);
+            _cameraFocus.Initialize(_movementController.transform);
 
             _gameEvents.OnObstacleCollided += OnObstacleCollided;
             _gameEvents.OnCollectableCollided += OnCollecting;
@@ -24,10 +25,10 @@ namespace PerpetualJourney
 
         public void SceneReset()
         {
-            Score = 0;
-            _gameEvents.IncreasePlayerScore(Score);
-            _laneController.transform.position = transform.position;
-            _laneController.SceneReset();
+            _score = 0;
+            _gameEvents.IncreasePlayerScore(_score);
+            _movementController.transform.position = transform.position;
+            _movementController.SceneReset();
         }
 
         private void OnDisable()
@@ -39,7 +40,7 @@ namespace PerpetualJourney
 
         private void OnObstacleCollided()
         {
-            _laneController.gameObject.SetActive(false);
+            _movementController.gameObject.SetActive(false);
             
             SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Horn);
             SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Shatter);
@@ -47,9 +48,9 @@ namespace PerpetualJourney
 
         private void OnCollecting()
         {
-            Score += 1;
+            _score += 1;
             
-            _gameEvents.IncreasePlayerScore(Score);
+            _gameEvents.IncreasePlayerScore(_score);
             SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Swallow);
         }
     }
