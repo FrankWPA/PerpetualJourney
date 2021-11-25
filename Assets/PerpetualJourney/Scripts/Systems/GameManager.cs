@@ -8,12 +8,12 @@ namespace PerpetualJourney
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField]private Player _player;
-        [SerializeField]private GameEvents _gameEvents;
-        [SerializeField]private GameObject _gameOverUi;
-        [SerializeField]private TextMeshProUGUI _scoreText;
-        [SerializeField]private TextMeshProUGUI _gameOverScore;
-        [SerializeField]private GameObject _highscoreIndicator;
+        [SerializeField] private Player _player;
+        [SerializeField] private GameEvents _gameEvents;
+        [SerializeField] private GameObject _gameOverUi;
+        [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private TextMeshProUGUI _gameOverScore;
+        [SerializeField] private GameObject _highscoreIndicator;
         
         private ScoreObject _scoreObject = new ScoreObject();
 

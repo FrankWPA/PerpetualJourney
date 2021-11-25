@@ -8,7 +8,7 @@ namespace PerpetualJourney
 {
     public class MovementController : MonoBehaviour
     {
-        [SerializeField]private MovementPreset _moveValues;
+        [SerializeField] private MovementPreset _moveValues;
 
         private InputReader _inputReader;
         private GameEvents _gameEvents;

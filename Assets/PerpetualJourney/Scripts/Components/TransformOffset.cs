@@ -4,8 +4,8 @@ using UnityEngine;
 namespace PerpetualJourney{
     public class TransformOffset : MonoBehaviour
     {
-        [SerializeField]private Vector3 _positionOffset;
-        [SerializeField]private LockPosition _lockPos;
+        [SerializeField] private Vector3 _positionOffset;
+        [SerializeField] private LockPosition _lockPos;
 
         [Serializable]
         private struct LockPosition

@@ -7,12 +7,12 @@ namespace PerpetualJourney
 {
     public class GameSystem : MonoBehaviour
     {
-        [SerializeField]private GameManager _gameManager;
-        [SerializeField]private LevelManager _levelManager;
-        [SerializeField]private List<GameObject> _activateOnLoadObjects;
-        [SerializeField]private float _laneSize;
-        [SerializeField]private Button _replayButton;
-        [SerializeField]private Button _exitButton;
+        [SerializeField] private GameManager _gameManager;
+        [SerializeField] private LevelManager _levelManager;
+        [SerializeField] private List<GameObject> _activateOnLoadObjects;
+        [SerializeField] private float _laneSize;
+        [SerializeField] private Button _replayButton;
+        [SerializeField] private Button _exitButton;
 
         public ObjectPool ObjectPooling {get; private set;}
         public static GameSystem Instance;

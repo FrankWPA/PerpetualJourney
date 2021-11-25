@@ -10,9 +10,9 @@ namespace PerpetualJourney
     public class InputReader : ScriptableObject,
         GameInputAction.IRunningActions
     {
-        [SerializeField]private float _swipeRange = 200;
-        [SerializeField]private float _tapRange = 90;
-        [SerializeField]private double _swipeTime = 0.9;
+        [SerializeField] private float _swipeRange = 200;
+        [SerializeField] private float _tapRange = 90;
+        [SerializeField] private double _swipeTime = 0.9;
 
         public event Action<int> OnMoveEvent;
         public event Action<Vector2> OnSwipeEvent;

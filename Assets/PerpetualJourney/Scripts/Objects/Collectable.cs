@@ -5,11 +5,11 @@ namespace PerpetualJourney
 {
     public class Collectable : LaneObject
     {
-        [SerializeField]private LeanTweenType _lean_type = LeanTweenType.easeInOutQuad;
-        [SerializeField]private float RotateTweenAngles = 360;
-        [SerializeField]private float RotateTweenTime = 2;
-        [SerializeField]private float LocalYTween = 0.5f;
-        [SerializeField]private float LocalYTweenTime = 1;
+        [SerializeField] private LeanTweenType _lean_type = LeanTweenType.easeInOutQuad;
+        [SerializeField] private float RotateTweenAngles = 360;
+        [SerializeField] private float RotateTweenTime = 2;
+        [SerializeField] private float LocalYTween = 0.5f;
+        [SerializeField] private float LocalYTweenTime = 1;
 
         private LevelPart _levelPart;
 

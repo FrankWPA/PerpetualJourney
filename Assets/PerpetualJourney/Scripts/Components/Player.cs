@@ -6,10 +6,10 @@ namespace PerpetualJourney
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField]private MovementController _movementController;
-        [SerializeField]private TransformOffset _cameraFocus;
-        [SerializeField]private InputReader _inputReader;
-        [SerializeField]private GameEvents _gameEvents;
+        [SerializeField] private MovementController _movementController;
+        [SerializeField] private TransformOffset _cameraFocus;
+        [SerializeField] private InputReader _inputReader;
+        [SerializeField] private GameEvents _gameEvents;
         
         private int _score;
 

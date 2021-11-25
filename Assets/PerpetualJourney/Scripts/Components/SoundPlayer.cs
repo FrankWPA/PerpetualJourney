@@ -7,9 +7,9 @@ namespace PerpetualJourney
     [RequireComponent(typeof(AudioSource))]
     public class SoundPlayer : MonoBehaviour
     {
-        [SerializeField]private AudioSource _musicPlayer;
-        [SerializeField]private AudioSource _stepSoundPlayer;
-        [SerializeField]private SoundList _soundList;
+        [SerializeField] private AudioSource _musicPlayer;
+        [SerializeField] private AudioSource _stepSoundPlayer;
+        [SerializeField] private SoundList _soundList;
 
         public static SoundPlayer Instance;
 
