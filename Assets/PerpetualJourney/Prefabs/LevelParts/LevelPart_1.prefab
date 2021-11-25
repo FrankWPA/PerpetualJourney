@@ -79,17 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstaclePosition: {fileID: 3224659993727290861}
   _endPosition: {fileID: 9141575037506812402}
-  _obstacles:
-  - {fileID: 8825946375275464886, guid: d98b6136031639d48984a6ce1a03319c, type: 3}
-  - {fileID: 7163785643021465362, guid: dadb4b7b46ec4e74ab3eae7ec0e48eb7, type: 3}
-  _decorations:
-  - {fileID: 1494600247974337470, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
-  - {fileID: 2590444450024099069, guid: e34017ebaa0644345bcab813d7ec819a, type: 3}
-  _collectable: {fileID: 1808560575, guid: 2929d7dc65d295e4ebb3cefcb0a112b0, type: 3}
-  _collectableQuantity: 5
-  _levelSize: 30
-  _obstacleChance: 0.7
-  _doubleObstacleChance: 0.2857143
+  _levelValues: {fileID: 11400000, guid: eb830fe901e4810469b0760ffb97eca3, type: 2}
 --- !u!65 &5199532031217484497
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa2df066a910acd42be24f42812e69e8, type: 3}
+  m_Name: DefaultLevelValues
+  m_EditorClassIdentifier: 
+  Obstacles:
+  - {fileID: 8825946375275464886, guid: d98b6136031639d48984a6ce1a03319c, type: 3}
+  - {fileID: 7163785643021465362, guid: dadb4b7b46ec4e74ab3eae7ec0e48eb7, type: 3}
+  Decorations:
+  - {fileID: 1494600247974337470, guid: 4204dfc9577f5704a9b5d29c1a9f8460, type: 3}
+  - {fileID: 2590444450024099069, guid: e34017ebaa0644345bcab813d7ec819a, type: 3}
+  Collectable: {fileID: 1808560575, guid: 2929d7dc65d295e4ebb3cefcb0a112b0, type: 3}
+  CollectableQuantity: 5
+  LevelSize: 30
+  ObstacleChance: 0.7
+  DoubleObstacleChance: 0.2857143

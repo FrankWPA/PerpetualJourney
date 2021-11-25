@@ -8,13 +8,7 @@ namespace PerpetualJourney
     {
         [SerializeField] private Transform _obstaclePosition;
         [SerializeField] private Transform _endPosition;
-        [SerializeField] private List<Obstacle> _obstacles;
-        [SerializeField] private List<Decoration> _decorations;
-        [SerializeField] private Collectable _collectable;
-        [SerializeField] private int _collectableQuantity = 1;
-        [SerializeField] private float _levelSize = 30;
-        [SerializeField] private float _obstacleChance = 0.7f;
-        [SerializeField] private float _doubleObstacleChance = 0.2f/0.7f;
+        [SerializeField] private LevelPartValues _levelValues;
 
         public Vector3 LevelEndPosition => _endPosition.position;
 
@@ -28,9 +22,9 @@ namespace PerpetualJourney
             
             float rndValue = Random.Range(0, 1f);
 
-            if (_obstacleChance >= rndValue)
+            if (_levelValues.ObstacleChance >= rndValue)
             {
-                if(_doubleObstacleChance >= rndValue)
+                if(_levelValues.DoubleObstacleChance >= rndValue)
                 {
                     CreateObstacle();
                 }
@@ -42,7 +36,7 @@ namespace PerpetualJourney
                 CreateDecoration();
             }
             
-            CreateCollectables(_collectableQuantity, _levelSize);
+            CreateCollectables(_levelValues.CollectableQuantity, _levelValues.LevelSize);
         }
 
         public void SceneReset()
@@ -54,7 +48,7 @@ namespace PerpetualJourney
 
         private void CreateObstacle()
         {
-            Obstacle obstacle = RequestFromPool(_obstacles, _obstaclePosition);
+            Obstacle obstacle = RequestFromPool(_levelValues.Obstacles, _obstaclePosition);
 
             int randomLane = Random.Range(0, _availableLanes.Count);
             int obstacleLane = _availableLanes[randomLane];
@@ -65,7 +59,7 @@ namespace PerpetualJourney
 
         private void CreateDecoration()
         {
-            RequestFromPool(_decorations, transform);
+            RequestFromPool(_levelValues.Decorations, transform);
         }
 
         private void CreateCollectables(int quantity, float levelSize)
@@ -83,7 +77,7 @@ namespace PerpetualJourney
 
         private Collectable CreateCollectable(int lane)
         {
-            Collectable collectable = RequestFromPool(_collectable, transform);
+            Collectable collectable = RequestFromPool(_levelValues.Collectable, transform);
             collectable.Initialize(lane, this);
 
             return collectable;
