@@ -8,6 +8,7 @@ namespace PerpetualJourney
     public class SoundPlayer : MonoBehaviour
     {
         [SerializeField]private AudioSource _musicPlayer;
+        [SerializeField]private AudioSource _stepSoundPlayer;
         [SerializeField]private SoundList _soundList;
 
         public static SoundPlayer Instance;
@@ -20,8 +21,8 @@ namespace PerpetualJourney
             Horn,
             Shatter,
             Swallow,
-            land,
-            Jump
+            Jump,
+            land
         }
         
         public void InitializeAudioPlayer()
@@ -32,13 +33,29 @@ namespace PerpetualJourney
 
         public void PlayAudio(AudioEnum enumValue)
         {
-            _audioSource.PlayOneShot(_soundList.AudioClips[(int)enumValue]);
+            if(GetAudioClip(enumValue, out AudioClip clip))
+            {
+                _audioSource.PlayOneShot(clip);
+            }
+        }
+
+        public bool GetAudioClip(AudioEnum enumValue, out AudioClip clip)
+        {
+             if((int)enumValue < _soundList.AudioClips.Count)
+            {
+                clip = _soundList.AudioClips[(int)enumValue];
+                if(clip != null)
+                return true;
+            }
+
+            clip = null;
+            return false;
         }
 
         public void PlayRandomStep()
         {
             int rndIndex = Random.Range(0, _soundList.Playersteps.Count);
-            _audioSource.PlayOneShot(_soundList.Playersteps[rndIndex]);
+            _stepSoundPlayer.PlayOneShot(_soundList.Playersteps[rndIndex]);
         }
 
         public void SetMusicMenu()

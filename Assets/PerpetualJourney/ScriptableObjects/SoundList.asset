@@ -17,7 +17,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f126473a94422ee41aeee5f32e9a2f21, type: 3}
   - {fileID: 8300000, guid: ae2b87a3feafd884995e3fb5e497dfd5, type: 3}
   - {fileID: 8300000, guid: 1fa3b69db62890641809218dd56a3a30, type: 3}
-  - {fileID: 8300000, guid: 56548e1bdf0b19a4a8bf42a858be9494, type: 3}
   - {fileID: 8300000, guid: 9c329925fb8ab304c8201434b6075079, type: 3}
   Playersteps:
   - {fileID: 8300000, guid: bc86cbfc3fb20ce40a72d5223ac25bad, type: 3}

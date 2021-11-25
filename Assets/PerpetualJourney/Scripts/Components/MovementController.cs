@@ -38,7 +38,7 @@ namespace PerpetualJourney
             _inputReader.OnMoveEvent += OnMove;
             _inputReader.OnSwipeEvent += OnSwipeMove;
             _gameEvents.OnPlayerPositionRequest += GetCurrentPosition;
-            // InvokeRepeating("PlaySoundStep", 0.1f, 0.3f);
+            InvokeRepeating("PlaySoundStep", 0.1f, 0.3f);
         }
 
         public void SceneReset()
@@ -56,7 +56,7 @@ namespace PerpetualJourney
         private void OnDisable()
         {
             RemoveEventSubscriptions();
-            StopAsyncMethods();
+            StopDelayedMethods();
         }
 
         private void RemoveEventSubscriptions()
@@ -71,7 +71,7 @@ namespace PerpetualJourney
             _gameEvents.OnPlayerPositionRequest -= GetCurrentPosition;
         }
 
-        private void StopAsyncMethods()
+        private void StopDelayedMethods()
         {
             if(gameObject.LeanIsTweening())
             {
@@ -221,12 +221,17 @@ namespace PerpetualJourney
 
         private void PlayJumpSound()
         {
-            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.Jump);
+            PlaySound(SoundPlayer.AudioEnum.Jump);
         }
 
         private void PlayLandSound()
         {
-            SoundPlayer.Instance.PlayAudio(SoundPlayer.AudioEnum.land);
+            PlaySound(SoundPlayer.AudioEnum.land);
+        }
+
+        private void PlaySound(SoundPlayer.AudioEnum sound)
+        {
+            SoundPlayer.Instance.PlayAudio(sound);
         }
     }
 }
