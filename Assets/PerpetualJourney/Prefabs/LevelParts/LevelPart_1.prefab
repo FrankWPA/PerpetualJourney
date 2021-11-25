@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstaclePosition: {fileID: 3224659993727290861}
   _endPosition: {fileID: 9141575037506812402}
-  _levelValues: {fileID: 11400000, guid: eb830fe901e4810469b0760ffb97eca3, type: 2}
+  _level: {fileID: 11400000, guid: eb830fe901e4810469b0760ffb97eca3, type: 2}
 --- !u!65 &5199532031217484497
 BoxCollider:
   m_ObjectHideFlags: 0
