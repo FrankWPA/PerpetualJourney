@@ -28,9 +28,10 @@ namespace PerpetualJourney
         private void InitializeSystem()
         {
             _loadingText = _loadingProgress.GetComponentInChildren<TextMeshProUGUI>();
+            
+            PersistentLoaderSystem.Instance.OnProgressUpdated += OnLoading;
             _playButton.onClick.AddListener(PlayGame);
             _exitButton.onClick.AddListener(ExitGame);
-            PersistentLoaderSystem.Instance.OnProgressUpdated += OnLoading;
 
             SoundPlayer.Instance.SetMusicMenu();
         }
@@ -43,8 +44,10 @@ namespace PerpetualJourney
         private void PlayGame()
         {
             PlayClickSound();
+            
             _menuUi.SetActive(false);
             _loadingScreen.SetActive(true);
+
             PersistentLoaderSystem.Instance.LoadGame();
         }
 

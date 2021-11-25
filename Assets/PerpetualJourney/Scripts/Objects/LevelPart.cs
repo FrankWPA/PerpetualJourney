@@ -8,7 +8,7 @@ namespace PerpetualJourney
     {
         [SerializeField] private Transform _obstaclePosition;
         [SerializeField] private Transform _endPosition;
-        [SerializeField] private LevelPartValues _levelValues;
+        [SerializeField] private LevelPartValues _level;
 
         public Vector3 LevelEndPosition => _endPosition.position;
 
@@ -22,9 +22,9 @@ namespace PerpetualJourney
             
             float rndValue = Random.Range(0, 1f);
 
-            if (_levelValues.ObstacleChance >= rndValue)
+            if (_level.ObstacleChance >= rndValue)
             {
-                if(_levelValues.DoubleObstacleChance >= rndValue)
+                if(_level.DoubleObstacleChance >= rndValue)
                 {
                     CreateObstacle();
                 }
@@ -36,7 +36,7 @@ namespace PerpetualJourney
                 CreateDecoration();
             }
             
-            CreateCollectables(_levelValues.CollectableQuantity, _levelValues.LevelSize);
+            CreateCollectables(_level.CollectableQuantity, _level.LevelSize);
         }
 
         public void SceneReset()
@@ -48,7 +48,7 @@ namespace PerpetualJourney
 
         private void CreateObstacle()
         {
-            Obstacle obstacle = RequestFromPool(_levelValues.Obstacles, _obstaclePosition);
+            Obstacle obstacle = RequestFromPool(_level.Obstacles, _obstaclePosition);
 
             int randomLane = Random.Range(0, _availableLanes.Count);
             int obstacleLane = _availableLanes[randomLane];
@@ -59,7 +59,7 @@ namespace PerpetualJourney
 
         private void CreateDecoration()
         {
-            RequestFromPool(_levelValues.Decorations, transform);
+            RequestFromPool(_level.Decorations, transform);
         }
 
         private void CreateCollectables(int quantity, float levelSize)
@@ -77,7 +77,7 @@ namespace PerpetualJourney
 
         private Collectable CreateCollectable(int lane)
         {
-            Collectable collectable = RequestFromPool(_levelValues.Collectable, transform);
+            Collectable collectable = RequestFromPool(_level.Collectable, transform);
             collectable.Initialize(lane, this);
 
             return collectable;

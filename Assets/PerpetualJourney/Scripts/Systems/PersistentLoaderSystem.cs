@@ -29,14 +29,15 @@ namespace PerpetualJourney
             _scenesLoading.Add(SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive));
 
             UnloadCurrentScene(0);
-            StartCoroutine(SceneLoadingProgress(1));
+            StartCoroutine(SceneLoadingProgressAsync(1));
         }
         
         public void LoadGame()
         {
             _scenesLoading.Add(SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive));
-            StartCoroutine(SceneLoadingProgress(2));
-            StartCoroutine(UpdateTotalProgressAndUnload(1));
+
+            StartCoroutine(SceneLoadingProgressAsync(2));
+            StartCoroutine(UpdateTotalProgressAndUnloadAsync(1));
         }
 
         private bool UnloadCurrentScene(int indexToIgnore)
@@ -55,7 +56,7 @@ namespace PerpetualJourney
             InitializeSystem();
         }
 
-        private IEnumerator SceneLoadingProgress(int indexToActivate)
+        private IEnumerator SceneLoadingProgressAsync(int indexToActivate)
         {
             for(int i = 0; i < _scenesLoading.Count; i++)
             {
@@ -79,7 +80,7 @@ namespace PerpetualJourney
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(indexToActivate));
         }
 
-        private IEnumerator UpdateTotalProgressAndUnload(int indexToUnload)
+        private IEnumerator UpdateTotalProgressAndUnloadAsync(int indexToUnload)
         {
             float totalProgress = 0;
             while(GameSystem.Instance == null || !LevelGenerationIsDone)

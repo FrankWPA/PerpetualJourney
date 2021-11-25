@@ -10,13 +10,14 @@ namespace PerpetualJourney
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private List<GameObject> _activateOnLoadObjects;
-        [SerializeField] private float _laneSize;
         [SerializeField] private Button _replayButton;
         [SerializeField] private Button _exitButton;
+        [SerializeField] private float _laneSize;
 
         public ObjectPool ObjectPooling {get; private set;}
-        public static GameSystem Instance;
         public float LaneSize => _laneSize;
+        
+        public static GameSystem Instance;
         
         private void Awake()
         {
@@ -31,13 +32,14 @@ namespace PerpetualJourney
         private void InitializeSystem()
         {
             ObjectPooling = ScriptableObject.CreateInstance<ObjectPool>();
-            PersistentLoaderSystem.Instance.GameIsLoaded += ActivateGameObjects;
             Instance = this;
+
+            PersistentLoaderSystem.Instance.GameIsLoaded += ActivateGameObjects;
+            _replayButton.onClick.AddListener(ResetScene);
+            _exitButton.onClick.AddListener(ReturnToMenu);
 
             _gameManager.Initialize();
             _levelManager.Initialize();
-            _replayButton.onClick.AddListener(ResetScene);
-            _exitButton.onClick.AddListener(ReturnToMenu);
         }
 
         private void RemoveEventSubscriptions()
@@ -56,11 +58,6 @@ namespace PerpetualJourney
         private void ResetScene()
         {
             PlayClickSound();
-            LevelPart[] levels = _levelManager.GetComponentsInChildren<LevelPart>();
-            for (int i = 0; i < levels.Length; i++)
-            {
-                levels[i].SceneReset();
-            }
 
             _gameManager.SceneReset();
             _levelManager.SceneReset();

@@ -26,6 +26,12 @@ namespace PerpetualJourney
 
         public void SceneReset()
         {
+            LevelPart[] levels = GetComponentsInChildren<LevelPart>();
+            for (int i = 0; i < levels.Length; i++)
+            {
+                levels[i].SceneReset();
+            }
+            
             StopAllCoroutines();
             Initialize();
         }
