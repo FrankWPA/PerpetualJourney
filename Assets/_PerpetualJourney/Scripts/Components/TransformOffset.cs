@@ -10,16 +10,18 @@ namespace PerpetualJourney{
         [Serializable]
         private struct LockPosition
         {
-            public bool lockPosX;
-            public bool lockPosY;
-            public bool lockPosZ;
+            public bool LockPosX;
+            public bool LockPosY;
+            public bool LockPosZ;
 
             public Vector3 ToScale()
             {
-                Vector3 lockScale = new Vector3();
-                lockScale.x = Convert.ToInt32(!lockPosX);
-                lockScale.y = Convert.ToInt32(!lockPosY);
-                lockScale.z = Convert.ToInt32(!lockPosZ);
+                Vector3 lockScale = new Vector3()
+                {
+                    x = Convert.ToInt32(!LockPosX),
+                    y = Convert.ToInt32(!LockPosY),
+                    z = Convert.ToInt32(!LockPosZ)
+                };
                 return lockScale;
             }
         }

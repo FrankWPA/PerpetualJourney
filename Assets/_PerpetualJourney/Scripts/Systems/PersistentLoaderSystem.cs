@@ -10,7 +10,7 @@ namespace PerpetualJourney
     {
         public static PersistentLoaderSystem Instance;
         public event Action<float> OnProgressUpdated;
-        public event Action GameIsLoaded;
+        public event Action OnGameIsLoaded;
 
         public float LevelGenerationProgress {get; set;} = 0;
         public bool LevelGenerationIsDone {get; set;} = false;
@@ -68,7 +68,7 @@ namespace PerpetualJourney
                         _sceneProgress += operation.progress;
                     }
 
-                    _sceneProgress = (_sceneProgress/_scenesLoading.Count);
+                    _sceneProgress /= _scenesLoading.Count;
                     yield return null;
                 }
             }
@@ -90,7 +90,7 @@ namespace PerpetualJourney
                 yield return null;
             }
 
-            GameIsLoaded?.Invoke();
+            OnGameIsLoaded?.Invoke();
             SceneManager.UnloadSceneAsync(indexToUnload);
         }
     }

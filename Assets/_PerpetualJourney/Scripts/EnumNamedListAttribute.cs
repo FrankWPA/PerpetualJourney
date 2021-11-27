@@ -7,7 +7,7 @@ namespace PerpetualJourney
         public string[] Names;
         public EnumNamedListAttribute(System.Type namesEnumType)
         {
-            this.Names = System.Enum.GetNames(namesEnumType);
+            Names = System.Enum.GetNames(namesEnumType);
         }
     }
 }

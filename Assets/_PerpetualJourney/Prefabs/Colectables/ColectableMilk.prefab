@@ -90,5 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d6a8426744d2b4e85ab12f1132238c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
+  GameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
   _lean_type: 4
+  _rotateTweenAngles: 360
+  _rotateTweenTime: 2
+  _localYTween: 0.5
+  _localYTweenTime: 1

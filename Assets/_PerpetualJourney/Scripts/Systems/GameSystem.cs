@@ -34,7 +34,7 @@ namespace PerpetualJourney
             ObjectPooling = ScriptableObject.CreateInstance<ObjectPool>();
             Instance = this;
 
-            PersistentLoaderSystem.Instance.GameIsLoaded += ActivateGameObjects;
+            PersistentLoaderSystem.Instance.OnGameIsLoaded += ActivateGameObjects;
             _replayButton.onClick.AddListener(ResetScene);
             _exitButton.onClick.AddListener(ReturnToMenu);
 
@@ -44,7 +44,7 @@ namespace PerpetualJourney
 
         private void RemoveEventSubscriptions()
         {
-            PersistentLoaderSystem.Instance.GameIsLoaded -= ActivateGameObjects;
+            PersistentLoaderSystem.Instance.OnGameIsLoaded -= ActivateGameObjects;
         }
 
         private void ActivateGameObjects()

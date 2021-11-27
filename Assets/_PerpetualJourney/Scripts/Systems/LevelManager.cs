@@ -36,12 +36,12 @@ namespace PerpetualJourney
         private void InstantiateLevelPart()
         {
             LevelPart randomLevel = _levelList[Random.Range(0, _levelList.Count)];
-            LevelPart instantiatedLevel = instantiateLevelPart(randomLevel, _lastLevelPosition);
+            LevelPart instantiatedLevel = InstantiateLevelPart(randomLevel, _lastLevelPosition);
 
             _lastLevelPosition = instantiatedLevel.LevelEndPosition;
         }
 
-        private LevelPart instantiateLevelPart(LevelPart levelPart, Vector3 instancePosition)
+        private LevelPart InstantiateLevelPart(LevelPart levelPart, Vector3 instancePosition)
         {
             LevelPart part = levelPart.RequestFromObjectPool();
             part.transform.SetParent(transform);
@@ -77,7 +77,7 @@ namespace PerpetualJourney
                 {
                     float distance = Vector3.Distance(_playerPosition, _lastLevelPosition);
                     float clampedDistance = Mathf.Clamp(distance, 0, genDistance);
-                    float percent = distance/genDistance;
+                    float percent = clampedDistance / genDistance;
                     UpdateSceneLoadProgress(percent);
                 }
             }

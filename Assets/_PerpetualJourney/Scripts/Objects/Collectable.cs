@@ -51,7 +51,7 @@ namespace PerpetualJourney
 
         protected override void CollidedWithPlayer()
         {
-            _gameEvents.CollectableCollision();
+            GameEvents.CollectableCollision();
             Disable();
         }
     }

@@ -21,8 +21,8 @@ namespace PerpetualJourney
 
         public void Initialize()
         {
-            PersistentLoaderSystem.Instance.GameIsLoaded += ActivatePlayer;
-            PersistentLoaderSystem.Instance.GameIsLoaded += PlayGameMusic;
+            PersistentLoaderSystem.Instance.OnGameIsLoaded += ActivatePlayer;
+            PersistentLoaderSystem.Instance.OnGameIsLoaded += PlayGameMusic;
             _gameEvents.OnObstacleCollided += OnGameOver;
             _gameEvents.OnObstacleCollided += StopGameMusic;
             _gameEvents.OnScoreChanged += UpdateTextScore;
@@ -45,8 +45,8 @@ namespace PerpetualJourney
 
         private void RemoveEventSubscriptions()
         {
-            PersistentLoaderSystem.Instance.GameIsLoaded -= ActivatePlayer;
-            PersistentLoaderSystem.Instance.GameIsLoaded -= PlayGameMusic;
+            PersistentLoaderSystem.Instance.OnGameIsLoaded -= ActivatePlayer;
+            PersistentLoaderSystem.Instance.OnGameIsLoaded -= PlayGameMusic;
             _gameEvents.OnObstacleCollided -= OnGameOver;
             _gameEvents.OnObstacleCollided -= StopGameMusic;
             _gameEvents.OnScoreChanged -= UpdateTextScore;
@@ -142,8 +142,8 @@ namespace PerpetualJourney
             return folderPath + "/highscore.txt";
         }
     }
-    
-    class ScoreObject
+
+    internal class ScoreObject
     {
         public int Value = 0;
     }
