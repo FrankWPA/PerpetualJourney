@@ -40,10 +40,13 @@ namespace PerpetualJourney
         }
 
         public void SceneReset()
-        {
-            OnLevelDisable?.Invoke();
-            OnLevelDisable = null;
-            this.RetrieveToObjectPool();
+        { 
+            if(gameObject.activeInHierarchy)
+            {
+                OnLevelDisable?.Invoke();
+                OnLevelDisable = null;
+                this.RetrieveToObjectPool();
+            }
         }
 
         private void CreateObstacle()

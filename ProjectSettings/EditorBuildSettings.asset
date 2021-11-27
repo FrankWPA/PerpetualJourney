@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/PerpetualJourney/Scenes/PersistentScene.unity
+    path: Assets/_perpetualJourney/Scenes/PersistentScene.unity
     guid: a661903540e5f894398387fe6d14da5c
   - enabled: 1
-    path: Assets/PerpetualJourney/Scenes/MainMenu.unity
+    path: Assets/_perpetualJourney/Scenes/MainMenu.unity
     guid: 0046946ee6a31014ab0943a890365d67
   - enabled: 1
-    path: Assets/PerpetualJourney/Scenes/MainScene.unity
+    path: Assets/_perpetualJourney/Scenes/MainScene.unity
     guid: 79c6cbb32d85d454c9c4d6d827f63c8d
   m_configObjects: {}

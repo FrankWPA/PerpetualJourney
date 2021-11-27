@@ -12,6 +12,7 @@ namespace PerpetualJourney
         [SerializeField] private float _generationDistance = 150f;
         [SerializeField] private float _checkFrequency = 5f;
 
+        private List<LevelPart> _instantiatedLevels = new List<LevelPart>();
         private Vector3 _playerPosition = Vector3.zero;
         private Vector3 _lastLevelPosition;
         
@@ -26,11 +27,7 @@ namespace PerpetualJourney
 
         public void SceneReset()
         {
-            LevelPart[] levels = GetComponentsInChildren<LevelPart>();
-            for (int i = 0; i < levels.Length; i++)
-            {
-                levels[i].SceneReset();
-            }
+            _instantiatedLevels.ForEach((level) => level.SceneReset());
             
             StopAllCoroutines();
             Initialize();
@@ -50,6 +47,11 @@ namespace PerpetualJourney
             part.transform.SetParent(transform);
             part.transform.position = instancePosition;
             part.Initialize();
+
+            if(!_instantiatedLevels.Contains(part))
+            {
+                _instantiatedLevels.Add(part);
+            }
             
             return part;
         }
