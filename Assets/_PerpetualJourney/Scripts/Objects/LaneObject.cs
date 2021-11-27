@@ -6,7 +6,7 @@ namespace PerpetualJourney
 {
     public abstract class LaneObject : MonoBehaviour, ICanBePooled
     {
-        [SerializeField] protected GameEvents GameEvents;
+        [SerializeField] protected GameEvents GameEvents {get; set;}
 
         private float _laneSize;
         private int _lane;
