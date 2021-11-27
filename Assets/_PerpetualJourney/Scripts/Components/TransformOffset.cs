@@ -40,7 +40,8 @@ namespace PerpetualJourney{
             _lockScale = _lockPos.ToScale();
         }
 
-        private void FixedUpdate() {
+        private void FixedUpdate() 
+        {
             if(_target != null)
             {
                 MoveToOffsetPosition();
