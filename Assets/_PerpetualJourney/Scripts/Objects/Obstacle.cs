@@ -8,7 +8,7 @@ namespace PerpetualJourney
     {
         protected override void CollidedWithPlayer()
         {
-            GameEvents.ObstacleCollision();
+            GameEvent.ObstacleCollision();
         }
     }
 }

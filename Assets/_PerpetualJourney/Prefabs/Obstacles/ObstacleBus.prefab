@@ -293,4 +293,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae7966f09b306243ac783416be3b5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
+  _gameEvents: {fileID: 11400000, guid: c7be7884495f6ed4b93a14fdeff0d0f1, type: 2}
